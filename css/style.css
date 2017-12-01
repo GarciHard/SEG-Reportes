@@ -51,20 +51,37 @@ td {
 }
 
 /*CSS GRAFICAS DE PRODUCCIÓN MINIATURA*/
+.produccionGraph{
+    height: 50vh; 
+    width: 46%; 
+    float: left; 
+    margin: 0% 0%
+}
+.perdidaTecnica {
+    height: 50vh; 
+    /*width: 95%; se quita porque marcaba error*/ 
+    float: left; 
+    margin: 0% 0%
+}
+.perdidaOrganizacional {
+    height: 50vh; 
+    width: 95%; 
+    float: left; 
+    margin: 0% 0%
+}
+.perdidaParosPlaneados {
+    height: 50vh; 
+    width: 95%; 
+    float: left; 
+    margin: 0% 0%
+}
+
 .contenedor{
     height: 40vh; 
     width: 49%; 
     float: left ; 
     margin: 0% 0%;
 }
-
-.contenedor2{
-    height: 50vh; 
-    width: 46%; 
-    float: left ; 
-    margin: 0% 0%
-}
-
 .arribaMes{
     height: 40vh; 
     width: 35%; 

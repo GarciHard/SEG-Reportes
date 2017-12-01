@@ -74,12 +74,44 @@ function pTecnicasMes($linea, $anio) {
     return getArraySQL($sql);
 }
 
-function pTecnicasDia($linea, $anio) {
-    $sql = "SELECT dia, SUM(duracion) FROM Bitacora WHERE tema LIKE 'Tecnicas' AND linea LIKE '$linea' AND mes = $anio GROUP BY dia ORDER BY dia ASC";
+function pTecnicasDia($linea, $mes) {
+    $sql = "SELECT dia, SUM(duracion) FROM Bitacora WHERE tema LIKE 'Tecnicas' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia ORDER BY dia ASC";
     return getArraySQL($sql);
 }
 
 function pTecnicasTabla($linea, $anio) {
     $sql = "SELECT  dia, area, operacion, problema, SUM(duracion) FROM Bitacora WHERE tema LIKE 'Tecnicas' AND linea LIKE '$linea' AND mes = $anio GROUP BY dia, area, operacion, problema ORDER BY dia ASC";
+    return getArraySQL($sql);
+}
+
+/* PERDIDAS ORGANIZACIONALES */
+function pOrganizacionalesMes($linea, $anio) {
+    $sql = "SELECT mes,SUM(duracion) FROM Bitacora WHERE tema LIKE 'Organizacionales' AND linea LIKE '$linea' AND anio = $anio GROUP BY mes ORDER BY mes ASC";
+    return getArraySQL($sql);
+}
+
+function pOrganizacionalesDia($linea, $mes) {
+    $sql = "SELECT dia, SUM(duracion) FROM Bitacora WHERE tema LIKE 'Organizacionales' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia ORDER BY dia ASC";
+    return getArraySQL($sql);
+}
+
+function pOrganizacionalesTabla($linea, $mes) {
+    $sql = "SELECT dia, area,problema,detalleMaterial, SUM(duracion) AS tmp  FROM Bitacora where tema LIKE 'Organizacionales' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia,area, problema, detalleMaterial ORDER BY dia ASC";
+    return getArraySQL($sql);
+}
+
+/*PERDIDAS PAROS PLANEADOS*/
+function pPlaneadoMes($linea, $anio) {
+    $sql = "SELECT mes, SUM(duracion) as tmp FROM Bitacora WHERE tema LIKE 'Paros Planeados' AND linea LIKE '$linea' AND anio = $anio GROUP BY mes ORDER BY mes ASC";
+    return getArraySQL($sql);
+}
+
+function pPlaneadoDia($linea, $mes) {
+    $sql = "SELECT dia, SUM(duracion) FROM Bitacora WHERE tema LIKE 'Paros Planeados' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia ORDER BY dia ASC";
+    return getArraySQL($sql);
+}
+
+function pPlaneadoTabla($linea, $mes) {
+    $sql = "SELECT dia, area, SUM(duracion) AS tmp  FROM Bitacora where tema LIKE 'Paros Planeados' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia, area ORDER BY dia ASC";
     return getArraySQL($sql);
 }
