@@ -115,3 +115,35 @@ function pPlaneadoTabla($linea, $mes) {
     $sql = "SELECT dia, area, SUM(duracion) AS tmp  FROM Bitacora where tema LIKE 'Paros Planeados' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia, area ORDER BY dia ASC";
     return getArraySQL($sql);
 }
+
+/* PERDIDAS CAMBIO DE MODELO */
+function pCambioModMes($linea, $anio) {
+    $sql = "SELECT mes, SUM(duracion) as tmp FROM Bitacora WHERE tema LIKE 'Calidad' AND linea LIKE '$linea' AND anio = $anio GROUP BY mes ORDER BY mes ASC";
+    return getArraySQL($sql);
+}
+
+function pCambioModDia($linea, $mes) {
+    $sql = "SELECT dia, SUM(duracion) FROM Bitacora WHERE tema LIKE 'Cambio de Modelo' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia ORDER BY dia ASC";
+    return getArraySQL($sql);
+}
+
+function pCambioModTabla($linea, $mes) {
+    $sql = "SELECT dia, area,problema, SUM(duracion) AS tmp  FROM Bitacora where tema LIKE 'Cambio de Modelo' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia, area, problema ORDER BY dia ASC";
+    return getArraySQL($sql);
+}
+
+/* PERDIDAS CALIDAD */
+function pCalidadMes($linea, $anio) {
+    $sql = "SELECT mes, SUM(duracion) as tmp FROM Bitacora WHERE tema LIKE 'Calidad' AND linea LIKE '$linea' AND anio = $anio GROUP BY mes ORDER BY mes ASC";
+    return getArraySQL($sql);
+}
+
+function pCalidadDia($linea, $mes) {
+    $sql = "SELECT dia, SUM(duracion) FROM Bitacora WHERE tema LIKE 'Calidad' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia ORDER BY dia ASC";
+    return getArraySQL($sql);
+}
+
+function pCalidadTabla($linea, $mes) {
+    $sql = "SELECT dia, operacion, problema, SUM(duracion) AS tmp  FROM Bitacora where tema LIKE 'Calidad' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia, operacion, problema ORDER BY dia ASC";
+    return getArraySQL($sql);
+}

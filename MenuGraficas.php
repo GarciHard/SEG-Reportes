@@ -16,17 +16,14 @@
 ?>
 <html>
     <head>
+        <!-- HOJA DE ESTILOS-->
         <link rel="stylesheet" href="css/style.css">
 
-        <!--PIEZAS PRODUCIDAS-->
+        <!--SCRIPTS P/MINIATURAS DE LAS GRAFICAS-->
         <script src="https://code.jquery.com/jquery.js"></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/pareto.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        
-        <!-- PERDIDAS TECNICAS -->
-        
-        
     </head>
     
     <body>
@@ -189,7 +186,7 @@
                                     </script>
                                 </div>
                                 
-                                <button id="plain">Detalle Gr&aacute;fica</button>
+                                <button id="plain">Detalle Producci&oacute;n</button>
                             </td>
                             <td> <!-- Gráfica de perdidas tecnicas -->
                                 <?php
@@ -268,7 +265,7 @@
                                     </script> 
                                 </div>
                                 
-                                <button id="plain">Second Graph</button>
+                                <button id="plain">Detalle T&eacute;cnicas</button>
                             </td>
                         </tr>
                         <!--Second row-->
@@ -351,9 +348,9 @@
                                     </script> 
                                 </div>
                                 
-                                <button id="plain">Third Graph</button>
+                                <button id="plain">Detalle Organizacionales</button>
                             </td>
-                            <td>
+                            <td><!-- Gráfica de perdidas por paros planeados -->
                                 <?php
                                 $datPlaneadoDia = pPlaneadoDia($line, $month);
                                 $varPlanDia;
@@ -429,18 +426,168 @@
 
                                     </script> 
                                 </div>
-                                <button id="plain">Fourth Graph</button>
+                                <button id="plain">Detalle Paros Planeados</button>
                             </td>
                         </tr>
                         <!--Third row-->
                         <tr>
-                            <td>
-                                
-                                <button id="plain">Fifth Graph</button>
+                            <td><!-- Gráfica de perdidas por cambios de modelo -->
+                                <?php
+                                $datCModDia = pCambioModDia($line, $month);
+                                $varCambioDia;
+                                $varCambioDuracionDia;
+
+                                for ($i = 1; $i < 32; $i++) {
+                                    $varCambioDia[$i] = $i;
+                                    $varCambioDuracionDia[$i] = 0;
+                                }
+
+                                for ($i = 0; $i < count($datCModDia); $i++) {
+                                    $d = (int) $datCModDia[$i][0];
+                                    $varCambioDia[$i] = $datCModDia[$i][0];
+                                    $varCambioDuracionDia[$d] = $datCModDia[$i][1];
+                                }
+                                ?>
+                                <div aling = "center" id="cambios" class = "perdidaCambioModelo">
+                                    <script>
+                                        chartCPU = new Highcharts.chart('cambios', {
+                                        title: {
+                                            text: 'Perdidas Por Cambio De Modelo'
+                                        },
+                                        xAxis: {
+                                            gridLineWidth: 1,
+                                            categories: (function() {
+                                                    var data = [];
+                                                    <?php
+                                                        for($i = 1 ;$i<32;$i++){
+                                                    ?>
+                                                    data.push([<?php echo $i;?>]);
+                                                    <?php } ?>
+                                                    return data;
+                                                })()
+                                        },
+                                        yAxis: [{
+                                        }],
+                                        series: [{ //LINEA CHUNDA
+                                            color: '#2ECC71',
+                                        }, { //BARRAS CHUNDAS
+                                            color: '#08088A',
+                                            name: 'Indicadores',
+                                            type: 'spline',
+                                            zIndex: 1,
+                                            //data: [5, 5, 5, 7, 5]
+                                            data: (function() {
+                                                    var data = [];
+                                                    <?php
+                                                        for($i = 1 ;$i<32;$i++){
+                                                    ?>
+                                                    data.push([<?php echo $varCambioDuracionDia[$i];?>]);
+                                                    <?php } ?>
+                                                    return data;
+                                                })()
+                                        }],
+                                        credits: {
+                                                enabled: false
+                                        },
+                                        responsive: {
+                                            rules: [{
+                                                condition: {
+                                                    maxWidth: 500
+                                                },
+                                                chartOptions: {
+                                                    legend: {
+                                                        layout: 'horizontal',
+                                                        align: 'center',
+                                                        verticalAlign: 'bottom'
+                                                    }
+                                                }
+                                            }]
+                                        }
+                                    });
+
+                                    </script> 
+                                </div>
+                                <button id="plain">Detalle Cambios de Modelo</button>
                             </td>
-                            <td>
+                            <td><!-- Grafica de perdidas de calidad-->
+                                <?php
+                                $datCalidadDia = pCalidadDia($line, $month);
+                                $varCalidadDia;
+                                $varCalidadDuracionDia;
+
+                                for ($i = 1; $i < 32; $i++) {
+                                    $varCalidadDia[$i] = $i;
+                                    $varCalidadDuracionDia[$i] = 0;
+                                }
+
+                                for ($i = 0; $i < count($datCalidadDia); $i++) {
+                                    $d = (int) $datCalidadDia[$i][0];
+                                    $varCalidadDia[$i] = $datCalidadDia[$i][0];
+                                    $varCalidadDuracionDia[$d] = $datCalidadDia[$i][1];
+                                }
+                                ?>
+                                <div aling = "center" id="calidad" class = "perdidaCalidad">
+                                    <script>
+                                        chartCPU = new Highcharts.chart('calidad', {
+                                        title: {
+                                            text: 'Perdidas de Calidad'
+                                        },
+                                        xAxis: {
+                                            gridLineWidth: 1,
+                                            categories: (function() {
+                                                    var data = [];
+                                                    <?php
+                                                        for($i = 1 ;$i<32;$i++){
+                                                    ?>
+                                                    data.push([<?php echo $i;?>]);
+                                                    <?php } ?>
+                                                    return data;
+                                                })()
+                                        },
+                                        yAxis: [{
+                                        }],
+                                        series: [{ //LINEA CHUNDA
+
+                                        }, { //BARRAS CHUNDAS
+                                            lineColor: '#1A06AF',
+                                            name: 'Indicadores',
+                                            type: 'spline',
+                                           // type: 'spline',
+                                            zIndex: 1,
+                                            //data: [5, 5, 5, 7, 5]
+                                            data: (function() {
+                                                    var data = [];
+                                                    <?php
+                                                        for($i = 1 ;$i<32;$i++){
+                                                    ?>
+                                                    data.push([<?php echo $varCalidadDuracionDia[$i];?>]);
+                                                    <?php } ?>
+                                                    return data;
+                                                })()
+                                        }],
+                                        credits: {
+                                                enabled: false
+                                        },
+                                        responsive: {
+                                            rules: [{
+                                                condition: {
+                                                    maxWidth: 500
+                                                },
+                                                chartOptions: {
+                                                    legend: {
+                                                        layout: 'horizontal',
+                                                        align: 'center',
+                                                        verticalAlign: 'bottom'
+                                                    }
+                                                }
+                                            }]
+                                        }
+                                    });
+
+                                    </script> 
+                                </div>
                                 
-                                <button id="plain">Sixth Graph</button>
+                                <button id="plain">Detalle Calidad</button>
                             </td>
                         </tr>
                     </tbody>
