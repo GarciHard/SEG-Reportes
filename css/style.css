@@ -52,37 +52,37 @@ td {
 
 /*GRAFICAS DE PRODUCCIÓN MINIATURA*/
 .produccionGraph{
-    height: 50vh; 
+    height: 65vh; 
     width: 46%; 
     float: left; 
     margin: 0% 0%
 }
 .perdidaTecnica {
-    height: 50vh; 
+    height: 65vh; 
     /*width: 95%; se quita porque marcaba error*/ 
     float: left; 
     margin: 0% 0%
 }
 .perdidaOrganizacional {
-    height: 50vh; 
+    height: 65vh; 
     width: 95%; 
     float: left; 
     margin: 0% 0%
 }
 .perdidaParosPlaneados {
-    height: 50vh; 
+    height: 65vh; 
     width: 95%; 
     float: left; 
     margin: 0% 0%
 }
 .perdidaCambioModelo {
-    height: 50vh; 
+    height: 65vh; 
     width: 95%; 
     float: left; 
     margin: 0% 0%
 }
 .perdidaCalidad {
-    height: 50vh; 
+    height: 65vh; 
     width: 95%; 
     float: left; 
     margin: 0% 0%
