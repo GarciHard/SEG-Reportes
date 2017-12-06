@@ -147,3 +147,9 @@ function pCalidadTabla($linea, $mes) {
     $sql = "SELECT dia, operacion, problema, SUM(duracion) AS tmp  FROM Bitacora where tema LIKE 'Calidad' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia, operacion, problema ORDER BY dia ASC";
     return getArraySQL($sql);
 }
+
+/*OEE DIARIO*/
+function oeeDiarioGrafica ($linea, $mes) {
+    $sql = "SELECT Dia, OEE, Calidad, Organizacionales, Tecnicas, Cambios, Desempeno FROM HourlyCountOEE WHERE Linea LIKE '$linea' AND Mes = $mes ORDER BY dia ASC";
+    return getArraySQL($sql);
+}

@@ -23,6 +23,12 @@ td {
 	margin: 0 auto;
 }
 
+/*Encabezado para las hojas de reporte*/
+#titulos {
+    color: #FFFFFF;
+    background: #08088A;
+}
+
 /*TABLA ESTATICA*/
 #table-wrapper-main-graph {
     position:relative;
@@ -87,3 +93,41 @@ td {
     float: left; 
     margin: 0% 0%
 }
+.oeeMensual {
+    height: 75vh; 
+    width: 100%; 
+    float: left; 
+    margin: 0% 0%
+}
+.oeeSemanal {
+    height: 75vh; 
+    width: 100%; 
+    float: left; 
+    margin: 0% 0%
+}
+.oeeDiario {
+    height: 75vh; 
+    width: 100%; 
+    float: left; 
+    margin: 0% 0%
+}
+#tablaOEE {
+    border-collapse: collapse;
+    width: 100%;
+}
+#thOEE {
+    text-align: left;
+    padding: 8px;
+    background-color: #08088A;
+    color: white;
+}
+#thOEE1 {
+    text-align: left;
+    padding: 8px;
+}
+#thOEE2 {
+    text-align: left;
+    padding: 8px;
+    background-color: #f2f2f2;
+}
+

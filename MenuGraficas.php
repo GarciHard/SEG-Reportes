@@ -60,8 +60,8 @@
                     <button>Calcular Gr&aacute;ficas</button>
                     <br><br>
                 </caption>
-                                
             </form>
+            
             <?php
             $line = isset($_POST['cmbLinea']) ? $_POST['cmbLinea'] : '';
             
@@ -75,7 +75,6 @@
         <div id="table-wrapper-main-graph">
             <div id="table-scroll-main-graph">
                 <table>
-
                     <tbody>
                         <!--First row-->
                         <tr>
@@ -108,85 +107,89 @@
                                 }
                                 ?>
                                 
-                                
-                                <div aling = "center" id="produccion" class = "produccionGraph">
-                                    <script>
-                                            chartCPU = new Highcharts.chart('produccion', {
-                                            chart: {
-                                              type: 'scatter'  
-                                            },
-                                            title: {
-                                                text: 'Piezas Producidas'
-                                            },
-                                            xAxis: {
-                                                gridLineWidth: 1,
-                                                categories: (function() {
-                                                        var data = [];
-                                                        <?php
-                                                            for($i = 0 ;$i<count($datProdDiaMes);$i++){
-                                                        ?>
-                                                        data.push([<?php echo $varProdDia[$i];?>]);
-                                                        <?php } ?>
-                                                        return data;
-                                                    })()
-                                            },
-                                            yAxis: [{
-                                                //stroke-width: 2px;
-                                                //stroke: #d8d8d8;
-                                            }],
-                                            series: [{ //LINEA CHUNDA
-                                                type: 'spline',
-                                                name: 'Meta',
-                                                yAxis: 0,
-                                                zIndex: 0,
-                                                data: (function() {
-                                                        var data = [];
-                                                        <?php
-                                                            for($i = 0 ;$i<count($datProdDiaMes);$i++){
-                                                        ?>
-                                                        data.push([<?php echo $prodDiaMes[$i];?>]);
-                                                        <?php } ?>
-                                                        return data;
-                                                    })()
-                                            }, { //BARRAS CHUNDAS
-                                                name: 'Indicadores',
-                                                type: 'column',
-                                                zIndex: 1,
-                                                data: (function() {
-                                                        var data = [];
-                                                        <?php
-                                                            for($i = 0 ;$i<count($datProdDiaMes);$i++){
-                                                        ?>
-                                                        data.push([<?php echo $prodDiaMes[$i];?>]);
+                                <form action="ReporteOEE.php" method="POST">
+                                    <div aling = "center" id="produccion" class = "produccionGraph">
+                                        <script>
+                                                chartCPU = new Highcharts.chart('produccion', {
+                                                chart: {
+                                                  type: 'scatter'  
+                                                },
+                                                title: {
+                                                    text: 'Piezas Producidas'
+                                                },
+                                                xAxis: {
+                                                    gridLineWidth: 1,
+                                                    categories: (function() {
+                                                            var data = [];
+                                                            <?php
+                                                                for($i = 0 ;$i<count($datProdDiaMes);$i++){
+                                                            ?>
+                                                            data.push([<?php echo $varProdDia[$i];?>]);
+                                                            <?php } ?>
+                                                            return data;
+                                                        })()
+                                                },
+                                                yAxis: [{
+                                                    //stroke-width: 2px;
+                                                    //stroke: #d8d8d8;
+                                                }],
+                                                series: [{ //LINEA CHUNDA
+                                                    type: 'spline',
+                                                    name: 'Meta',
+                                                    yAxis: 0,
+                                                    zIndex: 0,
+                                                    data: (function() {
+                                                            var data = [];
+                                                            <?php
+                                                                for($i = 0 ;$i<count($datProdDiaMes);$i++){
+                                                            ?>
+                                                            data.push([<?php echo $prodDiaMes[$i];?>]);
+                                                            <?php } ?>
+                                                            return data;
+                                                        })()
+                                                }, { //BARRAS CHUNDAS
+                                                    name: 'Indicadores',
+                                                    type: 'column',
+                                                    zIndex: 1,
+                                                    data: (function() {
+                                                            var data = [];
+                                                            <?php
+                                                                for($i = 0 ;$i<count($datProdDiaMes);$i++){
+                                                            ?>
+                                                            data.push([<?php echo $prodDiaMes[$i];?>]);
 
-                                                        <?php } ?>
-                                                        return data;
+                                                            <?php } ?>
+                                                            return data;
 
-                                                    })()
+                                                        })()
 
-                                            }],
-                                            credits: {
-                                                    enabled: false
-                                            },
-                                            responsive: {
-                                                rules: [{
-                                                    condition: {
-                                                        maxWidth: 500
-                                                    },
-                                                    chartOptions: {
-                                                        legend: {
-                                                            layout: 'horizontal',
-                                                            align: 'center',
-                                                            verticalAlign: 'bottom'
+                                                }],
+                                                credits: {
+                                                        enabled: false
+                                                },
+                                                responsive: {
+                                                    rules: [{
+                                                        condition: {
+                                                            maxWidth: 500
+                                                        },
+                                                        chartOptions: {
+                                                            legend: {
+                                                                layout: 'horizontal',
+                                                                align: 'center',
+                                                                verticalAlign: 'bottom'
+                                                            }
                                                         }
-                                                    }
-                                                }]
-                                            }
-                                        });
-                                    </script>
-                                </div>
-                                
-                                <button id="plain">Detalle Producci&oacute;n</button>
+                                                    }]
+                                                }
+                                            });
+                                        </script>
+                                    </div>
+                                    <?php
+                                        echo "<input type="."\"hidden\" name="."\"varLine\""."value=".$line.">";
+                                        echo "<input type="."\"hidden\" name="."\"varMonth\""."value=".$month.">";
+                                    ?>
+                                    <button id="plain">Detalle Producci&oacute;n</button>
+                                </form>
                             </td>
                             <td> <!-- Gráfica de perdidas tecnicas -->
                                 <?php
