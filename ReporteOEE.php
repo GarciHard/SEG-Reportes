@@ -241,42 +241,17 @@
                                                     }
                                                 },
                                                 series: [{
-                                                        name: 'OEE',
+                                                        color: 'yellow',
+                                                        name: 'Desempeño',
                                                         data: [
                                                             <?php
-                                                                for ($i = 1; $i < count($oee) + 1; $i++) {
-                                                                    echo $oee[$i - 1].',';
+                                                                for ($i = 1; $i < count($desempeno) + 1; $i++) {
+                                                                    echo $desempeno[$i - 1].',';
                                                                 }
                                                             ?>
                                                         ]
                                                     }, {
-                                                        name: 'Calidad',
-                                                        data: [
-                                                            <?php
-                                                                for ($i = 1; $i < count($calidad) + 1; $i++) {
-                                                                    echo $calidad[$i - 1].',';
-                                                                }
-                                                            ?>
-                                                        ]
-                                                    }, {
-                                                        name: 'Organizacionales',
-                                                        data: [
-                                                            <?php
-                                                                for ($i = 1; $i < count($organizacional) + 1; $i++) {
-                                                                    echo $organizacional[$i - 1].',';
-                                                                }
-                                                            ?>
-                                                        ]
-                                                    }, {
-                                                        name: 'Tecnicas',
-                                                        data: [
-                                                            <?php
-                                                                for ($i = 1; $i < count($tecnica) + 1; $i++) {
-                                                                    echo $tecnica[$i - 1].',';
-                                                                }
-                                                            ?>
-                                                        ]
-                                                    }, {
+                                                        color: 'orange',
                                                         name: 'Cambios',
                                                         data: [
                                                             <?php
@@ -286,14 +261,62 @@
                                                             ?>
                                                         ]
                                                     }, {
-                                                        name: 'Desempeño',
+                                                        color: 'blue',
+                                                        name: 'Tecnicas',
                                                         data: [
                                                             <?php
-                                                                for ($i = 1; $i < count($desempeno) + 1; $i++) {
-                                                                    echo $desempeno[$i - 1].',';
+                                                                for ($i = 1; $i < count($tecnica) + 1; $i++) {
+                                                                    echo $tecnica[$i - 1].',';
                                                                 }
                                                             ?>
                                                         ]
+                                                    }, {
+                                                        color: 'green',
+                                                        name: 'Organizacionales',
+                                                        data: [
+                                                            <?php
+                                                                for ($i = 1; $i < count($organizacional) + 1; $i++) {
+                                                                    echo $organizacional[$i - 1].',';
+                                                                }
+                                                            ?>
+                                                        ]
+                                                    }, {
+                                                        color: 'red',
+                                                        name: 'Calidad',
+                                                        data: [
+                                                            <?php
+                                                                for ($i = 1; $i < count($calidad) + 1; $i++) {
+                                                                    echo $calidad[$i - 1].',';
+                                                                }
+                                                            ?>
+                                                        ]
+                                                    }, {
+                                                        color: 'gray',
+                                                        name: 'OEE',
+                                                        data: [
+                                                            <?php
+                                                                for ($i = 1; $i < count($oee) + 1; $i++) {
+                                                                    echo $oee[$i - 1].',';
+                                                                }
+                                                            ?>
+                                                        ]
+                                                    }, {
+                                                        color: 'green',
+                                                        type: 'spline',
+                                                        name: 'Target',
+                                                        data: [
+                                                            <?php
+                                                                $target = 75;
+                                                                for ($i = 1; $i < 32; $i++) {
+                                                                    echo $target.',';
+                                                                }
+                                                            ?>
+                                                        ],
+                                                        marker: {
+                                                            lineWidth: 2,
+                                                            lineColor: Highcharts.getOptions().colors[3],
+                                                            fillColor: 'white'
+                                                        }
                                                     }]
                                             });
                                 </script>

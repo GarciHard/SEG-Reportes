@@ -184,10 +184,6 @@
                                             });
                                         </script>
                                     </div>
-                                    <?php
-                                        echo "<input type="."\"hidden\" name="."\"varLine\""."value=".$line.">";
-                                        echo "<input type="."\"hidden\" name="."\"varMonth\""."value=".$month.">";
-                                    ?>
                                     <button id="plain">Detalle Producci&oacute;n</button>
                                 </form>
                             </td>
@@ -267,7 +263,6 @@
                                     });
                                     </script> 
                                 </div>
-                                
                                 <button id="plain">Detalle T&eacute;cnicas</button>
                             </td>
                         </tr>
@@ -347,10 +342,8 @@
                                             }]
                                         }
                                     });
-
                                     </script> 
                                 </div>
-                                
                                 <button id="plain">Detalle Organizacionales</button>
                             </td>
                             <td><!-- Gráfica de perdidas por paros planeados -->
@@ -426,7 +419,6 @@
                                             }]
                                         }
                                     });
-
                                     </script> 
                                 </div>
                                 <button id="plain">Detalle Paros Planeados</button>
@@ -507,7 +499,6 @@
                                             }]
                                         }
                                     });
-
                                     </script> 
                                 </div>
                                 <button id="plain">Detalle Cambios de Modelo</button>
@@ -586,11 +577,196 @@
                                             }]
                                         }
                                     });
-
                                     </script> 
                                 </div>
-                                
                                 <button id="plain">Detalle Calidad</button>
+                            </td>
+                        </tr>
+                        <!--Fourth row-->
+                        <tr>
+                            <td><!-- Grafica de OEE-->
+                                <?php
+                                    $dailyOEE = oeeDiarioGrafica($line, $month);
+                                    $oee;
+                                    $calidad;
+                                    $organizacional;
+                                    $tecnica;
+                                    $cambios;
+                                    $desempeno;
+                                    for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*OEE Percent*/
+                                        if ($dailyOEE[$i - 1][0] == $i) {
+                                            $oee[$i - 1] = $dailyOEE[$i - 1][1];
+                                            $oee[$i - 1] = str_replace('#', '', $oee[$i - 1]);
+                                            $oee[$i - 1] = str_replace('%', '', $oee[$i - 1]);
+                                        } else {
+                                            $oee[$i - 1] = 0;
+                                        }
+                                    }
+                                    for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Quality Percent*/
+                                        if ($dailyOEE[$i - 1][0] == $i) {
+                                            $calidad[$i - 1] = $dailyOEE[$i - 1][2];
+                                            $calidad[$i - 1] = str_replace('#', '', $calidad[$i - 1]);
+                                            $calidad[$i - 1] = str_replace('%', '', $calidad[$i - 1]);
+                                        } else {
+                                            $calidad[$i - 1] = 0;
+                                        }
+                                    }
+                                    for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Organizational Percent*/
+                                        if ($dailyOEE[$i - 1][0] == $i) {
+                                            $organizacional[$i - 1] = $dailyOEE[$i - 1][3];
+                                            $organizacional[$i - 1] = str_replace('#', '', $organizacional[$i - 1]);
+                                            $organizacional[$i - 1] = str_replace('%', '', $organizacional[$i - 1]);
+                                        } else {
+                                            $organizacional[$i - 1] = 0;
+                                        }
+                                    }
+                                    for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Technical Percent*/
+                                        if ($dailyOEE[$i - 1][0] == $i) {
+                                            $tecnica[$i - 1] = $dailyOEE[$i - 1][4];
+                                            $tecnica[$i - 1] = str_replace('#', '', $tecnica[$i - 1]);
+                                            $tecnica[$i - 1] = str_replace('%', '', $tecnica[$i - 1]);
+                                        } else {
+                                            $tecnica[$i - 1] = 0;
+                                        }
+                                    }
+                                    for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Changeover Percent*/
+                                        if ($dailyOEE[$i - 1][0] == $i) {
+                                            $cambios[$i - 1] = $dailyOEE[$i - 1][5];
+                                            $cambios[$i - 1] = str_replace('#', '', $cambios[$i - 1]);
+                                            $cambios[$i - 1] = str_replace('%', '', $cambios[$i - 1]);
+                                        } else {
+                                            $cambios[$i - 1] = 0;
+                                        }
+                                    }
+                                    for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Performance Percent*/
+                                        if ($dailyOEE[$i - 1][0] == $i) {
+                                            $desempeno[$i - 1] = $dailyOEE[$i - 1][6];
+                                            $desempeno[$i - 1] = str_replace('#', '', $desempeno[$i - 1]);
+                                            $desempeno[$i - 1] = str_replace('%', '', $desempeno[$i - 1]);
+                                        } else {
+                                            $desempeno[$i - 1] = 0;
+                                        }
+                                    }
+                                ?>
+                                <form action="ReporteOEE.php" method="POST">
+                                    <div id="graficaOEEDiaria" class="oeeDiario">
+                                        <script>                                       
+                                            Highcharts.chart('graficaOEEDiaria', {
+                                                chart: {
+                                                    type: 'column'
+                                                },
+                                                title: {
+                                                    text: 'OEE con Factores de Pérdidas'
+                                                },
+                                                xAxis: {
+                                                    categories: [<?php
+                                                    for ($i = 1; $i < 32; $i++) {
+                                                        echo $i . ',';
+                                                    }
+                                                    ?>]
+                                                },
+                                                yAxis: {
+                                                    min: 0,
+                                                    title: {
+                                                        text: 'Porcentaje'
+                                                    }
+                                                },
+                                                tooltip: {
+                                                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+                                                    shared: true
+                                                },
+                                                        plotOptions: {
+                                                            column: {
+                                                                stacking: 'percent'
+                                                            }
+                                                        },
+                                                        series: [{
+                                                                color: 'yellow',
+                                                                name: 'Desempeño',
+                                                                data: [
+                                                                    <?php
+                                                                        for ($i = 1; $i < count($desempeno) + 1; $i++) {
+                                                                            echo $desempeno[$i - 1].',';
+                                                                        }
+                                                                    ?>
+                                                                ]
+                                                            }, {
+                                                                color: 'orange',
+                                                                name: 'Cambios',
+                                                                data: [
+                                                                    <?php
+                                                                        for ($i = 1; $i < count($cambios) + 1; $i++) {
+                                                                            echo $cambios[$i - 1].',';
+                                                                        }
+                                                                    ?>
+                                                                ]
+                                                            }, {
+                                                                color: 'blue',
+                                                                name: 'Tecnicas',
+                                                                data: [
+                                                                    <?php
+                                                                        for ($i = 1; $i < count($tecnica) + 1; $i++) {
+                                                                            echo $tecnica[$i - 1].',';
+                                                                        }
+                                                                    ?>
+                                                                ]
+                                                            }, {
+                                                                color: 'green',
+                                                                name: 'Organizacionales',
+                                                                data: [
+                                                                    <?php
+                                                                        for ($i = 1; $i < count($organizacional) + 1; $i++) {
+                                                                            echo $organizacional[$i - 1].',';
+                                                                        }
+                                                                    ?>
+                                                                ]
+                                                            }, {
+                                                                color: 'red',
+                                                                name: 'Calidad',
+                                                                data: [
+                                                                    <?php
+                                                                        for ($i = 1; $i < count($calidad) + 1; $i++) {
+                                                                            echo $calidad[$i - 1].',';
+                                                                        }
+                                                                    ?>
+                                                                ]
+                                                            }, {
+                                                                color: 'gray',
+                                                                name: 'OEE',
+                                                                data: [
+                                                                    <?php
+                                                                        for ($i = 1; $i < count($oee) + 1; $i++) {
+                                                                            echo $oee[$i - 1].',';
+                                                                        }
+                                                                    ?>
+                                                                ]
+                                                            }, {
+                                                                color: 'green',
+                                                                type: 'spline',
+                                                                name: 'Target',
+                                                                data: [
+                                                                    <?php
+                                                                        $target = 75;
+                                                                        for ($i = 1; $i < 32; $i++) {
+                                                                            echo $target.',';
+                                                                        }
+                                                                    ?>
+                                                                ],
+                                                                marker: {
+                                                                    lineWidth: 2,
+                                                                    lineColor: Highcharts.getOptions().colors[3],
+                                                                    fillColor: 'white'
+                                                                }
+                                                            }]
+                                                    });
+                                        </script>
+                                    </div>
+                                    <?php
+                                        echo "<input type="."\"hidden\" name="."\"varLine\""."value=".$line.">";
+                                        echo "<input type="."\"hidden\" name="."\"varMonth\""."value=".$month.">";
+                                    ?>
+                                    <button id="plain">Detalle OEE</button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>
