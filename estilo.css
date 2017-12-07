@@ -1,0 +1,133 @@
+/*table{
+    border-spacing: 0;
+    display: flex;Se ajuste dinamicamente al tamano del dispositivo*
+    max-height: 40vh; El alto que necesitemos*
+    overflow-y: auto; *El scroll verticalmente cuando sea necesario
+    overflow-x: hidden;Sin scroll horizontal
+    table-layout: fixed;*Forzamos a que las filas tenga el mismo ancho*
+    width: 97.5vw; El ancho que necesitemos
+    border:1px solid gray;
+}
+
+thead{
+    background: #D8D8D8;
+    position: fixed !important;el thead va ser siempre estatico*
+}
+
+th{
+    border-bottom: 1px solid #c4c0c9;
+    border-right: 1px solid #c4c0c9;
+}
+
+th,td{
+    font-weight: normal;
+    margin: 0;
+    max-width: 18.5vw; *Ancho por celda
+    min-width: 18.5vw;*Ancho por celda
+    word-wrap: break-word;Si el contenido supera el tamano, adiciona a una nueve linea*
+    font-size: 11px;
+    height: 3.5vh !important;El mismo alto para todas las celdas*
+    padding: 4px;
+    border-right: 1px solid #c4c0c9;
+    border: .1px solid black;
+}
+tr:nth-child(2n) {
+    
+}   */
+
+.table-container {
+    height: 10em;
+}
+table {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 100%;
+}
+table thead {
+    /* head takes the height it requires, 
+    and it's not scaled when table is resized */
+    flex: 0 0 auto;
+    width: calc(100% - 0.9em);
+}
+table tbody {
+    /* body takes all the remaining available space */
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: scroll;
+}
+table tbody tr {
+    width: 100%;
+}
+table thead,
+table tbody tr {
+    display: table;
+    table-layout: fixed;
+}
+/* decorations */
+.table-container {
+    border: 1px solid black;
+    padding: 0.3em;
+}
+table {
+    border: 1px solid lightgrey;
+}
+table td, table th {
+    padding: 0.3em;
+    border: 1px solid lightgrey;
+}
+table th {
+    border: 1px solid grey;
+}
+
+.contenedor{
+    height: 40vh; 
+    width: 49%; 
+    float: left ; 
+    margin: 0% 0%;
+}
+
+.contenedor2{
+    height: 50vh; 
+    width: 98%; 
+    float: left ; 
+    margin: 0% 0%
+}
+
+.arribaMes{
+    height: 40vh; 
+    width: 35%; 
+    float: left ; 
+    margin: 0% 1%
+}
+
+.arribaDiaMes{
+    height: 40vh; 
+    width: 60%; 
+    float: left ; 
+    margin: 0% 1%
+}   
+
+#izquierda .pizquierda{
+    height: 200vh; 
+    width: 100%; 
+    float: left; 
+    margin: 0% 0%;
+}
+
+#derecha .pderecha{
+    height: 200vh; 
+    width: 100%; 
+    float: left ; 
+    margin: 0% 0%;
+}
+
+#titulo {
+    color: #FFFFFF;
+    background: #08088A;
+}
+
+
+
+ 
+
