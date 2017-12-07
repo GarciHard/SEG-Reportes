@@ -52,6 +52,12 @@ function getArraySQL($sql) {
     return $rawdata;
 }
 
+/* OEE DIARIO */
+function oeeDiarioGrafica($linea, $mes) {
+    $sql = "SELECT Dia, OEE, Calidad, Organizacionales, Tecnicas, Cambios, Desempeno FROM HourlyCountOEE WHERE Linea LIKE '$linea' AND Mes = $mes ORDER BY dia ASC";
+    return getArraySQL($sql);
+}
+
 function pzasProdAnual(){
         $sql = "SELECT anio, SUM(cantPzas) FROM bitacora WHERE linea = 'L003' AND mes = 10 GROUP BY anio;";
         return $this->getArraySQL($sql);
