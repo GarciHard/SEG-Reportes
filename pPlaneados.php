@@ -1,7 +1,7 @@
 <HTML>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
-    <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
-    <meta charset="utf-8">
+     <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <!--------CONSULTAS------------->
     <?php
         require_once 'ServerFunctions.php';
@@ -248,40 +248,37 @@
         </div>
     </div>
     
-    <div id = "table-wrapper">
-        <div id="table-scroll">
-            <table class="pure-table pure-table-bordered" >
-                <thead>     
-                    <tr>
-                        <th><span class="text">D&iacute;a</span></th>
-                        <th><span class="text">&Aacute;rea</span></th>
-                        <th><span class="text">Duraci&oacute;n</span></th>
-                    </tr>
-                </thead>
+    <div id="tabla">  
+        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;">
+            <thead>
+                <tr style="background: #F2F2F2">
+                    <th><span class="text">D&iacute;a</span></th>
+                    <th><span class="text">&Aacute;rea</span></th>
+                    <th><span class="text">Duraci&oacute;n</span></th>
+                </tr>
+            </thead>
 
-                <tbody>        
-                    <?php
-                        require_once 'ServerFunctions.php';
-                        
-                        $datPlaneadoTabla = pPlaneadoTabla($varLine, $varMonth, $varYear);
-                        $diaPPlaneadosT;       
+            <tbody>        
+                <?php
+                    require_once 'ServerFunctions.php';
 
-                        for($i = 0; $i<count($datPlaneadoTabla);$i++){
-                            echo "<tr>";
-                            for ($j = 0; $j<3; $j++){
-                                $diaPPlaneadosT[$i][$j] = $datPlaneadoTabla[$i][$j];
-                                echo "<td>";
-                                    echo $diaPPlaneadosT[$i][$j];
-                                echo "</td>";
-                            }
-                            echo "</tr>";
+                    $datPlaneadoTabla = pPlaneadoTabla($varLine, $varMonth, $varYear);
+                    $diaPPlaneadosT;       
+
+                    for($i = 0; $i<count($datPlaneadoTabla);$i++){
+                        echo "<tr>";
+                        for ($j = 0; $j<3; $j++){
+                            $diaPPlaneadosT[$i][$j] = $datPlaneadoTabla[$i][$j];
+                            echo "<td>";
+                                echo $diaPPlaneadosT[$i][$j];
+                            echo "</td>";
                         }
-                    ?>        
-                </tbody> 
-            </table>
-        </div>
-    </div>
-    
+                        echo "</tr>";
+                    }
+                ?>        
+            </tbody> 
+        </table>
+    </div>   
 
 </BODY>
 

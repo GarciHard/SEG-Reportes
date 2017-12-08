@@ -3,7 +3,6 @@
         
         <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
         <LINK REL=StyleSheet HREF="est.css" TYPE="text/css" MEDIA=screen>
-        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <!--------CONSULTAS------------->
@@ -821,37 +820,37 @@
     </div>
     
     <div id="tabla">  
-            <table>
-                <thead>
-                    <tr>
-                        <th>Dia</th>
-                        <th>Cliente</th>
-                        <th>No. Parte</th>
-                        <th>Cantidad Pzas Producidas</th>
-                    </tr>   
-                </thead>
+        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;">
+            <thead>
+            <tr style="background: #F2F2F2">
+                <th>Día</th>
+                    <th>Cliente</th>
+                    <th>No. Parte</th>
+                    <th>Cantidad Pzas Producidas</th>
+                </tr>   
+            </thead>
                 
-                <tbody>        
-                    <?php
-                        require_once("ServerFunctions.php");
+            <tbody>        
+                <?php
+                    require_once("ServerFunctions.php");
 
-                        $datProducidasTabla = pzasProdTabla($varLine, $varMonth, $varYear);
-                        $diaT;
+                    $datProducidasTabla = pzasProdTabla($varLine, $varMonth, $varYear);
+                    $diaT;
 
-                        for($i = 0; $i<count($datProducidasTabla);$i++){
-                            echo "<tr>";
-                            for ($j = 0; $j<4; $j++){
-                                $diaT[$i][$j] = $datProducidasTabla[$i][$j];
-                                echo "<td>";
-                                    echo $diaT[$i][$j];
-                                echo "</td>";
-                            }
-                            echo "</tr>";
+                    for($i = 0; $i<count($datProducidasTabla);$i++){
+                        echo "<tr>";
+                        for ($j = 0; $j<4; $j++){
+                            $diaT[$i][$j] = $datProducidasTabla[$i][$j];
+                            echo "<td>";
+                                echo $diaT[$i][$j];
+                            echo "</td>";
                         }
-                    ?>        
-                </tbody>    
-            </table>
-        </div>
+                        echo "</tr>";
+                    }
+                ?>        
+            </tbody>    
+        </table>
+    </div>
 
 </BODY>
 

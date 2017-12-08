@@ -1,7 +1,7 @@
 <HTML>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
     <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <!--------CONSULTAS------------->
     <?php
         require_once 'ServerFunctions.php';
@@ -35,6 +35,44 @@
         
         for ($i = 0; $i<count($datOrgMes); $i++){
             $mes[$i] = $datOrgMes[$i][0];
+            switch ($mes[$i]){
+                    case 1:
+                        $mesCadenaOrg[$i] = (string) "'Enero'";
+                        break;
+                    case 2:
+                        $mesCadenaOrg[$i] = (string) "'Febrero'";
+                        break;
+                    case 3:
+                        $mesCadenaOrg[$i] = (string) "'Marzo'";
+                        break;
+                    case 4:
+                        $mesCadenaOrg[$i] = (string) "'Abril'";
+                        break;
+                    case 5:
+                        $mesCadenaOrg[$i] = (string) "'Mayo'";
+                        break;
+                    case 6:
+                        $mesCadenaOrg[$i] = (string) "'Junio'";
+                        break;
+                    case 7:
+                        $mesCadenaOrg[$i] = (string) "'Julio'";
+                        break;
+                    case 8:
+                        $mesCadenaOrg[$i] = (string) "'Agosto'";
+                        break;
+                    case 9:
+                        $mesCadenaOrg[$i] = (string) "'Septiembre'";
+                        break;
+                    case 10:
+                        $mesCadenaOrg[$i] = (string) "'Octubre'";
+                        break;
+                    case 11:
+                        $mesCadenaOrg[$i] = (string) "'Noviembre'";
+                        break;
+                    case 12:
+                        $mesCadenaOrg[$i] = (string) "'Diciembre'";
+                        break;                
+                }
             $duracionMes[$i]= $datOrgMes[$i][1]; 
         }
         
@@ -65,17 +103,23 @@
                     text: 'Minutos con Falla por Mes'
                 },
                 xAxis: {
+                    title: {
+                        text: 'Mes'
+                    },
                     categories: (function() {
                             var data = [];
                             <?php
                                 for($i = 0 ;$i<count($datOrgMes);$i++){
                             ?>
-                            data.push([<?php echo $mes[$i];?>]);
+                            data.push([<?php echo $mesCadenaOrg[$i];?>]);
                             <?php } ?>
                             return data;
                         })()
                 },
                 yAxis: [{
+                    title: {
+                        text: 'Duración (Minutos)'
+                    },
                 }],
                 series: [{ //BARRAS DURACION
                     color: '#1A06AF',
@@ -132,6 +176,9 @@
                     text: 'Minutos con Falla por Día'
                 },
                 xAxis: {
+                    title: {
+                        text: 'Día'
+                    },
                     gridLineWidth: 1,
                     categories: (function() {
                             var data = [];
@@ -142,21 +189,14 @@
                             <?php } ?>
                             return data;
                         })()
+                        
                 },
                 yAxis: [{
+                    title: {
+                        text: 'Duración (Minutos)'
+                    },
                 }],
-                series: [{ //LINEA META
-                    color: '#2ECC71',
-                    data: (function() {
-                            var data = [];
-                            <?php
-                                for($i = 0; $i < count($datTargetDiaOrg); $i++){
-                            ?>
-                            data.push([<?php echo $targetDiaOrg[$i];?>]);
-                            <?php } ?>
-                            return data;
-                        })()
-                }, { //BARRAS CHUNDAS
+                series: [{ //BARRAS Duracion
                     color: '#1A06AF',
                     name: 'Indicadores',
                     type: 'spline',
@@ -167,6 +207,18 @@
                                 for($i = 1; $i < 32; $i++){
                             ?>
                             data.push([<?php echo $duracionDia[$i];?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                }, { //LINEA META
+                    color: '#2ECC71',
+                    name: 'Meta',
+                    data: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 0; $i < count($datTargetDiaOrg); $i++){
+                            ?>
+                            data.push([<?php echo $targetDiaOrg[$i];?>]);
                             <?php } ?>
                             return data;
                         })()
@@ -194,40 +246,38 @@
         </div>
     </div>
     
-    <div id = "table-wrapper">
-        <div id="table-scroll">
-            <table class="pure-table pure-table-bordered" >
-                <thead>     
-                    <tr>
-                        <th><span class="text">D&iacute;a</span></th>
-                        <th><span class="text">&Aacute;rea</span></th>
-                        <th><span class="text">Operaci&oacute;n</span></th>
-                        <th><span class="text">Problema</span></th>
-                        <th><span class="text">Duraci&oacute;n</span></th>
-                    </tr>
-                </thead>
+    <div id="tabla">  
+        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;">
+            <thead>
+            <tr style="background: #F2F2F2">
+                <th>Día</th>
+                    <th><span class="text">&Aacute;rea</span></th>
+                    <th><span class="text">Operaci&oacute;n</span></th>
+                    <th><span class="text">Problema</span></th>
+                    <th><span class="text">Duraci&oacute;n</span></th>
+                </tr>
+            </thead>
 
-                <tbody>        
-                    <?php
-                        require_once 'ServerFunctions.php';
+            <tbody>        
+                <?php
+                    require_once 'ServerFunctions.php';
 
-                        $datOrgTabla = pOrganizacionalesTabla($varLine, $varMonth);
-                        $diaT;       
+                    $datOrgTabla = pOrganizacionalesTabla($varLine, $varMonth);
+                    $diaT;       
 
-                        for($i = 0; $i<count($datOrgTabla);$i++){
-                            echo "<tr>";
-                            for ($j = 0; $j<5; $j++){
-                                $diaT[$i][$j] = $datOrgTabla[$i][$j];
-                                echo "<td>";
-                                    echo $diaT[$i][$j];
-                                echo "</td>";
-                            }
-                            echo "</tr>";
+                    for($i = 0; $i<count($datOrgTabla);$i++){
+                        echo "<tr>";
+                        for ($j = 0; $j<5; $j++){
+                            $diaT[$i][$j] = $datOrgTabla[$i][$j];
+                            echo "<td>";
+                                echo $diaT[$i][$j];
+                            echo "</td>";
                         }
-                    ?>        
-                </tbody> 
-            </table>
-        </div>
+                        echo "</tr>";
+                    }
+                ?>        
+            </tbody> 
+        </table>
     </div>
     
 

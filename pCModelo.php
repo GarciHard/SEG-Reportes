@@ -1,8 +1,7 @@
 <HTML>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
     <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
-    <meta charset="utf-8">
-    <!--------CONSULTAS------------->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <?php
         require_once 'ServerFunctions.php';
         $varLine = $_REQUEST['varLine'];
@@ -250,15 +249,14 @@
         </div>
     </div>
     
-    <div id = "table-wrapper">
-        <div id="table-scroll">
-            <table class="pure-table pure-table-bordered" >
-                <thead>     
-                    <tr>
+    <div id="tabla">  
+        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;">
+            <thead>
+                <tr style="background: #F2F2F2">
                         <th><span class="text">D&iacute;a</span></th>
                         <th><span class="text">Ar&eacute;a</span></th>
                         <th><span class="text">Pobl&eacute;ma</span></th>
-                        <th><span class="text">Durac&iacute;on</span></th>
+                        <th><span class="text">Duraci&oacute;n (Minutos)</span></th>
                     </tr>
                 </thead>
 
@@ -282,7 +280,6 @@
                     ?>        
                 </tbody> 
             </table>
-        </div>
     </div>
     
 

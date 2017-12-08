@@ -1,8 +1,9 @@
 <HTML>
     <head>
-        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
         <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
-            <meta charset="utf-8">
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
             <!--------CONSULTAS------------->
             <?php
             require_once("control.php");
@@ -32,84 +33,83 @@
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-            <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%;"> 
-                 <script>
-                chartCPU = new  Highcharts.chart('ptc', {
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'TOP 3: Calidad'
-                },
-                xAxis: {
-                    gridLineWidth: 1,
-                    
-                    categories: (function() {
-                                var data = [];
-                                <?php
-                                    for($i = 0 ;$i < 3; $i++){
-                                ?>
-                                data.push([<?php echo "'$problemaCalidad[$i]'";?>]);
-                                <?php } ?>
-                                return data;
-                            })()
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'Duracion (minutos)'
-                    }
-                },
-                legend: {
-                    reversed: true
-                },
-                plotOptions: {
-                    series: {
-                        stacking: 'normal'
-                    }
-                },
-                series: [{
-                    name: 'Incidencia',
-                    color: '#08088A',
-                    data: (function() {
+        <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%;"> 
+            <script>
+            chartCPU = new  Highcharts.chart('ptc', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'TOP 3: Calidad'
+            },
+            xAxis: {
+                gridLineWidth: 1,
+
+                categories: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($dattop3);$i++){
+                                for($i = 0 ;$i < 3; $i++){
                             ?>
-                            data.push([<?php echo $durCalidad[$i];?>]);
+                            data.push([<?php echo "'$opCalidad[$i], $problemaCalidad[$i]'";?>]);
                             <?php } ?>
                             return data;
                         })()
-                    }],
-                    credits: {
-                        enabled: false
-                    },
-                    responsive: {
-                        rules: [{
-                            condition: {
-                                maxWidth: 500
-                            },
-                            chartOptions: {
-                                legend: {
-                                    layout: 'horizontal',
-                                    align: 'center',
-                                    verticalAlign: 'bottom'
-                                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Duracion (minutos)'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: [{
+                name: 'Incidencia',
+                color: '#08088A',
+                data: (function() {
+                        var data = [];
+                        <?php
+                            for($i = 0 ;$i<count($dattop3);$i++){
+                        ?>
+                        data.push([<?php echo $durCalidad[$i];?>]);
+                        <?php } ?>
+                        return data;
+                    })()
+                }],
+                credits: {
+                    enabled: false
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
                             }
-                        }]
-                    }
-                });
+                        }
+                    }]
+                }
+            });
             </script>
         </div>
         
-        <div  aling = "center" id = "table-wrapperP">
-            <div aling = "center" id="table-scrollP" class>
-            <table class="pure-table pure-table-borderedP" >
+        <div id = "tabla" style="height: 22vh; width: 100vh; float: left;  margin: 0% 23%;">            
+            <table>
                 <thead>     
-                    <tr>
-                        <th><span class="textP">Operaci&oacute;n</span></th>
-                        <th><span class="textP">Problema</span></th>
-                        <th><span class="textP">Duraci&oacute;n</span></th>
+                    <tr style="background: #F2F2F2">
+                        <th>Operaci&oacute;n</span></th>
+                        <th>Problema</span></th>
+                        <th>Duraci&oacute;n</span></th>
                         
                     </tr>
                 </thead>
@@ -133,9 +133,8 @@
                             echo "</tr>";
                         }
                     ?>        
-                    </tbody> 
-                </table>
-            </div>
+                </tbody> 
+            </table>
         </div>
     </body>
 </html>

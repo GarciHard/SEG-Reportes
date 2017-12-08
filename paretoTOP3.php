@@ -1,8 +1,9 @@
 <HTML>
     <head>
-        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
-        <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
-            <meta charset="utf-8">
+       <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
             <!--------CONSULTAS------------->
             <?php
             require_once("control.php");
@@ -24,26 +25,23 @@
             
             $problemaCalidad;
             $operacionCalidad;
-            $opCalidad;
             $durCalidad;
             
             for($i = 0 ;$i<count($dattop5);$i++){
                 $operacionTecOrg[$i] = $dattop5[$i][0];
                 $op[$i] = (string) $operacionTecOrg[$i]; //cambio de valor para imprimir operacionTecOrg
                 $problemaTecOrg[$i] = (string) $dattop5[$i][1];
-                //echo "'$problemaTecOrg[$i]'", ' - ', $dattop5[$i][1], '<br>';
                 $durTecOrg[$i]= $dattop5[$i][2]; 
             }
             
             for($i = 0 ;$i<count($dattop1);$i++){
                 $cambio[$i] = $dattop1[$i][0];
-                $cam[$i] = (string) $cambio[$i]; //cambio de valor para imprimir operacionTecOrg
                 $durCambio[$i]= $dattop1[$i][2]; 
             }
             
             for($i = 0 ;$i<count($dattop3);$i++){
                 $operacionCalidad[$i] = $dattop3[$i][0];
-                $opCalidad[$i] = (string) $operacionCalidad[$i]; //cambio de valor para imprimir operacionTecOrg
+                $problemaCalidad[$i] = $dattop3[$i][1];
                 $durCalidad[$i]= $dattop3[$i][2]; 
             }
             
@@ -56,14 +54,15 @@
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-            <div aling = "center" id="ptto" style="height: 70vh; width: 85vh; float: left;  margin: 0% 3%;"> 
+        <div>
+            <div aling = "center" id="ptto" style="height: 70vh; width: 95vh; float: left;  margin: 0% 1%;"> 
                 <script>
                     chartCPU = new  Highcharts.chart('ptto', {
                     chart: {
                         type: 'bar'
                     },
                     title: {
-                        text: 'TOP 5: Tecnicos y Organizacionales'
+                        text: 'TOP 5: Técnicos y Organizacionales'
                     },
                     xAxis: {
                         gridLineWidth: 1,
@@ -92,11 +91,12 @@
                     plotOptions: {
                         series: {
                             stacking: 'normal'
-                            
+
                         }
                     },
                     series: [{
                         name: 'Incidencia',
+                        color: '#1A06AF',
                         data: (function() {
                                 var data = [];
                                 <?php
@@ -125,11 +125,13 @@
                         }]
                     }
                     });
-                </script>
+                </script>  
+            </div>
         </div>
         
+        
         <div aling = "center" id="derecha" class="pderecha">
-            <div aling = "center"  id="ptcm" style="height: 30vh; width: 85vh; float: left;  margin: 0% 3%;">  
+            <div aling = "center"  id="ptcm" style="height: 30vh; width: 95vh; float: left;  margin: 0% 1%;">  
                 <script>
                     chartCPU = new  Highcharts.chart('ptcm', {
                     chart: {
@@ -140,7 +142,17 @@
                     },
                     xAxis: {
                         gridLineWidth: 1,
-                        categories: ['A']
+                        categories: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 0 ;$i<count($dattop1);$i++){
+                            ?>
+                            data.push([<?php echo "'$cambio[$i]'";?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                        
+                        
                     },
                     yAxis: {
                         min: 0,
@@ -161,6 +173,7 @@
                     },
                     series: [{
                         name: 'Incidencia',
+                        color: '#1A06AF',
                         data: (function() {
                                 var data = [];
                                 <?php
@@ -192,7 +205,7 @@
                 </script>
             </div>
 
-            <div aling = "center" id="ptc" style="height: 40vh; width: 85vh; float: left;  margin: 0% 3%;">
+            <div aling = "center" id="ptc" style="height: 40vh; width: 95vh; float: left;  margin: 0% 1%;">
                 <script>
                 chartCPU = new  Highcharts.chart('ptc', {
                 chart: {
@@ -208,7 +221,7 @@
                                 <?php
                                     for($i = 0 ;$i<count($dattop3);$i++){
                                 ?>
-                                data.push([<?php echo $opCalidad[$i];?>]);
+                                data.push([<?php echo "'$operacionCalidad[$i], $problemaCalidad[$i]'";?>]);
                                 <?php } ?>
                                 return data;
                             })()
@@ -232,6 +245,7 @@
                 },
                 series: [{
                     name: 'Incidencia',
+                    color: '#1A06AF',
                     data: (function() {
                             var data = [];
                             <?php
@@ -264,40 +278,105 @@
             </div>
         </div>
         
-        <div id = "table-wrapperP">
-        <div id="table-scrollP">
-            <table class="pure-table pure-table-borderedP" >
-                <thead>     
-                    <tr>
-                        <th><span class="textP">Oper&iacute;acion</span></th>
-                        <th><span class="textP">Pro&Aacute;lema</span></th>
-                        <th><span class="textP">Duracio&oacute;n</span></th>
-                        
-                    </tr>
-                </thead>
+        <div>
+            <div id = "tablaTop5" style="height: 115 vh; width: 95vh;  margin: 0% 1%;" > 
+                <table style="height: 45vh; width: 100vh; float: left;  margin: 0% 0%;" >
+                    <thead>     
+                        <tr style="background: #F2F2F2">
+                            <th><span class="textP">Operaci&oacute;n</span></th>
+                            <th><span class="textP">Problema</span></th>
+                            <th><span class="textP">Duraci&oacute;n</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>        
+                        <?php
+                            require_once("control.php");
 
-                <tbody>        
-                    <?php
-                        require_once("control.php");
+                            $rand = new BaseKPI();
+                            $datTop5pareto = $rand->t5TecnicasYOrganizacionales();    
+                            $descripcion;       
 
-                        $rand = new BaseKPI();
-                        $datTop5pareto = $rand->t5TecnicasYOrganizacionales();    
-                        $descripcion;       
-
-                        for($i = 0; $i<count($datTop5pareto);$i++){
-                            echo "<tr>";
-                            for ($j = 0; $j<3; $j++){
-                                $descripcion[$i][$j] = $datTop5pareto[$i][$j];
-                                echo "<td>";
-                                    echo $descripcion[$i][$j];
-                                echo "</td>";
+                            for($i = 0; $i<count($datTop5pareto);$i++){
+                                echo "<tr>";
+                                for ($j = 0; $j<3; $j++){
+                                    $descripcion[$i][$j] = $datTop5pareto[$i][$j];
+                                    echo "<td>";
+                                        echo $descripcion[$i][$j];
+                                    echo "</td>";
+                                }
+                                echo "</tr>";
                             }
-                            echo "</tr>";
-                        }
-                    ?>        
-                </tbody> 
-            </table>
-        </div>
-        
+                        ?>        
+                    </tbody> 
+                </table>
+            </div>  
+            
+            <div aling = "center" >                
+                <div id = "tablaTop1" style="height: 30vh; width: 95vh; float: left;  margin: 0% 1%;" >   
+                    <table style="height: 11vh; width: 97vh; float: left;  margin: 0% 0%;" >
+                        <thead>     
+                            <tr style="background: #F2F2F2">
+                                <th><span class="textP">Problema</span></th>
+                                <th><span class="textP">Duraci&oacute;n</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>        
+                            <?php
+                                require_once("control.php");
+
+                                $rand = new BaseKPI();
+                                $datTop1Pareto = $rand->t1pareto();    
+                                $descripcion;       
+
+                                for($i = 0; $i<count($datTop1Pareto);$i++){
+                                    echo "<tr>";
+                                    for ($j = 0; $j<2; $j++){
+                                        $descripcion[$i][$j] = $datTop1Pareto[$i][$j];
+                                        echo "<td>";
+                                            echo $descripcion[$i][$j];
+                                        echo "</td>";
+                                    }
+                                    echo "</tr>";
+                                }
+                            ?>        
+                        </tbody> 
+                    </table>
+                </div>  
+            
+                <div id = "tablaTop3" style="height: 30vh; width: 95vh; float: left;  margin: -5.4% 1%;" >        
+                    <table style="height: 26vh; width: 97vh; margin: 0% 0%;" >
+                        <thead>     
+                            <tr style="background: #F2F2F2">
+                                <th><span class="textP">Operaci&oacute;n</span></th>
+                                <th><span class="textP">Problema</span></th>
+                                <th><span class="textP">Duraci&oacute;n</span></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>        
+                            <?php
+                                require_once("control.php");
+
+                                $rand = new BaseKPI();
+                                $datTop3pareto = $rand->t3Calidad();    
+                                $descripcion;       
+
+                                for($i = 0; $i<count($datTop3pareto);$i++){
+                                    echo "<tr>";
+                                    for ($j = 0; $j<3; $j++){
+                                        $descripcion[$i][$j] = $datTop3pareto[$i][$j];
+                                        echo "<td>";
+                                            echo $descripcion[$i][$j];
+                                        echo "</td>";
+                                    }
+                                    echo "</tr>";
+                                }
+                            ?>        
+                        </tbody> 
+                    </table>
+                </div>
+            </div>
+            
+        </div>       
     </body>
 </html>

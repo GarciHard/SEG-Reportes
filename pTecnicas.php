@@ -1,7 +1,7 @@
 <HTML>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
     <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--------CONSULTAS------------->
     <?php
         require_once 'ServerFunctions.php';
@@ -124,7 +124,7 @@
                 },
                 yAxis: [{
                     title: {
-                        text: 'Duracion (Minutos)'
+                        text: 'Duración (Minutos)'
                     },
                 }],
                 series: [{ //BARRAS PARA DURACION 
@@ -198,7 +198,7 @@
                 },
                 yAxis: [{
                     title: {
-                        text: 'Duracion (Minutos)'
+                        text: 'Duración (Minutos)'
                     },
                 }],
                 series: [{ //BARRAS CHUNDAS
@@ -249,40 +249,38 @@
         </div>
     </div>
     
-    <div id = "table-wrapper">
-        <div id="table-scroll">
-            <table class="pure-table pure-table-bordered" >
-                <thead>     
-                    <tr>
-                        <th><span class="text">D&iacute;a</span></th>
-                        <th><span class="text">&Aacute;rea</span></th>
-                        <th><span class="text">Operaci&oacute;n</span></th>
-                        <th><span class="text">Problema</span></th>
-                        <th><span class="text">Duraci&oacute;n</span></th>
-                    </tr>
-                </thead>
+    <div  aling = "center">
+        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;" >
+            <thead>     
+                <tr style="background: #F2F2F2">
+                    <th><span class="text">D&iacute;a</span></th>
+                    <th><span class="text">&Aacute;rea</span></th>
+                    <th><span class="text">Operaci&oacute;n</span></th>
+                    <th><span class="text">Problema</span></th>
+                    <th><span class="text">Duraci&oacute;n (Minutos)</span></th>
+                </tr>
+            </thead>
 
-                <tbody>        
-                    <?php
-                        require_once("ServerFunctions.php");
+            <tbody>        
+                <?php
+                    require_once("ServerFunctions.php");
 
-                        $datTecnicasTabla = pTecnicasTabla($varLine, $varMonth);
-                        $diaPTecT;       
+                    $datTecnicasTabla = pTecnicasTabla($varLine, $varMonth);
+                    $diaPTecT;       
 
-                        for($i = 0; $i<count($datTecnicasTabla);$i++){
-                            echo "<tr>";
-                            for ($j = 0; $j<5; $j++){
-                                $diaPTecT[$i][$j] = $datTecnicasTabla[$i][$j];
-                                echo "<td>";
-                                    echo $diaPTecT[$i][$j];
-                                echo "</td>";
-                            }
-                            echo "</tr>";
+                    for($i = 0; $i<count($datTecnicasTabla);$i++){
+                        echo "<tr>";
+                        for ($j = 0; $j<5; $j++){
+                            $diaPTecT[$i][$j] = $datTecnicasTabla[$i][$j];
+                            echo "<td>";
+                                echo $diaPTecT[$i][$j];
+                            echo "</td>";
                         }
-                    ?>        
-                </tbody> 
-            </table>
-        </div>
+                        echo "</tr>";
+                    }
+                ?>        
+            </tbody> 
+        </table>
     </div>  
 
 </BODY>
