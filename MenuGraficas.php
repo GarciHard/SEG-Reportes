@@ -1663,7 +1663,7 @@
                                                                     ?>
                                                                 ]
                                                             }, {
-                                                                color: 'green',
+                                                                color: '#2ECC71',
                                                                 type: 'spline',
                                                                 name: 'Target',
                                                                 data: [
@@ -1675,9 +1675,9 @@
                                                                     ?>
                                                                 ],
                                                                 marker: {
-                                                                    lineWidth: 2,
-                                                                    lineColor: Highcharts.getOptions().colors[3],
-                                                                    fillColor: 'white'
+                                                                    lineWidth: 1,
+                                                                    lineColor: '#2ECC71',
+                                                                    fillColor: '#2ECC71'
                                                                 }
                                                             }]
                                                     });
