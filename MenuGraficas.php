@@ -27,12 +27,13 @@
     </head>
     
     <body>
+        <h1 align=center id="titulos">
+            SEG Automotive Systems
+        </h1>
         <table>
             
             <form action="MenuGraficas.php" method="POST">
                 <caption>
-                    Men&uacute;
-                    <br>
                     <label>Linea: </label>
                     <select id="lineaCombo" name="cmbLinea" >
                         <?php
