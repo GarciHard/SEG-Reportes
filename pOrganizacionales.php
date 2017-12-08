@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <!--------CONSULTAS------------->
     <?php
-        require_once("control.php");
+        require_once 'ServerFunctions.php';
+        $varLine = $_REQUEST['varLine'];
+        $varMonth = $_REQUEST['varMonth'];
+        $varYear = $_REQUEST['varYear'];
 
-        $rand = new BaseKPI();
-
-        $datOrgDia = $rand->pOrganizacionalesDia();
-        $datOrgMes = $rand->pOrganizacionalesMes(); 
-        $datTargetMesOrg = $rand->targetMesOrganizacionales();
-        $datTargetDiaOrg = $rand->targetDiaOrganizacionales();
+        $datOrgDia = pOrganizacionalesDia($varLine, $varMonth);
+        $datOrgMes = pOrganizacionalesMes($varLine, $varYear);
+        $datTargetMesOrg = targetMesOrganizacionales($varLine, $varYear);
+        $datTargetDiaOrg = targetDiaOrganizacionales($varLine, $varMonth, $varYear);
 
         $dia;
         $d;
@@ -208,10 +209,9 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
+                        require_once 'ServerFunctions.php';
 
-                        $rand = new BaseKPI();
-                        $datOrgTabla = $rand->pOrganizacionalesTabla();    
+                        $datOrgTabla = pOrganizacionalesTabla($varLine, $varMonth);
                         $diaT;       
 
                         for($i = 0; $i<count($datOrgTabla);$i++){

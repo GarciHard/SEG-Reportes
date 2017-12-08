@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <!--------CONSULTAS------------->
     <?php
-        require_once("control.php");
+        require_once 'ServerFunctions.php';
+        $varLine = $_REQUEST['varLine'];
+        $varMonth = $_REQUEST['varMonth'];
+        $varYear = $_REQUEST['varYear'];
 
-        $rand = new BaseKPI();
-
-        $datTecnicasDia = $rand->pTecnicasDia();
-        $datTecnicasMes = $rand->pTecnicasMes();    
-        $datTargetDiaTecnicas = $rand->targetDiaTecnicas();
-        $datTargetMesTecnicas = $rand->targetMesTecnicas();
+        $datTecnicasDia = pTecnicasDia($varLine, $varMonth);
+        $datTecnicasMes = pTecnicasMes($varLine, $varYear);
+        $datTargetDiaTecnicas = targetDiaTecnicas($varLine, $varMonth, $varYear);
+        $datTargetMesTecnicas = targetMesTecnicas($varLine, $varYear);
         
         $diaPTec;
         $mesPTecnicas;
@@ -263,10 +264,9 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
+                        require_once("ServerFunctions.php");
 
-                        $rand = new BaseKPI();
-                        $datTecnicasTabla = $rand->pTecnicasTabla();    
+                        $datTecnicasTabla = pTecnicasTabla($varLine, $varMonth);
                         $diaPTecT;       
 
                         for($i = 0; $i<count($datTecnicasTabla);$i++){

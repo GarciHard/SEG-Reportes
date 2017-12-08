@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <!--------CONSULTAS------------->
     <?php
-        require_once("control.php");
+        require_once 'ServerFunctions.php';
+        $varLine = $_REQUEST['varLine'];
+        $varMonth = $_REQUEST['varMonth'];
+        $varYear = $_REQUEST['varYear'];
 
-        $rand = new BaseKPI();
-
-        $datPlaneadoDia = $rand->pPlaneadoDia();
-        $datPlaneadosMes = $rand->pPlaneadoMes();
-        $datTargetDiaPlaneados = $rand->targetDiaPlaneado();
-        $datTargetMesPlaneados = $rand->targetMesPlaneado();
+        $datPlaneadoDia = pPlaneadoDia($varLine, $varMonth);
+        $datPlaneadosMes = pPlaneadoMes($varLine, $varYear);
+        $datTargetDiaPlaneados = targetDiaPlaneado($varLine, $varMonth, $varYear);
+        $datTargetMesPlaneados = targetMesPlaneado($varLine, $varYear);
 
         //$d;
         $diaPPlaneados;
@@ -260,10 +261,9 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
-
-                        $rand = new BaseKPI();
-                        $datPlaneadoTabla = $rand->pPlaneadoTabla();    
+                        require_once 'ServerFunctions.php';
+                        
+                        $datPlaneadoTabla = pPlaneadoTabla($varLine, $varMonth, $varYear);
                         $diaPPlaneadosT;       
 
                         for($i = 0; $i<count($datPlaneadoTabla);$i++){

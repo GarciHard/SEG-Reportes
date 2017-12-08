@@ -8,16 +8,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <!--------CONSULTAS------------->
         <?php
-            require_once("control.php");
+            require_once 'ServerFunctions.php';
+            $varLine = $_REQUEST['varLine'];
+            $varMonth = $_REQUEST['varMonth'];
+            $varYear = $_REQUEST['varYear'];
 
-            $rand = new BaseKPI();
-
-            $datProdMes = $rand->pzasProdMes();
-            $datProdAnio = $rand->pzasProdAnual(); 
-            $datProdNoP = $rand->pzasProdNoParte();
-            $datProdNoPDia = $rand->pzasProdNoParteDia();
-            $datTargetProdAnio = $rand->targetProdAnio();
-            $datTargetProdMes = $rand->targetProdMes();
+            $datProdMes = pzasProdMes($varLine, $varYear);
+            $datProdAnio = pzasProdAnual($varLine, $varMonth); 
+            $datProdNoP = pzasProdNoParte($varLine, $varMonth, $varYear);
+            $datProdNoPDia = pzasProdNoParteDia($varLine, $varMonth, $varYear);
+            $datTargetProdAnio = targetProdAnio($varLine, $varYear);
+            $datTargetProdMes = targetProdMes($varLine, $varYear);
                     
             $dia;
             $numPartDia;
@@ -832,11 +833,10 @@
                 
                 <tbody>        
                     <?php
-                        require_once("control.php");
+                        require_once("ServerFunctions.php");
 
-                        $rand = new BaseKPI();
-                        $datProducidasTabla = $rand->pzasProdTabla();    
-                        $diaT;       
+                        $datProducidasTabla = pzasProdTabla($varLine, $varMonth, $varYear);
+                        $diaT;
 
                         for($i = 0; $i<count($datProducidasTabla);$i++){
                             echo "<tr>";

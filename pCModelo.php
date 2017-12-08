@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <!--------CONSULTAS------------->
     <?php
-        require_once("control.php");
+        require_once 'ServerFunctions.php';
+        $varLine = $_REQUEST['varLine'];
+        $varMonth = $_REQUEST['varMonth'];
+        $varYear = $_REQUEST['varYear'];
 
-        $rand = new BaseKPI();
-
-        $datCModDia= $rand->pCambioModDia();
-        $datCModMes = $rand->pCambioModMes();   
-        $datTargetDiaCMod = $rand->targetDiaCambMod();
-        $datTargetMesCMod = $rand->targetMesCambMod();
+        $datCModDia= pCambioModDia($varLine, $varMonth);
+        $datCModMes = pCambioModMes($varLine, $varYear);
+        $datTargetDiaCMod = targetDiaCambMod($varLine, $varMonth, $varYear);
+        $datTargetMesCMod = targetMesCambMod($varLine, $varYear);
 
         $d;
         $dia;
@@ -263,10 +264,9 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
+                        require_once 'ServerFunctions.php';
 
-                        $rand = new BaseKPI();
-                        $datCModTabla = $rand->pCambioModTabla();    
+                        $datCModTabla = pCambioModTabla($varLine, $varMonth);
                         $diaT;       
 
                         for($i = 0; $i<count($datCModTabla);$i++){

@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <!--------CONSULTAS------------->
     <?php
-        require_once("control.php");
-
-        $rand = new BaseKPI();
-
-        $datCalidadDia= $rand->pCalidadDia();
-        $datCalidadMes = $rand->pCalidadMes(); 
-        $datTargetDiaCalidad = $rand->targetDiaCalidad();
-        $datTargetMesCalidad = $rand->targetMesCalidad();
+        require_once 'ServerFunctions.php';
+        $varLine = $_REQUEST['varLine'];
+        $varMonth = $_REQUEST['varMonth'];
+        $varYear = $_REQUEST['varYear'];
+        
+        $datCalidadDia= pCalidadDia($varLine, $varMonth);
+        $datCalidadMes = pCalidadMes($varLine, $varYear);
+        $datTargetDiaCalidad = targetDiaCalidad($varLine, $varMonth, $varYear);
+        $datTargetMesCalidad = targetMesCalidad($varLine, $varYear);
 
         $d;
         $dia;
@@ -262,10 +263,9 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
-
-                        $rand = new BaseKPI();
-                        $datCalidadTabla = $rand->pCalidadTabla();    
+                        require_once 'ServerFunctions.php';
+                        
+                        $datCalidadTabla = pCalidadTabla($varLine, $varMonth);
                         $diaT;       
 
                         for($i = 0; $i<count($datCalidadTabla);$i++){
