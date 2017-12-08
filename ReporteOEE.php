@@ -5,12 +5,19 @@
     $varMesStr = listarMeses();
     
     $dailyOEE = oeeDiarioGrafica($varLine, $varMonth);
+    $monthOEE = oeeMensualGrafica($varLine);
     $oee;
+    $monthlyOEE;
     $calidad;
+    $monthlyCalidad;
     $organizacional;
+    $monthlyOrganizacional;
     $tecnica;
+    $monthlyTecnica;
     $cambios;
+    $monthlyCambios;
     $desempeno;
+    $monthlyDesempeno;
     for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*OEE Percent*/
         if ($dailyOEE[$i - 1][0] == $i) {
             $oee[$i - 1] = $dailyOEE[$i - 1][1];
@@ -18,6 +25,15 @@
             $oee[$i - 1] = str_replace('%', '', $oee[$i - 1]);
         } else {
             $oee[$i - 1] = 0;
+        }
+    }
+    for ($i = 1; $i < 13; $i++) { /*OEE Monthly Percent*/
+        if ($monthOEE[$i - 1][0] == $i) {
+            $monthlyOEE[$i - 1] = $monthOEE[$i - 1][1];
+            $monthlyOEE[$i - 1] = str_replace('#', '', $monthlyOEE[$i - 1]);
+            $monthlyOEE[$i - 1] = str_replace('%', '', $monthlyOEE[$i - 1]);
+        } else {
+            $monthlyOEE[$i - 1] = 0;
         }
     }
     for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Quality Percent*/
@@ -29,6 +45,15 @@
             $calidad[$i - 1] = 0;
         }
     }
+    for ($i = 1; $i < 13; $i++) { /*Quality Monthly Percent*/
+        if ($monthOEE[$i - 1][0] == $i) {
+            $monthlyCalidad[$i - 1] = $monthOEE[$i - 1][2];
+            $monthlyCalidad[$i - 1] = str_replace('#', '', $monthlyCalidad[$i - 1]);
+            $monthlyCalidad[$i - 1] = str_replace('%', '', $monthlyCalidad[$i - 1]);
+        } else {
+            $monthlyCalidad[$i - 1] = 0;
+        }
+    }
     for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Organizational Percent*/
         if ($dailyOEE[$i - 1][0] == $i) {
             $organizacional[$i - 1] = $dailyOEE[$i - 1][3];
@@ -36,6 +61,15 @@
             $organizacional[$i - 1] = str_replace('%', '', $organizacional[$i - 1]);
         } else {
             $organizacional[$i - 1] = 0;
+        }
+    }
+    for ($i = 1; $i < 13; $i++) { /*Organizational Monthly Percent*/
+        if ($monthOEE[$i - 1][0] == $i) {
+            $monthlyOrganizacional[$i - 1] = $monthOEE[$i - 1][3];
+            $monthlyOrganizacional[$i - 1] = str_replace('#', '', $monthlyOrganizacional[$i - 1]);
+            $monthlyOrganizacional[$i - 1] = str_replace('%', '', $monthlyOrganizacional[$i - 1]);
+        } else {
+            $monthlyOrganizacional[$i - 1] = 0;
         }
     }
     for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Technical Percent*/
@@ -47,6 +81,15 @@
             $tecnica[$i - 1] = 0;
         }
     }
+    for ($i = 1; $i < 13; $i++) { /*Technical Monthly Percent*/
+        if ($monthOEE[$i - 1][0] == $i) {
+            $monthlyTecnica[$i - 1] = $monthOEE[$i - 1][4];
+            $monthlyTecnica[$i - 1] = str_replace('#', '', $monthlyTecnica[$i - 1]);
+            $monthlyTecnica[$i - 1] = str_replace('%', '', $monthlyTecnica[$i - 1]);
+        } else {
+            $monthlyTecnica[$i - 1] = 0;
+        }
+    }
     for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Changeover Percent*/
         if ($dailyOEE[$i - 1][0] == $i) {
             $cambios[$i - 1] = $dailyOEE[$i - 1][5];
@@ -56,6 +99,15 @@
             $cambios[$i - 1] = 0;
         }
     }
+    for ($i = 1; $i < 13; $i++) { /*Changeover Monthly Percent*/
+        if ($monthOEE[$i - 1][0] == $i) {
+            $monthlyCambios[$i - 1] = $monthOEE[$i - 1][5];
+            $monthlyCambios[$i - 1] = str_replace('#', '', $monthlyCambios[$i - 1]);
+            $monthlyCambios[$i - 1] = str_replace('%', '', $monthlyCambios[$i - 1]);
+        } else {
+            $monthlyCambios[$i - 1] = 0;
+        }
+    }
     for ($i = 1; $i < count($dailyOEE) + 1; $i++) { /*Performance Percent*/
         if ($dailyOEE[$i - 1][0] == $i) {
             $desempeno[$i - 1] = $dailyOEE[$i - 1][6];
@@ -63,6 +115,15 @@
             $desempeno[$i - 1] = str_replace('%', '', $desempeno[$i - 1]);
         } else {
             $desempeno[$i - 1] = 0;
+        }
+    }
+    for ($i = 1; $i < 13; $i++) { /*Performance Monthly Percent*/
+        if ($monthOEE[$i - 1][0] == $i) {
+            $monthlyDesempeno[$i - 1] = $monthOEE[$i - 1][6];
+            $monthlyDesempeno[$i - 1] = str_replace('#', '', $monthlyDesempeno[$i - 1]);
+            $monthlyDesempeno[$i - 1] = str_replace('%', '', $monthlyDesempeno[$i - 1]);
+        } else {
+            $monthlyDesempeno[$i - 1] = 0;
         }
     }
 ?>
@@ -403,48 +464,48 @@
                 <tr> <!-- OEE % fila -->
                     <th id="thOEE2">OEE (%)</th>
                     <?php
-                    for ($i = 1; $i < 13; $i++) {
-                        echo "<th id=" . "thOEE2" . ">" . $i . "</th>";
+                    for ($i = 1; $i < count($monthlyOEE) + 1; $i++) {
+                        echo "<th id=" . "thOEE2" . ">" . $monthlyOEE[$i - 1] . "</th>";
                     }
                     ?>
                 </tr>
                 <tr> <!-- Calidad % fila -->
                     <th id="thOEE1">P&eacute;rdidas de Calidad (%)</th>
                     <?php
-                    for ($i = 1; $i < 13; $i++) {
-                        echo "<th id=" . "thOEE1" . ">" . $i . "</th>";
+                    for ($i = 1; $i < count($monthlyCalidad) + 1; $i++) {
+                        echo "<th id=" . "thOEE1" . ">" . $monthlyCalidad[$i - 1] . "</th>";
                     }
                     ?>
                 </tr>
                 <tr> <!-- Organizacional % fila -->
                     <th id="thOEE2">P&eacute;rdidas Organizacionales (%)</th>
                     <?php
-                    for ($i = 1; $i < 13; $i++) {
-                        echo "<th id=" . "thOEE2" . ">" . $i . "</th>";
+                    for ($i = 1; $i < count($monthlyOrganizacional) + 1; $i++) {
+                        echo "<th id=" . "thOEE2" . ">" . $monthlyOrganizacional[$i - 1] . "</th>";
                     }
                     ?>
                 </tr>
                 <tr> <!-- Tecnicas % fila -->
                     <th id="thOEE1">P&eacute;rdidas T&eacute;cnicas (%)</th>
                     <?php
-                    for ($i = 1; $i < 13; $i++) {
-                        echo "<th id=" . "thOEE1" . ">" . $i . "</th>";
+                    for ($i = 1; $i < count($monthlyTecnica) + 1; $i++) {
+                        echo "<th id=" . "thOEE1" . ">" . $monthlyTecnica[$i - 1] . "</th>";
                     }
                     ?>
                 </tr>
                 <tr> <!-- Cambios % fila -->
                     <th id="thOEE2">P&eacute;rdidas de Cambio de Modelo (%)</th>
                     <?php
-                    for ($i = 1; $i < 13; $i++) {
-                        echo "<th id=" . "thOEE2" . ">" . $i . "</th>";
+                    for ($i = 1; $i < count($monthlyCambios) + 1; $i++) {
+                        echo "<th id=" . "thOEE2" . ">" . $monthlyCambios[$i - 1] . "</th>";
                     }
                     ?>
                 </tr>
                 <tr> <!-- Desempeño % fila -->
                     <th id="thOEE1">P&eacute;rdidas por desempe&ntilde;o (%)</th>
                     <?php
-                    for ($i = 1; $i < 13; $i++) {
-                        echo "<th id=" . "thOEE1" . ">" . $i . "</th>";
+                    for ($i = 1; $i < count($monthlyDesempeno); $i++) {
+                        echo "<th id=" . "thOEE1" . ">" . $monthlyDesempeno[$i - 1] . "</th>";
                     }
                     ?>
                 </tr>

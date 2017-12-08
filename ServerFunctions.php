@@ -58,6 +58,12 @@ function oeeDiarioGrafica($linea, $mes) {
     return getArraySQL($sql);
 }
 
+/* OEE MENSUAL */
+function oeeMensualGrafica($linea) {
+    $sql = "SELECT MonthOEE, OEE, Quality, Organizational, Technical, Changeover, Performance FROM HourlyCountPercent WHERE Line LIKE '$linea' ORDER BY MonthOEE ASC";
+    return getArraySQL($sql);
+}
+
 /* PIEZAS PRODUCIDAS */
 function pzasProdAnual($linea, $mes) {
     $sql = "SELECT anio, SUM(cantPzas) FROM bitacora WHERE linea LIKE '$linea' AND mes = $mes GROUP BY anio";
