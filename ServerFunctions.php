@@ -200,12 +200,12 @@ function pCambioModTabla($linea, $mes) {
 }
 
 function targetDiaCambMod($linea, $mes, $anio) {
-    $sql = "SELECT dia, camMod FROM targets WHERE linea LIKE '$linea' AND anio = $anio AND mes = $mes GROUP BY dia, camMod";
+    $sql = "SELECT dia, cambio FROM targets WHERE linea LIKE '$linea' AND anio = $anio AND mes = $mes GROUP BY dia, cambio";
     return getArraySQL($sql);
 }
 
 function targetMesCambMod($linea, $anio) {
-    $sql = "SELECT mes, SUM(camMod) FROM targets WHERE linea LIKE '$linea' AND anio = $anio GROUP BY mes";
+    $sql = "SELECT mes, SUM(cambio) FROM targets WHERE linea LIKE '$linea' AND anio = $anio GROUP BY mes";
     return getArraySQL($sql);
 }
 
