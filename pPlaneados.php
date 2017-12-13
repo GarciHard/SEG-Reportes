@@ -8,6 +8,7 @@
         $varLine = $_REQUEST['varLine'];
         $varMonth = $_REQUEST['varMonth'];
         $varYear = $_REQUEST['varYear'];
+        $varMesStr = listarMeses();
 
         $datPlaneadoDia = pPlaneadoDia($varLine, $varMonth);
         $datPlaneadosMes = pPlaneadoMes($varLine, $varYear);
@@ -90,7 +91,13 @@
     ?>
     
 <BODY>
-    <h1 ALIGN=center id="titulo">Paros Planeados</h1>
+    <h3 align=center id="titulo">
+        Paros Planeados
+        <br>
+        <?php echo "Linea: " . $varLine ?>
+        <br>
+        <?php echo "Mes: " . $varMesStr[$varMonth - 1] ?>
+    </h3>
     <form action="top3Planeados.php" method="POST">
             <?php
                 echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$varLine.">";

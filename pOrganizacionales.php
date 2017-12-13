@@ -8,7 +8,8 @@
         $varLine = $_REQUEST['varLine'];
         $varMonth = $_REQUEST['varMonth'];
         $varYear = $_REQUEST['varYear'];
-
+        $varMesStr = listarMeses();
+        
         $datOrgDia = pOrganizacionalesDia($varLine, $varMonth);
         $datOrgMes = pOrganizacionalesMes($varLine, $varYear);
         $datTargetMesOrg = targetMesOrganizacionales($varLine, $varYear);
@@ -87,7 +88,13 @@
     ?>
     
 <BODY>
-    <h1 ALIGN=center id="titulo">Paros Organizacionales</h1>
+    <h3 align=center id="titulo">
+        Paros Organizacionales
+        <br>
+        <?php echo "Linea: " . $varLine ?>
+        <br>
+        <?php echo "Mes: " . $varMesStr[$varMonth - 1] ?>
+    </h3>
     <form action="top3Organizacionales.php" method="POST">
         <?php
             echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$varLine.">";

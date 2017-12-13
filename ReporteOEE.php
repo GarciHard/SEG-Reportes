@@ -131,13 +131,13 @@
     </head>
 
     <body>
-        <h1 align=center id="titulos">
+        <h2 align=center id="titulos">
             Gr&aacute;fica de Seguimiento Diario a OEE
             <br>
             <?php echo "Linea: ".$varLine?>
             <br>
             <?php echo "Mes: ".$varMesStr[$varMonth - 1]?>
-        </h1>
+        </h2>
 
         <div id="graficaMensualSemanal">
             <table border="1"> <!-- Gráfica mensual/semanal -->

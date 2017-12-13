@@ -77,6 +77,196 @@
             <div id="table-scroll-main-graph">
                 <table>
                     <tbody>
+                        <!--Fourth row-->
+                        <tr>
+                            <!-- Grafica de OEE-->
+                                <?php
+                                $dailyOEE = oeeDiarioGrafica($line, $month);
+                                $oee;
+                                $calidad;
+                                $organizacional;
+                                $tecnica;
+                                $cambios;
+                                $desempeno;
+                                for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /* OEE Percent */
+                                    $oee[$i] = 0;
+                                }
+                                if (count($dailyOEE) > 0) {
+                                    for ($i = 0; $i < count($dailyOEE); $i++) {
+                                        $oee[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][1];
+                                        $oee[$i] = str_replace('%', '', $oee[$i]);
+                                    }
+                                }
+                                for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /* Quality Percent */
+                                    $calidad[$i] = 0;
+                                }
+                                if (count($dailyOEE) > 0) {
+                                    for ($i = 0; $i < count($dailyOEE); $i++) {
+                                        $calidad[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][2];
+                                        $calidad[$i] = str_replace('%', '', $calidad[$i]);
+                                    }
+                                }
+                                for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /* Organizational Percent */
+                                    $organizacional[$i] = 0;
+                                }
+                                if (count($dailyOEE) > 0) {
+                                    for ($i = 0; $i < count($dailyOEE); $i++) {
+                                        $organizacional[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][3];
+                                        $organizacional[$i] = str_replace('%', '', $organizacional[$i]);
+                                    }
+                                }
+                                for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /* Technical Percent */
+                                    $tecnica[$i] = 0;
+                                }
+                                if (count($dailyOEE) > 0) {
+                                    for ($i = 0; $i < count($dailyOEE); $i++) {
+                                        $tecnica[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][4];
+                                        $tecnica[$i] = str_replace('%', '', $tecnica[$i]);
+                                    }
+                                }
+                                for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /* Changeover Percent */
+                                    $cambios[$i] = 0;
+                                }
+                                if (count($dailyOEE) > 0) {
+                                    for ($i = 0; $i < count($dailyOEE); $i++) {
+                                        $cambios[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][5];
+                                        $cambios[$i] = str_replace('%', '', $cambios[$i]);
+                                    }
+                                }
+                                for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /* Performance Percent */
+                                    $desempeno[$i] = 0;
+                                }
+                                if (count($dailyOEE) > 0) {
+                                    for ($i = 0; $i < count($dailyOEE); $i++) {
+                                        $desempeno[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][6];
+                                        $desempeno[$i] = str_replace('%', '', $desempeno[$i]);
+                                    }
+                                }
+                                ?>
+                                <form action="ReporteOEE.php" method="POST">
+                                    <div id="graficaOEEDiaria" class="oeeDiario">
+                                        <script>                                       
+                                            Highcharts.chart('graficaOEEDiaria', {
+                                                chart: {
+                                                    type: 'column'
+                                                },
+                                                title: {
+                                                    text: 'OEE con Factores de Pérdidas - Diaria'
+                                                },
+                                                xAxis: {
+                                                    categories: [
+<?php
+for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
+    echo ($i + 1) . ',';
+}
+?>
+                                                    ]
+                                                },
+                                                yAxis: {
+                                                    min: 0,
+                                                    title: {
+                                                        text: 'Porcentaje'
+                                                    }
+                                                },
+                                                tooltip: {
+                                                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+                                                    shared: true
+                                                },
+                                                        plotOptions: {
+                                                            column: {
+                                                                stacking: 'percent'
+                                                            }
+                                                        },
+                                                        series: [{
+                                                                color: 'yellow',
+                                                                name: 'Desempeño',
+                                                                data: [
+<?php
+for ($i = 0; $i < count($desempeno); $i++) {
+    echo $desempeno[$i] . ',';
+}
+?>
+                                                                ]
+                                                            }, {
+                                                        color: 'orange',
+                                                        name: 'Cambios',
+                                                        data: [
+<?php
+for ($i = 0; $i < count($cambios); $i++) {
+    echo $cambios[$i] . ',';
+}
+?>
+                                                        ]
+                                                    }, {
+                                                        color: 'blue',
+                                                        name: 'Tecnicas',
+                                                        data: [
+<?php
+for ($i = 0; $i < count($tecnica); $i++) {
+    echo $tecnica[$i] . ',';
+}
+?>
+                                                        ]
+                                                    }, {
+                                                        color: 'green',
+                                                        name: 'Organizacionales',
+                                                        data: [
+<?php
+for ($i = 0; $i < count($organizacional); $i++) {
+    echo $organizacional[$i] . ',';
+}
+?>
+                                                        ]
+                                                    }, {
+                                                        color: 'red',
+                                                        name: 'Calidad',
+                                                        data: [
+<?php
+for ($i = 0; $i < count($calidad); $i++) {
+    echo $calidad[$i] . ',';
+}
+?>
+                                                        ]
+                                                    }, {
+                                                        color: 'gray',
+                                                        name: 'OEE',
+                                                        data: [
+<?php
+for ($i = 0; $i < count($oee); $i++) {
+    echo $oee[$i] . ',';
+}
+?>
+                                                        ]
+                                                    }, {
+                                                        color: '#2ECC71',
+                                                        type: 'spline',
+                                                        name: 'Target',
+                                                        data: [
+<?php
+$target = 75;
+for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
+    echo $target . ',';
+}
+?>
+                                                        ],
+                                                        marker: {
+                                                            lineWidth: 1,
+                                                            lineColor: '#2ECC71',
+                                                            fillColor: '#2ECC71'
+                                                        }
+                                                    }]
+                                            });
+                                        </script>
+                                    </div>
+                                    <?php
+                                    echo "<input type=" . "\"hidden\" name=" . "\"varLine\"" . "value=" . $line . ">";
+                                    echo "<input type=" . "\"hidden\" name=" . "\"varMonth\"" . "value=" . $month . ">";
+                                    echo "<input type=" . "\"hidden\" name=" . "\"varYear\"" . "value=" . $year . ">";
+                                    ?>
+                                    <button id="btnOEEDiario">Detalle OEE</button>
+                                </form>
+                            
+                        </tr>
                         <!--First row-->
                         <tr>
                             <td> <!-- Gráfica de producción miniatura -->
@@ -1506,196 +1696,6 @@
                                         echo "<input type="."\"hidden\" name="."\"varYear\""."value=".$year.">";
                                     ?>
                                     <button id="plain">Detalle Calidad</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <!--Fourth row-->
-                        <tr>
-                            <td><!-- Grafica de OEE-->
-                                <?php
-                                    $dailyOEE = oeeDiarioGrafica($line, $month);
-                                    $oee;
-                                    $calidad;
-                                    $organizacional;
-                                    $tecnica;
-                                    $cambios;
-                                    $desempeno;
-                                    for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /*OEE Percent*/
-                                        $oee[$i] = 0;
-                                    }
-                                    if (count($dailyOEE) > 0) {
-                                        for ($i = 0; $i < count($dailyOEE); $i++) {
-                                            $oee[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][1];
-                                            $oee[$i] = str_replace('%', '', $oee[$i]);
-                                        }
-                                    }
-                                    for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /*Quality Percent*/
-                                        $calidad[$i] = 0;
-                                    }
-                                    if (count($dailyOEE) > 0) {
-                                        for ($i = 0; $i < count($dailyOEE); $i++) {
-                                            $calidad[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][2];
-                                            $calidad[$i] = str_replace('%', '', $calidad[$i]);
-                                        }
-                                    }
-                                    for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /*Organizational Percent*/
-                                        $organizacional[$i] = 0;
-                                    }
-                                    if (count($dailyOEE) > 0) {
-                                        for ($i = 0; $i < count($dailyOEE); $i++) {
-                                            $organizacional[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][3];
-                                            $organizacional[$i] = str_replace('%', '', $organizacional[$i]);
-                                        }
-                                    }
-                                    for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /*Technical Percent*/
-                                        $tecnica[$i] = 0;
-                                    }
-                                    if (count($dailyOEE) > 0) {
-                                        for ($i = 0; $i < count($dailyOEE); $i++) {
-                                            $tecnica[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][4];
-                                            $tecnica[$i] = str_replace('%', '', $tecnica[$i]);
-                                        }
-                                    }
-                                    for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /*Changeover Percent*/
-                                        $cambios[$i] = 0;
-                                    }
-                                    if (count($dailyOEE) > 0) {
-                                        for ($i = 0; $i < count($dailyOEE); $i++) {
-                                            $cambios[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][5];
-                                            $cambios[$i] = str_replace('%', '', $cambios[$i]);
-                                        }
-                                    }
-                                    for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) { /*Performance Percent*/
-                                        $desempeno[$i] = 0;
-                                    }
-                                    if (count($dailyOEE) > 0) {
-                                        for ($i = 0; $i < count($dailyOEE); $i++) {
-                                            $desempeno[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][6];
-                                            $desempeno[$i] = str_replace('%', '', $desempeno[$i]);
-                                        }
-                                    }
-                                ?>
-                                <form action="ReporteOEE.php" method="POST">
-                                    <div id="graficaOEEDiaria" class="oeeDiario">
-                                        <script>                                       
-                                            Highcharts.chart('graficaOEEDiaria', {
-                                                chart: {
-                                                    type: 'column'
-                                                },
-                                                title: {
-                                                    text: 'OEE con Factores de Pérdidas - Diaria'
-                                                },
-                                                xAxis: {
-                                                    categories: [
-                                                        <?php
-                                                            for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
-                                                                echo ($i + 1).',';
-                                                            }
-                                                        ?>
-                                                    ]
-                                                },
-                                                yAxis: {
-                                                    min: 0,
-                                                    title: {
-                                                        text: 'Porcentaje'
-                                                    }
-                                                },
-                                                tooltip: {
-                                                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-                                                    shared: true
-                                                },
-                                                        plotOptions: {
-                                                            column: {
-                                                                stacking: 'percent'
-                                                            }
-                                                        },
-                                                        series: [{
-                                                                color: 'yellow',
-                                                                name: 'Desempeño',
-                                                                data: [
-                                                                    <?php
-                                                                        for ($i = 0; $i < count($desempeno); $i++) {
-                                                                            echo $desempeno[$i].',';
-                                                                        }
-                                                                    ?>
-                                                                ]
-                                                            }, {
-                                                                color: 'orange',
-                                                                name: 'Cambios',
-                                                                data: [
-                                                                    <?php
-                                                                        for ($i = 0; $i < count($cambios); $i++) {
-                                                                            echo $cambios[$i].',';
-                                                                        }
-                                                                    ?>
-                                                                ]
-                                                            }, {
-                                                                color: 'blue',
-                                                                name: 'Tecnicas',
-                                                                data: [
-                                                                    <?php
-                                                                        for ($i = 0; $i < count($tecnica); $i++) {
-                                                                            echo $tecnica[$i].',';
-                                                                        }
-                                                                    ?>
-                                                                ]
-                                                            }, {
-                                                                color: 'green',
-                                                                name: 'Organizacionales',
-                                                                data: [
-                                                                    <?php
-                                                                        for ($i = 0; $i < count($organizacional); $i++) {
-                                                                            echo $organizacional[$i].',';
-                                                                        }
-                                                                    ?>
-                                                                ]
-                                                            }, {
-                                                                color: 'red',
-                                                                name: 'Calidad',
-                                                                data: [
-                                                                    <?php
-                                                                        for ($i = 0; $i < count($calidad); $i++) {
-                                                                            echo $calidad[$i].',';
-                                                                        }
-                                                                    ?>
-                                                                ]
-                                                            }, {
-                                                                color: 'gray',
-                                                                name: 'OEE',
-                                                                data: [
-                                                                    <?php
-                                                                        for ($i = 0; $i < count($oee); $i++) {
-                                                                            echo $oee[$i].',';
-                                                                        }
-                                                                    ?>
-                                                                ]
-                                                            }, {
-                                                                color: '#2ECC71',
-                                                                type: 'spline',
-                                                                name: 'Target',
-                                                                data: [
-                                                                    <?php
-                                                                        $target = 75;
-                                                                        for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
-                                                                            echo $target.',';
-                                                                        }
-                                                                    ?>
-                                                                ],
-                                                                marker: {
-                                                                    lineWidth: 1,
-                                                                    lineColor: '#2ECC71',
-                                                                    fillColor: '#2ECC71'
-                                                                }
-                                                            }]
-                                                    });
-                                        </script>
-                                    </div>
-                                    <?php
-                                        echo "<input type="."\"hidden\" name="."\"varLine\""."value=".$line.">";
-                                        echo "<input type="."\"hidden\" name="."\"varMonth\""."value=".$month.">";
-                                        echo "<input type="."\"hidden\" name="."\"varYear\""."value=".$year.">";
-                                    ?>
-                                    <button id="plain">Detalle OEE</button>
                                 </form>
                             </td>
                         </tr>

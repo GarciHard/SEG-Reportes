@@ -1,6 +1,5 @@
 <HTML>
     <head>
-        
         <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
         <LINK REL=StyleSheet HREF="est.css" TYPE="text/css" MEDIA=screen>
         <meta charset="UTF-8">
@@ -11,6 +10,7 @@
             $varLine = $_REQUEST['varLine'];
             $varMonth = $_REQUEST['varMonth'];
             $varYear = $_REQUEST['varYear'];
+            $varMesStr = listarMeses();
 
             $datProdMes = pzasProdMes($varLine, $varYear);
             $datProdAnio = pzasProdAnual($varLine, $varMonth); 
@@ -169,7 +169,13 @@
     </head>
     
 <BODY>
-    <h1 ALIGN=center id="titulo"> Piezas Producidas</h1>
+    <h3 align=center id="titulo">
+        Piezas Producidas
+        <br>
+        <?php echo "Linea: " . $varLine ?>
+        <br>
+        <?php echo "Mes: " . $varMesStr[$varMonth - 1] ?>
+    </h3>
     
     <!--------------GRAFICA----dia-------------->
     <script src="https://code.jquery.com/jquery.js"></script>

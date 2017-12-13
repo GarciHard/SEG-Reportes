@@ -8,6 +8,7 @@
         $varLine = $_REQUEST['varLine'];
         $varMonth = $_REQUEST['varMonth'];
         $varYear = $_REQUEST['varYear'];
+        $varMesStr = listarMeses();
         
         $datCalidadDia= pCalidadDia($varLine, $varMonth);
         $datCalidadMes = pCalidadMes($varLine, $varYear);
@@ -91,7 +92,13 @@
     ?>
     
 <BODY>
-    <h1 ALIGN=center id="titulo">Paros por Calidad</h1>
+    <h3 align=center id="titulo">
+        Paros por Calidad
+        <br>
+        <?php echo "Linea: " . $varLine ?>
+        <br>
+        <?php echo "Mes: " . $varMesStr[$varMonth - 1] ?>
+    </h3>
     <form action="top3Calidad.php" method="POST">
             <?php
                 echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$varLine.">";

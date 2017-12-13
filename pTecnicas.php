@@ -8,7 +8,8 @@
         $varLine = $_REQUEST['varLine'];
         $varMonth = $_REQUEST['varMonth'];
         $varYear = $_REQUEST['varYear'];
-
+        $varMesStr = listarMeses();
+        
         $datTecnicasDia = pTecnicasDia($varLine, $varMonth);
         $datTecnicasMes = pTecnicasMes($varLine, $varYear);
         $datTargetDiaTecnicas = targetDiaTecnicas($varLine, $varMonth, $varYear);
@@ -91,7 +92,13 @@
     ?>
     
 <BODY>
-    <h1 ALIGN=center id="titulo">Paros Técnicos</h1>
+    <h3 align=center id="titulo">
+        Paros T&eacute;cnicos
+        <br>
+        <?php echo "Linea: " . $varLine ?>
+        <br>
+        <?php echo "Mes: " . $varMesStr[$varMonth - 1] ?>
+    </h3>
     <form action="top3Tecnicas.php" method="POST">
             <?php
                 echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$varLine.">";

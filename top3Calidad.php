@@ -10,6 +10,7 @@
             $pLine = $_REQUEST['pLine'];
             $pMonth = $_REQUEST['pMonth'];
             $pYear = $_REQUEST['pYear'];
+            $varMesStr = listarMeses();
 
             $dattop3 = t3Calidad($pLine,$pMonth);
                   
@@ -29,8 +30,13 @@
     </head>
     
     <body>
-        
-        <h1 ALIGN=center id="titulo">TOP 3: Paros por Calidad</h1>
+        <h3 align=center id="titulo">
+        TOP 3: Paros por Calidad
+        <br>
+        <?php echo "Linea: " . $pLine ?>
+        <br>
+        <?php echo "Mes: " . $varMesStr[$pMonth - 1] ?>
+        </h3>
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 

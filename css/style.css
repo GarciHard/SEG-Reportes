@@ -111,6 +111,9 @@ td {
     float: left; 
     margin: 0% 0%
 }
+#btnOEEDiario {
+    width: 100%;
+}
 #tablaOEE {
     border-collapse: collapse;
     width: 100%;
