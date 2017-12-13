@@ -92,7 +92,14 @@
     
 <BODY>
     <h1 ALIGN=center id="titulo">Paros por Calidad</h1>
-    
+    <form action="top3Calidad.php" method="POST">
+            <?php
+                echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$varLine.">";
+                echo "<input type="."\"hidden\" name="."\"pMonth\""."value=".$varMonth.">";
+                echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$varYear.">";
+            ?>
+        <button id="plain" style="height: 4vh; width: 8vh;  float:right; margin: -4.2% 0%; background-color: #D7DBDD; border-radius: 6px; border: 2px solid #C0392B;">Top 3</button>
+    </form> 
     <!--------------GRAFICA----dia-------------->
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>

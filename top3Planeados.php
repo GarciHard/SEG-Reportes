@@ -5,11 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
             <!--------CONSULTAS------------->
             <?php
-            require_once("control.php");
+            require_once 'ServerFunctions.php';
+            $pLine = $_REQUEST['pLine'];
+            $pMonth = $_REQUEST['pMonth'];
+            $pYear = $_REQUEST['pYear'];
 
-            $rand = new BaseKPI();
-
-            $dattop3 = $rand->t3Planeados();
+            $dattop3 = t3Planeados($pLine,$pMonth);
                       
             $problemaPlaneado;
             $areaPlaneado;
@@ -110,10 +111,12 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
-
-                        $rand = new BaseKPI();
-                        $datTTecnicas = $rand->t3Planeados();    
+                        require_once 'ServerFunctions.php';
+                        $pLine = $_REQUEST['pLine'];
+                        $pMonth = $_REQUEST['pMonth'];
+                        $pYear = $_REQUEST['pYear'];
+                        
+                        $datTTecnicas = t3Planeados($pLine,$pMonth);    
                         $descripcion;       
 
                         for($i = 0; $i<count($datTTecnicas);$i++){

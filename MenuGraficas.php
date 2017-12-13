@@ -725,6 +725,10 @@
                                         echo "<input type="."\"hidden\" name="."\"varLine\""."value=".$line.">";
                                         echo "<input type="."\"hidden\" name="."\"varMonth\""."value=".$month.">";
                                         echo "<input type="."\"hidden\" name="."\"varYear\""."value=".$year.">";
+                                        
+                                        echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$line.">";
+                                        echo "<input type="."\"hidden\" name="."\"pMonth\""."value=".$month.">";
+                                        echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$year.">";
                                     ?>
                                     <button id="plain">Detalle Producci&oacute;n</button>
                                 </form>

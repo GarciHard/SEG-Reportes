@@ -5,11 +5,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
             <?php
-            require_once("control.php");
+            require_once 'ServerFunctions.php';
+            $pLine = $_REQUEST['pLine'];
+            $pMonth = $_REQUEST['pMonth'];
+            $pYear = $_REQUEST['pYear'];
 
-            $rand = new BaseKPI();
-
-            $dattop3 = $rand->t3Tecnicas();
+            $dattop3 = t3Tecnicas($pLine,$pMonth);
                       
             $problemaTec;
             $operacionTec;
@@ -28,7 +29,7 @@
     
     <body>
         
-        <h1 ALIGN=center id="titulo">TOP 3: Paros Tecnicos</h1>
+        <h1 ALIGN=center id="titulo">TOP 3: Paros Técnicos</h1>
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
@@ -39,7 +40,7 @@
                     type: 'bar'
                 },
                 title: {
-                    text: 'Top 3: Tecnicos'
+                    text: 'Top 3: Técnicos'
                 },
                 xAxis: {
                     gridLineWidth: 1,                    
@@ -102,7 +103,7 @@
         </div>
         
         <div  aling = "center">
-            <table style="height: 22vh; width: 130vh; float: left;  margin: 0% 17%;" >
+            <table style="height: 28vh; width: 130vh; float: left;  margin: 0% 17%;" >
                 <thead>     
                     <tr style="background: #F2F2F2">
                         <th><span class="textP">Operaci&oacute;n</span></th>
@@ -113,10 +114,12 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
-
-                        $rand = new BaseKPI();
-                        $datTTecnicas = $rand->t3Tecnicas();    
+                       require_once 'ServerFunctions.php';
+                        $pLine = $_REQUEST['pLine'];
+                        $pMonth = $_REQUEST['pMonth'];
+                        $pYear = $_REQUEST['pYear'];
+                        
+                        $datTTecnicas = t3Tecnicas($pLine,$pMonth);    
                         $descripcion;       
 
                         for($i = 0; $i<count($datTTecnicas);$i++){

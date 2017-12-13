@@ -6,11 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
             <!--------CONSULTAS------------->
             <?php
-            require_once("control.php");
+            require_once 'ServerFunctions.php';
+            $pLine = $_REQUEST['pLine'];
+            $pMonth = $_REQUEST['pMonth'];
+            $pYear = $_REQUEST['pYear'];
 
-            $rand = new BaseKPI();
-
-            $dattop3 = $rand->t3Calidad();
+            $dattop3 = t3Calidad($pLine,$pMonth);
                   
             $problemaCalidad;
             $operacionCalidad;
@@ -116,10 +117,13 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
-
-                        $rand = new BaseKPI();
-                        $datTCalidad = $rand->t3Calidad();    
+                        require_once 'ServerFunctions.php';
+                        $pLine = $_REQUEST['pLine'];
+                        $pMonth = $_REQUEST['pMonth'];
+                        $pYear = $_REQUEST['pYear'];
+                        
+                        
+                        $datTCalidad = t3Calidad($pLine,$pMonth);    
                         $descripcion;       
 
                         for($i = 0; $i<count($datTCalidad);$i++){

@@ -5,11 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         
             <?php
-            require_once("control.php");
+            require_once 'ServerFunctions.php';
+            $pLine = $_REQUEST['pLine'];
+            $pMonth = $_REQUEST['pMonth'];
+            $pYear = $_REQUEST['pYear'];
 
-            $rand = new BaseKPI();
-
-            $dattop3 = $rand->t3CambioModelo();
+            $dattop3 = t3CambioModelo($pLine,$pMonth);
                       
             $problemaCambio;
             $durCambio;
@@ -110,10 +111,12 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
-
-                        $rand = new BaseKPI();
-                        $datTCambio= $rand->t3CambioModelo();    
+                        require_once 'ServerFunctions.php';
+                        $pLine = $_REQUEST['pLine'];
+                        $pMonth = $_REQUEST['pMonth'];
+                        $pYear = $_REQUEST['pYear'];
+                        
+                        $datTCambio= t3CambioModelo($pLine,$pMonth);    
                         $descripcion;       
 
                         for($i = 0; $i<count($datTCambio);$i++){

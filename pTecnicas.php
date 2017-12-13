@@ -40,14 +40,8 @@
         }
         
         for ($i = 0; $i<count($datTargetMesTecnicas); $i++){
-            $mt = (int)$datTargetMesTecnicas[$i][0];
-            $targetMesPTec[$i] = $datTargetMesTecnicas[$i][1];
-        }
-        
-        for($i = 0 ;$i<count($datTecnicasMes);$i++){
-            $mesPTecnicas[$i] = $datTecnicasMes[$i][0]; //imprime el valor del mes
-            
-            switch ($mesPTecnicas[$i]){
+            $mt[$i] = (int)$datTargetMesTecnicas[$i][0];
+             switch ($mt[$i]){
                 case 1:
                     $mesCadenaPTec[$i] = (string) "'Enero'";
                     break;
@@ -85,6 +79,11 @@
                     $mesCadenaPTec[$i] = (string) "'Diciembre'";
                     break;                
             }
+            $targetMesPTec[$i] = $datTargetMesTecnicas[$i][1];
+        }
+        
+        for($i = 0 ;$i<count($datTecnicasMes);$i++){
+            $mesPTecnicas[$i] = $datTecnicasMes[$i][0]; //imprime el valor del mes
             //echo $mesPTecnicas[$i] ,' - ',$mesCadenaPTec[$i],'<br>';
             $duracionMesPTec[$i]= $datTecnicasMes[$i][1]; 
         }
@@ -93,6 +92,14 @@
     
 <BODY>
     <h1 ALIGN=center id="titulo">Paros Técnicos</h1>
+    <form action="top3Tecnicas.php" method="POST">
+            <?php
+                echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$varLine.">";
+                echo "<input type="."\"hidden\" name="."\"pMonth\""."value=".$varMonth.">";
+                echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$varYear.">";
+            ?>
+        <button id="plain" style="height: 4vh; width: 8vh;  float:right; margin: -4.2% 0%; background-color: #D7DBDD; border-radius: 6px; border: 2px solid #C0392B;">Top 3</button>
+    </form>        
     
     <!--------------GRAFICA----diaPTec-------------->
     <script src="https://code.jquery.com/jquery.js"></script>
@@ -112,10 +119,10 @@
                         text: 'Mes'
                     },      
                     gridLineWidth: 1,
-                    categories: (function() { // PARTE 
+                    categories: (function() { // Nombre del Mes
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datTecnicasMes);$i++){
+                                for($i = 0 ;$i<count($datTargetMesTecnicas);$i++){
                             ?>
                             data.push([<?php echo $mesCadenaPTec[$i];?>]);
                             <?php } ?>

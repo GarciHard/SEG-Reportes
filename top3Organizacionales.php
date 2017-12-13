@@ -6,11 +6,12 @@
         
             <!--------CONSULTAS------------->
             <?php
-            require_once("control.php");
+            require_once 'ServerFunctions.php';
+            $pLine = $_REQUEST['pLine'];
+            $pMonth = $_REQUEST['pMonth'];
+            $pYear = $_REQUEST['pYear'];
 
-            $rand = new BaseKPI();
-
-            $dattop3 = $rand->t3Organizacionales();
+            $dattop3 = t3Organizacionales($pLine,$pMonth);
                       
             $problemaOrg;
             $detalleMatOrg;
@@ -102,7 +103,7 @@
         </div>
         
         <div  aling = "center">
-            <table style="height: 22vh; width: 130vh; float: left;  margin: 0% 17%;" >
+            <table style="height: 28vh; width: 130vh; float: left;  margin: 0% 17%;" >
                 <thead>     
                     <tr style="background: #F2F2F2">
                         <th>Problema</span></th>
@@ -114,10 +115,12 @@
 
                 <tbody>        
                     <?php
-                        require_once("control.php");
-
-                        $rand = new BaseKPI();
-                        $datTOrg = $rand->t3Organizacionales();    
+                       require_once 'ServerFunctions.php';
+                        $pLine = $_REQUEST['pLine'];
+                        $pMonth = $_REQUEST['pMonth'];
+                        $pYear = $_REQUEST['pYear'];
+            
+                        $datTOrg = t3Organizacionales($pLine,$pMonth);    
                         $descripcion;       
 
                         for($i = 0; $i<count($datTOrg);$i++){
