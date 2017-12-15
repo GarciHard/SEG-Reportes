@@ -34,6 +34,7 @@ function listarAnio() {
     return $anioArr;
 }
 
+
 //Devuelve un array multidimensional con el resultado de la consulta
 function getArraySQL($sql) {
     $connectionObj = new ServerConfig();
@@ -61,6 +62,12 @@ function oeeDiarioGrafica($linea, $mes) {
 /* OEE MENSUAL */
 function oeeMensualGrafica($linea) {
     $sql = "SELECT MonthOEE, OEE, Quality, Organizational, Technical, Changeover, Performance FROM HourlyCountPercent WHERE Line LIKE '$linea' ORDER BY MonthOEE ASC";
+    return getArraySQL($sql);
+}
+
+//Listar los dias de produccion por Mes 
+function listarDiasMes($linea,$mes, $anio){
+    $sql = "SELECT dia FROM Bitacora WHERE linea LIKE '$linea' AND mes LIKE '$mes' AND anio LIKE '$anio' GROUP BY DIA ORDER BY Dia ASC;";
     return getArraySQL($sql);
 }
 
@@ -295,7 +302,7 @@ function t3Organizacionales($linea, $mes) {
 }
 
 function t3CambioModelo($linea, $mes) {
-    $sql = "SELECT TOP 3 problema, duracion as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Cambio de Modelo') and mes = $mes AND problema <> '' GROUP BY problema, duracion order by tm desc";
+    $sql = "SELECT TOP 3 problema, SUM(duracion) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Cambio de Modelo') and mes = $mes AND problema <> '' GROUP BY problema, duracion order by tm desc";
     return getArraySQL($sql);
 }
 
@@ -313,5 +320,32 @@ function pzasEntregaRealDia($linea, $mes) {
 
 function pzasEntregaEsperadaDia($linea, $mes) {
     $sql = "SELECT dia, sum(producidas) OVER( ORDER BY dia, producidas) AS sumAcum  FROM targets WHERE linea LIKE '$linea' AND mes = $mes GROUP BY dia, producidas ORDER BY dia ASC";
+    return getArraySQL($sql);
+}
+
+/***************** FRECUENCIAS **********************/
+function t3TecnicasFrec($linea, $mes) {
+    $sql = "SELECT TOP 3 operacion,problema, COUNT(problema) as frec FROM Bitacora WHERE LINEA = 'L003' AND tema IN('Tecnicas') and mes = 10 AND problema <> '' GROUP BY operacion,problema order by frec desc";
+    return getArraySQL($sql);
+}
+
+function t3OrganizacionalesFrec($linea, $mes) {
+    $sql = "SELECT TOP 3 problema, detalleMaterial, COUNT(problema) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Organizacionales') and mes = $mes AND problema <> '' GROUP BY problema,detalleMaterial order by tm desc;";
+    return getArraySQL($sql);
+}
+
+function t3CambioModeloFrec($linea, $mes) {
+    $sql = "SELECT TOP 3 problema, COUNT(problema) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Cambio de Modelo') and mes = $mes AND problema <> '' GROUP BY problema, duracion order by tm desc";
+    return getArraySQL($sql);
+}
+
+
+function t3PlaneadosFrec($linea, $mes) {
+    $sql = "SELECT TOP 3 area, COUNT(area) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Paros Planeados') and mes = $mes  GROUP BY problema, area order by tm desc";
+    return getArraySQL($sql);
+}
+
+function t3CalidadFrec($linea, $mes) {
+    $sql = "SELECT TOP 3 operacion,problema, count(problema) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Calidad') and mes = $mes AND problema <> '' GROUP BY operacion,problema order by tm desc";
     return getArraySQL($sql);
 }

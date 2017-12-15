@@ -33,81 +33,95 @@
         <br>
         <?php echo "Mes: " . $varMesStr[$pMonth - 1] ?>
         </h3>
+       
+        <form action="top3OrganizacionalesFrec.php" method="POST">
+            <?php
+                echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$pLine.">";
+                echo "<input type="."\"hidden\" name="."\"pMonth\""."value=".$pMonth.">";
+                echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$pYear.">";
+            ?>
+            <button id="plain" style="height: 4vh; width: 13vh;  float:right; margin: -1% 0%;">Frecuencia</button>
+        </form> 
+        
+        
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-            <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%;"> 
-                 <script>
-                chartCPU = new  Highcharts.chart('ptc', {
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'Top 3: Planeados'
-                },
-                xAxis: {
-                    gridLineWidth: 1,
-                    
-                    categories: (function() {
-                                var data = [];
-                                <?php
-                                    for($i = 0 ;$i<count($dattop3);$i++){
-                                ?>
-                                data.push([<?php echo "'$areaPlaneado[$i]'";?>]);
-                                <?php } ?>
-                                return data;
-                            })()
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'Duracion (minutos)'
-                    }
-                },
-                legend: {
-                    reversed: true
-                },
-                plotOptions: {
-                    series: {
-                        stacking: 'normal'
-                    }
-                },
-                series: [{
-                    name: 'Incidencia',
-                    color: '#08088A',
-                    data: (function() {
+        <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%;"> 
+            <script>
+            chartCPU = new  Highcharts.chart('ptc', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Top 3: Planeados (Duración)'
+            },
+            xAxis: {
+                gridLineWidth: 1,
+
+                categories: (function() {
                             var data = [];
                             <?php
                                 for($i = 0 ;$i<count($dattop3);$i++){
                             ?>
-                            data.push([<?php echo $durPlaneado[$i];?>]);
+                            data.push([<?php echo "'$areaPlaneado[$i]'";?>]);
                             <?php } ?>
                             return data;
-                        })()
-                    }],
-                    credits: {
-                        enabled: false
-                    },
-                    responsive: {
-                        rules: [{
-                            condition: {
-                                maxWidth: 500
-                            },
-                            chartOptions: {
-                                legend: {
-                                    layout: 'horizontal',
-                                    align: 'center',
-                                    verticalAlign: 'bottom'
-                                }
+                        })(),
+                title: {
+                    text: 'Problema'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Duracion (minutos)'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: [{
+                name: 'Incidencia',
+                color: '#08088A',
+                data: (function() {
+                        var data = [];
+                        <?php
+                            for($i = 0 ;$i<count($dattop3);$i++){
+                        ?>
+                        data.push([<?php echo $durPlaneado[$i];?>]);
+                        <?php } ?>
+                        return data;
+                    })()
+                }],
+                credits: {
+                    enabled: false
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
                             }
-                        }]
-                    }
-                });
+                        }
+                    }]
+                }
+            });
             </script>
         </div>
         
         <div  aling = "center">
-            <table style="height: 22vh; width: 130vh; float: left;  margin: 0% 17%;" >
+            <table style="height: 24vh; width: 130vh; float: left;  margin: 0% 17%;" >
                 <thead>     
                     <tr style="background: #F2F2F2">
                         <th><span class="textP">Area</span></th>

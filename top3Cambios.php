@@ -32,6 +32,16 @@
         <br>
         <?php echo "Mes: " . $varMesStr[$pMonth - 1] ?>
         </h3>
+        
+        <form action="top3CambiosFrec.php" method="POST">
+            <?php
+                echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$pLine.">";
+                echo "<input type="."\"hidden\" name="."\"pMonth\""."value=".$pMonth.">";
+                echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$pYear.">";
+            ?>
+            <button id="plain" style="height: 4vh; width: 13vh;  float:right; margin: -1% 0%;">Frecuencia</button>
+        </form> 
+        
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
@@ -42,7 +52,7 @@
                     type: 'bar'
                 },
                 title: {
-                    text: 'Top 3: Cambio de Modelo'
+                    text: 'Top 3: Cambio de Modelo (Duración)'
                 },
                 xAxis: {
                     gridLineWidth: 1,
@@ -55,7 +65,10 @@
                                 data.push([<?php echo "'$problemaCambio[$i]'";?>]);
                                 <?php } ?>
                                 return data;
-                            })()
+                            })(),
+                    title: {
+                        text: 'Problema'
+                    }
                 },
                 yAxis: {
                     min: 0,
@@ -72,7 +85,7 @@
                     }
                 },
                 series: [{
-                    name: 'Incidencia',
+                    name: 'Duración',
                     color: '#08088A',
                     data: (function() {
                             var data = [];
@@ -110,8 +123,7 @@
                 <thead>     
                     <tr style="background: #F2F2F2">
                         <th>Problema</span></th>
-                        <th >Duraci&oacute;n</span></th>
-                        
+                        <th >Duraci&oacute;n</span></th>                        
                     </tr>
                 </thead>
 

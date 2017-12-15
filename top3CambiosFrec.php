@@ -1,109 +1,70 @@
 <HTML>
     <head>
         <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
-        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        
             <?php
             require_once 'ServerFunctions.php';
-            $pLine = $_REQUEST['pLine'];            
+            $pLine = $_REQUEST['pLine'];
             $pMonth = $_REQUEST['pMonth'];
             $pYear = $_REQUEST['pYear'];
             $varMesStr = listarMeses();
 
-            if (isset($_REQUEST["btnCalcular"])) {
-                $opcion = isset($_REQUEST["cmbOpcion"]);
-                echo $opcion;
-                if ($opcion == 2) {
-                    echo "frecuencia";
-                    $dattop3 = t3TecnicasFrec($pLine,$pMonth);
-                    $problemaTec;
-                    $operacionTec;
-                    $opTec;
-                    $durTec;
-
-                    for($i = 0 ;$i<count($dattop3);$i++){
-                        $operacionTec[$i] = $dattop3[$i][0];
-                        $problemaTec [$i] = $dattop3[$i][1];
-                        $opTec[$i] = (string) $operacionTec[$i]; //cambio de valor para imprimir operacionTecOrg
-                        $durTec[$i]= $dattop3[$i][2]; 
-                    }  
-                } else if ($opcion == 1){
-                    $dattop3 = t3TecnicasFrec($pLine,$pMonth);
-                    $problemaTec;
-                    $operacionTec;
-                    $opTec;
-                    $durTec;
-
-                    for($i = 0 ;$i<count($dattop3);$i++){
-                        $operacionTec[$i] = $dattop3[$i][0];
-                        $problemaTec [$i] = $dattop3[$i][1];
-                        $opTec[$i] = (string) $operacionTec[$i]; //cambio de valor para imprimir operacionTecOrg
-                        $durTec[$i]= $dattop3[$i][2]; 
-                    }  
-                }                
+            $dattop3 = t3CambioModelo($pLine,$pMonth);
+                      
+            $problemaCambio;
+            $durCambio;
+            
+            for($i = 0 ;$i<count($dattop3);$i++){
+                $problemaCambio[$i] = $dattop3[$i][0];                
+                $durCambio[$i]= $dattop3[$i][1]; 
             }
+            
         ?>
     </head>
     
     <body>
         <h3 align=center id="titulo">
-        TOP 3: Paros Técnicos
+        TOP 3: Paros por Cambio de Modelo
         <br>
         <?php echo "Linea: " . $pLine ?>
         <br>
         <?php echo "Mes: " . $varMesStr[$pMonth - 1] ?>
         </h3>
-        
-        <FORM action="top3Tecnicas.php" method="POST">
-            <select name="cmbOpcion" id="Opciones" style=" float:right; margin: -1% 0%;">
-                <option selected="seleccion">Seleccione</option>
-                <option value="duracion">Duración
-                <option value="frecuencia">Frecuencia
-            </select>
-            <?php
-                echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$pLine.">";
-                echo "<input type="."\"hidden\" name="."\"pMonth\""."value=".$pMonth.">";
-                echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$pYear.">";
-            ?>
-            <BUTTON name="btnCalcular">Calcular</BUTTON>
-        </FORM>
-
-                
-<!--        <div id="resultadoEleccion"></div>
-            <hr />
-        <div id="resultadoEleccionPC"></div>-->
-        
-        
-        
+               
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-            <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%;"> 
+        <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%;"> 
                  <script>
                 chartCPU = new  Highcharts.chart('ptc', {
                 chart: {
                     type: 'bar'
                 },
                 title: {
-                    text: 'Top 3: Técnicos'
+                    text: 'Top 3: Cambio de Modelo (Frecuencia)'
                 },
                 xAxis: {
-                    gridLineWidth: 1,                    
+                    gridLineWidth: 1,
+                    
                     categories: (function() {
                                 var data = [];
                                 <?php
                                     for($i = 0 ;$i<count($dattop3);$i++){
                                 ?>
-                                data.push([<?php echo "'$opTec[$i], $problemaTec[$i]'";?>]);
+                                data.push([<?php echo "'$problemaCambio[$i]'";?>]);
                                 <?php } ?>
                                 return data;
-                            })()
+                            })(),
+                    title: {
+                        text: 'Problema'
+                    }
                 },
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Duracion (minutos)'
+                        text: 'Frecuencia'
                     }
                 },
                 legend: {
@@ -115,14 +76,14 @@
                     }
                 },
                 series: [{
-                    name: 'Incidencia',
+                    name: 'Frecuencia',
                     color: '#08088A',
                     data: (function() {
                             var data = [];
                             <?php
                                 for($i = 0 ;$i<count($dattop3);$i++){
                             ?>
-                            data.push([<?php echo $durTec[$i];?>]);
+                            data.push([<?php echo $durCambio[$i];?>]);
                             <?php } ?>
                             return data;
                         })()
@@ -148,30 +109,30 @@
             </script>
         </div>
         
-        <div  aling = "center">
-            <table style="height: 28vh; width: 130vh; float: left;  margin: 0% 17%;" >
+        <div id = "tabla" style="height: 22vh; width: 100vh; float: left;  margin: 0% 23%;">            
+            <table>
                 <thead>     
                     <tr style="background: #F2F2F2">
-                        <th><span class="textP">Operaci&oacute;n</span></th>
-                        <th><span class="textP">Problema</span></th>
-                        <th><span class="textP">Duraci&oacute;n</span></th> 
+                        <th>Problema</span></th>
+                        <th >Frecuencia</span></th>
+                        
                     </tr>
                 </thead>
 
                 <tbody>        
                     <?php
-                       require_once 'ServerFunctions.php';
+                        require_once 'ServerFunctions.php';
                         $pLine = $_REQUEST['pLine'];
                         $pMonth = $_REQUEST['pMonth'];
                         $pYear = $_REQUEST['pYear'];
                         
-                        //$datTTecnicas = t3Tecnicas($pLine,$pMonth);    
+                        $datTCambio= t3CambioModeloFrec($pLine,$pMonth);    
                         $descripcion;       
 
-                        for($i = 0; $i<count($dattop3);$i++){
+                        for($i = 0; $i<count($datTCambio);$i++){
                             echo "<tr>";
-                            for ($j = 0; $j<3; $j++){
-                                $descripcion[$i][$j] = $dattop3[$i][$j];
+                            for ($j = 0; $j<2; $j++){
+                                $descripcion[$i][$j] = $datTCambio[$i][$j];
                                 echo "<td>";
                                     echo $descripcion[$i][$j];
                                 echo "</td>";
@@ -179,8 +140,9 @@
                             echo "</tr>";
                         }
                     ?>        
-                </tbody> 
-            </table>
+                    </tbody> 
+                </table>
+            </div>
         </div>
     </body>
 </html>

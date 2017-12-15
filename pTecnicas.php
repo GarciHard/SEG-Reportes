@@ -85,7 +85,6 @@
         
         for($i = 0 ;$i<count($datTecnicasMes);$i++){
             $mesPTecnicas[$i] = $datTecnicasMes[$i][0]; //imprime el valor del mes
-            //echo $mesPTecnicas[$i] ,' - ',$mesCadenaPTec[$i],'<br>';
             $duracionMesPTec[$i]= $datTecnicasMes[$i][1]; 
         }
                

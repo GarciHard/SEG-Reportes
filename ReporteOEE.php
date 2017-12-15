@@ -154,6 +154,7 @@
                                             text: 'OEE con Factores de Pérdidas - Mensual'
                                         },
                                         xAxis: {
+                                            gridLineWidth: 1,
                                             categories: ['J', 'F', 'M', 'A', 'M',
                                                 'J', 'J', 'A', 'S', 'O', 'N', 'D']
                                         },
@@ -260,6 +261,7 @@
                                             text: 'OEE con Factores de Pérdidas - Semanal'
                                         },
                                         xAxis: {
+                                            gridLineWidth: 1,
                                             categories: [
                                                 <?php
                                                 for ($i = 7; $i <= 31; $i += 6) {
@@ -632,6 +634,7 @@
                                             text: 'OEE con Factores de Pérdidas - Diaria'
                                         },
                                         xAxis: {
+                                            gridLineWidth: 1,
                                             categories: [
                                                 <?php
                                                     for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $varMonth, $varYear); $i++) {
