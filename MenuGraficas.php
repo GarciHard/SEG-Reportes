@@ -178,7 +178,7 @@ for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
                                                             }
                                                         },
                                                         series: [{
-                                                                color: 'yellow',
+                                                                color: '#9E9E9E',
                                                                 name: 'Desempeño',
                                                                 data: [
 <?php
@@ -188,7 +188,7 @@ for ($i = 0; $i < count($desempeno); $i++) {
 ?>
                                                                 ]
                                                             }, {
-                                                        color: 'orange',
+                                                        color: '#3498db',
                                                         name: 'Cambios',
                                                         data: [
 <?php
@@ -198,7 +198,7 @@ for ($i = 0; $i < count($cambios); $i++) {
 ?>
                                                         ]
                                                     }, {
-                                                        color: 'blue',
+                                                        color: '#311B92',
                                                         name: 'Tecnicas',
                                                         data: [
 <?php
@@ -208,7 +208,7 @@ for ($i = 0; $i < count($tecnica); $i++) {
 ?>
                                                         ]
                                                     }, {
-                                                        color: 'green',
+                                                        color: '#F06292',
                                                         name: 'Organizacionales',
                                                         data: [
 <?php
@@ -218,7 +218,7 @@ for ($i = 0; $i < count($organizacional); $i++) {
 ?>
                                                         ]
                                                     }, {
-                                                        color: 'red',
+                                                        color: '#B71C1C',
                                                         name: 'Calidad',
                                                         data: [
 <?php
@@ -228,7 +228,7 @@ for ($i = 0; $i < count($calidad); $i++) {
 ?>
                                                         ]
                                                     }, {
-                                                        color: 'gray',
+                                                        color: '#2ecc71',
                                                         name: 'OEE',
                                                         data: [
 <?php

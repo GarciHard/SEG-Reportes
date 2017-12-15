@@ -174,7 +174,7 @@
                                             }
                                         },
                                         series: [{
-                                                color: 'yellow',
+                                                color: '#9E9E9E',
                                                 name: 'Desempeño',
                                                 data: [
                                                     <?php
@@ -184,7 +184,7 @@
                                                     ?>
                                                 ]
                                             }, {
-                                                color: 'orange',
+                                                color: '#3498db',
                                                 name: 'Cambios',
                                                 data: [
                                                     <?php
@@ -194,7 +194,7 @@
                                                     ?>
                                                 ]
                                             }, {
-                                                color: 'blue',
+                                                color: '#311B92',
                                                 name: 'Tecnicas',
                                                 data: [
                                                     <?php
@@ -204,7 +204,7 @@
                                                     ?>
                                                 ]
                                             }, {
-                                                color: 'green',
+                                                color: '#F06292',
                                                 name: 'Organizacionales',
                                                 data: [
                                                     <?php
@@ -214,7 +214,7 @@
                                                     ?>
                                                 ]
                                             }, {
-                                                color: 'red',
+                                                color: '#B71C1C',
                                                 name: 'Calidad',
                                                 data: [
                                                     <?php
@@ -224,7 +224,7 @@
                                                     ?>
                                                 ]
                                             }, {
-                                                color: 'gray',
+                                                color: '#2ecc71',
                                                 name: 'OEE',
                                                 data: [
                                                     <?php
@@ -287,7 +287,7 @@
                                             }
                                         },
                                         series: [{
-                                                color: 'yellow',
+                                                color: '#9E9E9E',
                                                 name: 'Desempeño',
                                                 data: [
                                                     <?php
@@ -339,7 +339,7 @@
                                                         ?>  
                                                 ]
                                             }, {
-                                                color: 'orange',
+                                                color: '#3498db',
                                                 name: 'Cambios',
                                                 data: [
                                                     <?php
@@ -391,7 +391,7 @@
                                                         ?>
                                                 ]
                                             }, {
-                                                color: 'blue',
+                                                color: '#311B92',
                                                 name: 'Tecnicas',
                                                 data: [
                                                     <?php
@@ -443,7 +443,7 @@
                                                         ?>
                                                 ]
                                             }, {
-                                                color: 'green',
+                                                color: '#F06292',
                                                 name: 'Organizacionales',
                                                 data: [
                                                     <?php
@@ -495,7 +495,7 @@
                                                         ?>
                                                 ]
                                             }, {
-                                                color: 'red',
+                                                color: '#B71C1C',
                                                 name: 'Calidad',
                                                 data: [
                                                     <?php
@@ -547,7 +547,7 @@
                                                         ?>
                                                 ]
                                             }, {
-                                                color: 'gray',
+                                                color: '#2ecc71',
                                                 name: 'OEE',
                                                 data: [
                                                     <?php
@@ -668,7 +668,7 @@
                                                             ?>
                                                         ]
                                                     }, {
-                                                        color: 'orange',
+                                                        color: '#3498db',
                                                         name: 'Cambios',
                                                         data: [
                                                             <?php
@@ -678,7 +678,7 @@
                                                             ?>
                                                         ]
                                                     }, {
-                                                        color: 'blue',
+                                                        color: '#311B92',
                                                         name: 'Tecnicas',
                                                         data: [
                                                             <?php
@@ -688,7 +688,7 @@
                                                             ?>
                                                         ]
                                                     }, {
-                                                        color: 'green',
+                                                        color: '#F06292',
                                                         name: 'Organizacionales',
                                                         data: [
                                                             <?php
@@ -698,7 +698,7 @@
                                                             ?>
                                                         ]
                                                     }, {
-                                                        color: 'red',
+                                                        color: '#B71C1C',
                                                         name: 'Calidad',
                                                         data: [
                                                             <?php
@@ -708,7 +708,7 @@
                                                             ?>
                                                         ]
                                                     }, {
-                                                        color: 'gray',
+                                                        color: '#2ecc71',
                                                         name: 'OEE',
                                                         data: [
                                                             <?php
