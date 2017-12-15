@@ -10,39 +10,36 @@
             $pMonth = $_REQUEST['pMonth'];
             $pYear = $_REQUEST['pYear'];
             $varMesStr = listarMeses();
+            $band = 0;
 
+            $dattop3 = t3Tecnicas($pLine,$pMonth);
+            $titulo [0] = "Top 3: Técnicas (Duración)";
+            
             if (isset($_REQUEST["btnCalcular"])) {
-                $opcion = isset($_REQUEST["cmbOpcion"]);
-                echo $opcion;
-                if ($opcion == 2) {
-                    echo "frecuencia";
-                    $dattop3 = t3TecnicasFrec($pLine,$pMonth);
-                    $problemaTec;
-                    $operacionTec;
-                    $opTec;
-                    $durTec;
-
-                    for($i = 0 ;$i<count($dattop3);$i++){
-                        $operacionTec[$i] = $dattop3[$i][0];
-                        $problemaTec [$i] = $dattop3[$i][1];
-                        $opTec[$i] = (string) $operacionTec[$i]; //cambio de valor para imprimir operacionTecOrg
-                        $durTec[$i]= $dattop3[$i][2]; 
-                    }  
-                } else if ($opcion == 1){
-                    $dattop3 = t3TecnicasFrec($pLine,$pMonth);
-                    $problemaTec;
-                    $operacionTec;
-                    $opTec;
-                    $durTec;
-
-                    for($i = 0 ;$i<count($dattop3);$i++){
-                        $operacionTec[$i] = $dattop3[$i][0];
-                        $problemaTec [$i] = $dattop3[$i][1];
-                        $opTec[$i] = (string) $operacionTec[$i]; //cambio de valor para imprimir operacionTecOrg
-                        $durTec[$i]= $dattop3[$i][2]; 
-                    }  
-                }                
+                $opcion = $_REQUEST["cmbOpcion"];
+                if ($opcion == "1") {
+                    $dattop3 = t3Tecnicas($pLine,$pMonth);
+                    $band = 1;
+                    $titulo [0] = "Top 3: Técnicas (Duración)";
+                } else if ($opcion == "2"){
+                    $dattop3 = t3TecnicasFrec($pLine,$pMonth);    
+                    $band = 2;
+                    $titulo [0] = "Top 3: Técnicas (Frecuencia)";
+                }                 
             }
+            
+            $problemaTec;
+            $operacionTec;
+            $opTec;
+            $durTec;
+
+            for($i = 0 ;$i<count($dattop3);$i++){
+                $operacionTec[$i] = $dattop3[$i][0];
+                $problemaTec [$i] = $dattop3[$i][1];
+                $opTec[$i] = (string) $operacionTec[$i]; //cambio de valor para imprimir operacionTecOrg
+                $durTec[$i]= $dattop3[$i][2]; 
+            }
+              
         ?>
     </head>
     
@@ -55,38 +52,72 @@
         <?php echo "Mes: " . $varMesStr[$pMonth - 1] ?>
         </h3>
         
+        
         <FORM action="top3Tecnicas.php" method="POST">
+            <table style="height: 24vh; width: 130vh;" >
+                <form action="MenuGraficas.php" method="POST">
+                    <caption>
+                        <td>
+                            <label>Día: </label>
+                            <select id="diaI" name="cmbDiaI">
+                                <?php
+                                for ($i = 0; $i < count($diasArrObj); $i++) {
+                                    echo "<option>" . $diasArr[$i] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </td>      
+                        <td> 
+                            <b> al 
+                            </b> 
+                        </td>
+                        <td>
+                            <select id="diaF" name="cmbDiaF" >
+                                <?php
+                                for ($i = 0; $i < count($diasArrObj); $i++) {
+                                    echo "<option>" . $diasArr[$i] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </td>
+                        <button>Calcular Gr&aacute;ficas</button>
+                        <br><br>
+                    </caption>
+                </form>
+            </table>
+            
             <select name="cmbOpcion" id="Opciones" style=" float:right; margin: -1% 0%;">
-                <option selected="seleccion">Seleccione</option>
-                <option value="duracion">Duración
-                <option value="frecuencia">Frecuencia
+                <option>Seleccione</option>
+                <option value="1">Duración</option>
+                <option value="2">Frecuencia </option>
             </select>
             <?php
                 echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$pLine.">";
                 echo "<input type="."\"hidden\" name="."\"pMonth\""."value=".$pMonth.">";
                 echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$pYear.">";
             ?>
-            <BUTTON name="btnCalcular">Calcular</BUTTON>
-        </FORM>
-
-                
-<!--        <div id="resultadoEleccion"></div>
-            <hr />
-        <div id="resultadoEleccionPC"></div>-->
-        
-        
+            <BUTTON name="btnCalcular" style=" float:right; margin: 1% 0%;">Calcular</BUTTON>
+        </FORM>   
         
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-            <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%;"> 
+            <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%; border: #08088A"> 
                  <script>
                 chartCPU = new  Highcharts.chart('ptc', {
                 chart: {
                     type: 'bar'
                 },
-                title: {
-                    text: 'Top 3: Técnicos'
+                title: {                    
+                    text: (function() {
+                                var data = [];
+                                <?php
+                                    for($i = 0 ;$i<1;$i++){
+                                ?>
+                                data.push([<?php echo "'$titulo[$i]'";?>]);
+                                <?php } ?>
+                                return data;
+                            })()
                 },
                 xAxis: {
                     gridLineWidth: 1,                    
@@ -149,12 +180,22 @@
         </div>
         
         <div  aling = "center">
-            <table style="height: 28vh; width: 130vh; float: left;  margin: 0% 17%;" >
+            <table style="height: 24vh; width: 130vh; float: left;  margin: 0% 17%;" >
                 <thead>     
                     <tr style="background: #F2F2F2">
                         <th><span class="textP">Operaci&oacute;n</span></th>
                         <th><span class="textP">Problema</span></th>
-                        <th><span class="textP">Duraci&oacute;n</span></th> 
+                        <?php
+                            if($band == 2 ){
+                                echo "<th>";
+                                    echo 'Frecuencia';
+                                echo "</th>";
+                            } else {
+                                echo "<th>";
+                                    echo 'Duración';
+                                echo "</th>";
+                            }
+                        ?>
                     </tr>
                 </thead>
 
@@ -165,7 +206,6 @@
                         $pMonth = $_REQUEST['pMonth'];
                         $pYear = $_REQUEST['pYear'];
                         
-                        //$datTTecnicas = t3Tecnicas($pLine,$pMonth);    
                         $descripcion;       
 
                         for($i = 0; $i<count($dattop3);$i++){

@@ -13,7 +13,7 @@
             $varMesStr = listarMeses();
 
             $dattop3 = t3Calidad($pLine,$pMonth);
-            $diasArrObj = listarDiasMes($pLine,$pMonth,$pYear);
+            $dias = listarDiasMes($pLine,$pMonth,$pYear);
             
             $diasArr;      
             $problemaCalidad;
@@ -28,8 +28,8 @@
                 $durCalidad[$i]= $dattop3[$i][2]; 
             }
             
-            for ($i = 0; $i < count($diasArrObj); $i++) {
-                $diasArr[$i] = $diasArrObj[$i][0];
+            for ($i = 0; $i < count($dias); $i++) {
+                $diasArr[$i] = $dias[$i][0];
             }            
             
         ?>

@@ -623,8 +623,7 @@
                     </tr>
                     <tr>
                         <td> <!-- Gráfica diaria -->
-                            <div id="graficaOEEDiaria" class="oeeDiario">
-                                
+                            <div id="graficaOEEDiaria" class="oeeDiario">                                
                                 <script>                                       
                                     Highcharts.chart('graficaOEEDiaria', {
                                         chart: {
