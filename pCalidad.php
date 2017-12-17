@@ -29,6 +29,11 @@
             $targetDiaCalidad[$i] = 0;
         }   
         
+        for ($i = 1; $i < 13; $i++){
+            $duracionMes[$i] = 0;
+            $targetMesCalidad[$i] = 0;
+        }
+        
         for($i = 0; $i<count($datCalidadDia);$i++){
             $d = (int) $datCalidadDia[$i][0];
             $dia[$i] = $datCalidadDia[$i][0];
@@ -36,57 +41,19 @@
         }
                    
         for($i = 0 ;$i<count($datCalidadMes);$i++){
-            $mes[$i] = $datCalidadMes[$i][0];
-            
-            switch ($mes[$i]){
-                case 1:
-                    $mesCadenaPCalidad[$i] = (string) "'Enero'";
-                    break;
-                case 2:
-                    $mesCadenaPCalidad[$i] = (string) "'Febrero'";
-                    break;
-                case 3:
-                    $mesCadenaPCalidad[$i] = (string) "'Marzo'";
-                    break;
-                case 4:
-                    $mesCadenaPCalidad[$i] = (string) "'Abril'";
-                    break;
-                case 5:
-                    $mesCadenaPCalidad[$i] = (string) "'Mayo'";
-                    break;
-                case 6:
-                    $mesCadenaPCalidad[$i] = (string) "'Junio'";
-                    break;
-                case 7:
-                    $mesCadenaPCalidad[$i] = (string) "'Julio'";
-                    break;
-                case 8:
-                    $mesCadenaPCalidad[$i] = (string) "'Agosto'";
-                    break;
-                case 9:
-                    $mesCadenaPCalidad[$i] = (string) "'Septiembre'";
-                    break;
-                case 10:
-                    $mesCadenaPCalidad[$i] = (string) "'Octubre'";
-                    break;
-                case 11:
-                    $mesCadenaPCalidad[$i] = (string) "'Noviembre'";
-                    break;
-                case 12:
-                    $mesCadenaPCalidad[$i] = (string) "'Diciembre'";
-                    break;                
-            }
-            $duracionMes[$i]= $datCalidadMes[$i][1];            
+            $mes[$i] = $datCalidadMes[$i][0];            
+            $duracionMes[$mes[$i]]= $datCalidadMes[$i][1];  
         }
         
         for ($i = 0; $i < count($datTargetDiaCalidad); $i++){
-            $dt = (int) $datTargetDiaCalidad[$i][0];
-            $targetDiaCalidad[$dt] = $datTargetDiaCalidad[$i][1];
+            $dt[$i] = (int) $datTargetDiaCalidad[$i][0];
+           
+            $targetDiaCalidad[$dt[$i]] = $datTargetDiaCalidad[$i][1];
         }
         
         for ($i = 0; $i < count($datTargetMesCalidad); $i++){
-            //$mt = (int) $datTargetMesCalidad[$i][0];
-            $targetMesCalidad[$i] = $datTargetMesCalidad[$i][1];
+            $mt[$i] = (int) $datTargetMesCalidad[$i][0];
+            $targetMesCalidad[$mt[$i]] = $datTargetMesCalidad[$i][1];
         }
         
     ?>
@@ -124,20 +91,13 @@
                     title: {
                         text: 'Mes'
                     },
-                    categories: (function() {
-                            var data = [];
-                            <?php
-                                for($i = 0 ;$i<count($datCalidadMes);$i++){
-                            ?>
-                            data.push([<?php echo $mesCadenaPCalidad[$i];?>]);
-                            <?php } ?>
-                            return data;
-                        })()
+                    categories:  ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
                 },
                 yAxis: [{
                     title: {
                         text: 'Duracion (Munitos)'
                     },
+                    tickInterval: 1000,
                 }],
                 series: [ { //BARRAS CHUNDAS
                     color: '#1A06AF',
@@ -146,7 +106,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datCalidadMes);$i++){
+                                for($i = 1; $i < 13; $i++){
                             ?>
                             data.push([<?php echo $duracionMes[$i];?>]);
                             <?php } ?>
@@ -159,7 +119,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datCalidadMes);$i++){
+                                for($i = 1; $i < 13 ;$i++){
                             ?>
                             data.push([<?php echo $targetMesCalidad[$i];?>]);
                             <?php } ?>
@@ -212,6 +172,7 @@
                     title: {
                         text: 'Duracion (Munitos)'
                     },
+                    tickInterval: 50,
                 }],
                 series: [{ //LINEA CHUNDA
                     color: '#2ECC71',
@@ -264,7 +225,7 @@
     </div>
     
     <div id="tabla">  
-        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;">
+        <table style="height: 44vh; width: 200vh; float: left;  margin: 0% 1%;">
             <thead>
                 <tr style="background: #F2F2F2">   
                     <th><span class="text">D&iacute;a</span></th>

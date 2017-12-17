@@ -109,7 +109,7 @@ function targetProdMes($linea, $anio) {
 }
 
 function targetProdDia($linea, $mes, $anio) {
-    $sql = "SELECT dia ,producidas FROM targets WHERE linea LIKE '$linea' AND anio = $anio AND Mes = $mes GROUP BY dia, producidas";
+    $sql = "SELECT dia , producidas FROM targets WHERE linea LIKE '$linea' AND anio = $anio AND Mes = $mes GROUP BY dia, producidas";
     return getArraySQL($sql);
 }
 
@@ -151,12 +151,12 @@ function pTecnicasMes($linea, $anio) {
 }
 
 function pTecnicasDia($linea, $mes) {
-    $sql = "SELECT dia,duracion FROM Bitacora WHERE tema LIKE 'Tecnicas' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia, duracion ORDER BY dia ASC";
+    $sql = "SELECT dia,SUM(duracion) FROM Bitacora WHERE tema LIKE 'Tecnicas' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia ORDER BY dia ASC";
     return getArraySQL($sql);
 }
 
 function pTecnicasTabla($linea, $mes) {
-    $sql = "SELECT  dia, area, operacion,problema,duracion FROM Bitacora WHERE tema LIKE 'Tecnicas' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia, area, operacion,problema,duracion ORDER BY dia ASC";
+    $sql = "SELECT  dia, area, operacion,problema,SUM(duracion) FROM Bitacora WHERE tema LIKE 'Tecnicas' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia, area, operacion,problema,duracion ORDER BY dia ASC";
     return getArraySQL($sql);
 }
 
@@ -177,12 +177,12 @@ function pOrganizacionalesMes($linea, $anio) {
 }
 
 function pOrganizacionalesDia($linea, $mes) {
-    $sql = "SELECT dia, duracion FROM Bitacora WHERE tema LIKE 'Organizacionales' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia, duracion ORDER BY dia ASC";
+    $sql = "SELECT dia, SUM(duracion) FROM Bitacora WHERE tema LIKE 'Organizacionales' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia ORDER BY dia ASC";
     return getArraySQL($sql);
 }
 
 function pOrganizacionalesTabla($linea, $mes) {
-    $sql = "SELECT dia, area,problema,detalleMaterial,duracion AS tmp  FROM Bitacora where tema LIKE 'Organizacionales' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia,area, problema, detalleMaterial, duracion ORDER BY dia ASC";
+    $sql = "SELECT dia, area,problema,detalleMaterial, SUM(duracion) FROM Bitacora where tema LIKE 'Organizacionales' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia,area, problema, detalleMaterial, duracion ORDER BY dia ASC";
     return getArraySQL($sql);
 }
 
@@ -203,12 +203,12 @@ function pCambioModMes($linea, $anio) {
 }
 
 function pCambioModDia($linea, $mes) {
-    $sql = "SELECT dia, duracion FROM Bitacora WHERE tema LIKE 'Cambio de Modelo' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia,duracion ORDER BY dia ASC";
+    $sql = "SELECT dia, SUM(duracion) FROM Bitacora WHERE tema LIKE 'Cambio de Modelo' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia ORDER BY dia ASC";
     return getArraySQL($sql);
 }
 
 function pCambioModTabla($linea, $mes) {
-    $sql = "SELECT dia, area,problema, duracion AS tmp  FROM Bitacora where tema LIKE 'Cambio de Modelo' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia,area, problema, duracion ORDER BY dia ASC";
+    $sql = "SELECT dia, area,problema, SUM(duracion)  FROM Bitacora where tema LIKE 'Cambio de Modelo' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia,area, problema, duracion ORDER BY dia ASC";
     return getArraySQL($sql);
 }
 
@@ -234,7 +234,7 @@ function pPlaneadoDia($linea, $mes) {
 }
 
 function pPlaneadoTabla($linea, $mes, $anio) {
-    $sql = "SELECT dia, area, SUM(duracion) AS tmp  FROM Bitacora where tema LIKE 'Paros Planeados' AND linea LIKE '$linea' AND anio = $anio AND mes = $mes GROUP BY dia,area ORDER BY dia ASC";
+    $sql = "SELECT dia, area, SUM(duracion) FROM Bitacora where tema LIKE 'Paros Planeados' AND linea LIKE '$linea' AND anio = $anio AND mes = $mes GROUP BY dia,area ORDER BY dia ASC";
     return getArraySQL($sql);
 }
 
@@ -260,7 +260,7 @@ function pCalidadDia($linea, $mes) {
 }
 
 function pCalidadTabla($linea, $mes) {
-    $sql = "SELECT dia, operacion, problema, duracion FROM Bitacora where tema LIKE 'Calidad' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia,operacion,problema, duracion ORDER BY dia ASC";
+    $sql = "SELECT dia, operacion, problema, SUM(duracion) FROM Bitacora where tema LIKE 'Calidad' AND linea LIKE '$linea' AND mes = $mes GROUP BY dia,operacion,problema, duracion ORDER BY dia ASC";
     return getArraySQL($sql);
 }
 
@@ -338,7 +338,6 @@ function t3CambioModeloFrec($linea, $mes) {
     $sql = "SELECT TOP 3 problema, COUNT(problema) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Cambio de Modelo') and mes = $mes AND problema <> '' GROUP BY problema, duracion order by tm desc";
     return getArraySQL($sql);
 }
-
 
 function t3PlaneadosFrec($linea, $mes) {
     $sql = "SELECT TOP 3 area, COUNT(area) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Paros Planeados') and mes = $mes  GROUP BY problema, area order by tm desc";

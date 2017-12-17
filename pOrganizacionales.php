@@ -23,68 +23,30 @@
         $targetMesOrg;
         $targetDiaOrg;
         
-        for ($i=1; $i<32; $i++){
-            $dia[$i] = $i;
+        for ($i = 1; $i < 32; $i++){
+            $dia[$i] = 0;
             $duracionDia[$i] = 0;
         }
         
+        for ($i = 1; $i < 13; $i++){
+            $duracionMes [$i] = 0;
+            $targetMesOrg[$i] = 0;
+        }
+        
         for ($i = 0; $i<count($datOrgDia); $i++){
-            $d = (int) $datOrgDia[$i][0];
             $dia[$i] = $datOrgDia[$i][0];
-            $duracionDia[$d]= $datOrgDia[$i][1]; 
+            $duracionDia[$dia[$i]]= $datOrgDia[$i][1]; 
         }
         
         for ($i = 0; $i<count($datOrgMes); $i++){
-            $mes[$i] = $datOrgMes[$i][0];
-            switch ($mes[$i]){
-                    case 1:
-                        $mesCadenaOrg[$i] = (string) "'Enero'";
-                        break;
-                    case 2:
-                        $mesCadenaOrg[$i] = (string) "'Febrero'";
-                        break;
-                    case 3:
-                        $mesCadenaOrg[$i] = (string) "'Marzo'";
-                        break;
-                    case 4:
-                        $mesCadenaOrg[$i] = (string) "'Abril'";
-                        break;
-                    case 5:
-                        $mesCadenaOrg[$i] = (string) "'Mayo'";
-                        break;
-                    case 6:
-                        $mesCadenaOrg[$i] = (string) "'Junio'";
-                        break;
-                    case 7:
-                        $mesCadenaOrg[$i] = (string) "'Julio'";
-                        break;
-                    case 8:
-                        $mesCadenaOrg[$i] = (string) "'Agosto'";
-                        break;
-                    case 9:
-                        $mesCadenaOrg[$i] = (string) "'Septiembre'";
-                        break;
-                    case 10:
-                        $mesCadenaOrg[$i] = (string) "'Octubre'";
-                        break;
-                    case 11:
-                        $mesCadenaOrg[$i] = (string) "'Noviembre'";
-                        break;
-                    case 12:
-                        $mesCadenaOrg[$i] = (string) "'Diciembre'";
-                        break;                
-                }
-            $duracionMes[$i]= $datOrgMes[$i][1]; 
+            $mes[$i] = $datOrgMes[$i][0];           
+            $duracionMes[$mes[$i]]= $datOrgMes[$i][1]; 
         }
         
         for ($i = 0 ;$i<count($datTargetMesOrg);$i++){
-            $targetMesOrg[$i] = $datTargetMesOrg[$i][1];
+            $mt[$i] = $datTargetMesOrg[$i][0];
+            $targetMesOrg[$mt[$i]] = $datTargetMesOrg[$i][1];
         }
-        
-        for ($i = 0 ;$i<count($datTargetDiaOrg);$i++){
-            $targetDiaOrg[$i] = $datTargetDiaOrg[$i][1];
-        }
-        
     ?>
     
 <BODY>
@@ -120,20 +82,13 @@
                     title: {
                         text: 'Mes'
                     },
-                    categories: (function() {
-                            var data = [];
-                            <?php
-                                for($i = 0 ;$i<count($datOrgMes);$i++){
-                            ?>
-                            data.push([<?php echo $mesCadenaOrg[$i];?>]);
-                            <?php } ?>
-                            return data;
-                        })()
+                    categories:  ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
                 },
                 yAxis: [{
                     title: {
                         text: 'Duración (Minutos)'
                     },
+                    tickInterval: 1000,
                 }],
                 series: [{ //BARRAS DURACION
                     color: '#1A06AF',
@@ -142,7 +97,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datOrgMes);$i++){
+                                for($i = 1; $i < 13; $i++){
                             ?>
                             data.push([<?php echo $duracionMes[$i];?>]);
                             <?php } ?>
@@ -155,7 +110,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datTargetMesOrg);$i++){
+                                for($i = 1; $i < 13; $i++){
                             ?>
                             data.push([<?php echo $targetMesOrg[$i];?>]);
                             <?php } ?>
@@ -202,13 +157,13 @@
                             data.push([<?php echo $i;?>]);
                             <?php } ?>
                             return data;
-                        })()
-                        
+                        })()                        
                 },
                 yAxis: [{
                     title: {
                         text: 'Duración (Minutos)'
                     },
+                    tickInterval: 50,
                 }],
                 series: [{ //BARRAS Duracion
                     color: '#1A06AF',
@@ -261,7 +216,7 @@
     </div>
     
     <div id="tabla">  
-        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;">
+        <table style="height: 44vh; width: 200vh; float: left;  margin: 0% 1%;">
             <thead>
             <tr style="background: #F2F2F2">
                 <th>Día</th>

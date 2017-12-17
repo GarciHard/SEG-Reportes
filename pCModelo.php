@@ -14,7 +14,6 @@
         $datTargetDiaCMod = targetDiaCambMod($varLine, $varMonth, $varYear);
         $datTargetMesCMod = targetMesCambMod($varLine, $varYear);
 
-        $d;
         $dia;
         $mes;
         $duracionDia;
@@ -22,70 +21,36 @@
         $targetDiaCMod;
         $targetMesCMod;
 
-        for ($i=1; $i<32; $i++){
+        for ($i = 1; $i < 32; $i++){
             $dia[$i] = $i;
             $duracionDia[$i] = 0;
             $targetDiaCMod[$i] = 0;
         }   
         
-        for($i = 0; $i<count($datCModDia);$i++){
-            $d = (int) $datCModDia[$i][0];
+        for ($i = 1; $i < 13; $i++){
+            $duracionMes [$i] = 0;
+            $targetMesCMod [$i] = 0;
+        }
+        
+        for($i = 0; $i < count($datCModDia); $i++){
             $dia[$i] = $datCModDia[$i][0];
-            $duracionDia[$d]= $datCModDia[$i][1];             
+            $duracionDia[$dia[$i]]= $datCModDia[$i][1];             
         }
                    
-        for($i = 0 ;$i<count($datCModMes);$i++){
+        for($i = 0 ; $i < count($datCModMes); $i++){
             $mes[$i] = $datCModMes[$i][0];
-            
-            switch ($mes[$i]){
-                case 1:
-                    $mesCadenaPCamMod[$i] = (string) "'Enero'";
-                    break;
-                case 2:
-                    $mesCadenaPCamMod[$i] = (string) "'Febrero'";
-                    break;
-                case 3:
-                    $mesCadenaPCamMod[$i] = (string) "'Marzo'";
-                    break;
-                case 4:
-                    $mesCadenaPCamMod[$i] = (string) "'Abril'";
-                    break;
-                case 5:
-                    $mesCadenaPCamMod[$i] = (string) "'Mayo'";
-                    break;
-                case 6:
-                    $mesCadenaPCamMod[$i] = (string) "'Junio'";
-                    break;
-                case 7:
-                    $mesCadenaPCamMod[$i] = (string) "'Julio'";
-                    break;
-                case 8:
-                    $mesCadenaPCamMod[$i] = (string) "'Agosto'";
-                    break;
-                case 9:
-                    $mesCadenaPCamMod[$i] = (string) "'Septiembre'";
-                    break;
-                case 10:
-                    $mesCadenaPCamMod[$i] = (string) "'Octubre'";
-                    break;
-                case 11:
-                    $mesCadenaPCamMod[$i] = (string) "'Noviembre'";
-                    break;
-                case 12:
-                    $mesCadenaPCamMod[$i] = (string) "'Diciembre'";
-                    break;                
-            }
-            $duracionMes[$i]= $datCModMes[$i][1];            
+            $duracionMes[$mes[$i]]= $datCModMes[$i][1];            
         }
         
         for ($i = 0; $i < count($datTargetDiaCMod); $i++){
-            $targetDiaCMod[$i] = $datTargetDiaCMod[$i][1];
+            $d[$i] = $datTargetDiaCMod[$i][0];
+            $targetDiaCMod[d[$i]] = $datTargetDiaCMod[$i][1];
         }
         
         for ($i = 0; $i < count($datTargetMesCMod); $i++){
-            $targetMesCMod[$i] = $datTargetMesCMod[$i][1];
-        }
-        
+            $mt[$i] = $datTargetMesCMod[$i][0];
+            $targetMesCMod[$mt[$i]] = $datTargetMesCMod[$i][1];
+        }     
         
     ?>
     
@@ -120,23 +85,17 @@
                     text: 'Minutos por Mes '
                 },
                 xAxis: {
+                    gridLineWidth: 1,
                     title: {
                         text: 'Mes'
                     },
-                    categories: (function() {
-                            var data = [];
-                            <?php
-                                for($i = 0 ;$i<count($datCModMes);$i++){
-                            ?>
-                            data.push([<?php echo $mesCadenaPCamMod[$i];?>]);
-                            <?php } ?>
-                            return data;
-                        })()
+                    categories:  ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
                 },
                 yAxis: [{
                     title: {
-                        text: 'Duracion (Minutos)'
+                        text: 'Duración (Minutos)'
                     },
+                    tickInterval: 1000,
                 }],
                 series: [{ //BARRAS CHUNDAS
                     color: '#1A06AF',
@@ -145,7 +104,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datCModMes);$i++){
+                                for($i = 1; $i < 13; $i++){
                             ?>
                             data.push([<?php echo $duracionMes[$i];?>]);
                             <?php } ?>
@@ -158,7 +117,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datTargetMesCMod);$i++){
+                                for($i = 1; $i < 13; $i++){
                             ?>
                             data.push([<?php echo $targetMesCMod[$i];?>]);
                             <?php } ?>
@@ -209,8 +168,9 @@
                 },
                 yAxis: [{
                     title: {
-                        text: 'Duracion (Minutos)'
+                        text: 'Duración (Minutos)'
                     },
+                    tickInterval: 50,
                 }],
                 series: [{ //LINEA META
                     color: '#2ECC71',
@@ -230,7 +190,6 @@
                     name: 'Indicadores',
                     type: 'spline',
                     zIndex: 1,
-                    //data: [5, 5, 5, 7, 5]
                     data: (function() {
                             var data = [];
                             <?php
@@ -265,7 +224,7 @@
     </div>
     
     <div id="tabla">  
-        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;">
+        <table style="height: 44vh; width: 200vh; float: left;  margin: 0% 1%;">
             <thead>
                 <tr style="background: #F2F2F2">
                         <th><span class="text">D&iacute;a</span></th>

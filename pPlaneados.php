@@ -15,7 +15,6 @@
         $datTargetDiaPlaneados = targetDiaPlaneado($varLine, $varMonth, $varYear);
         $datTargetMesPlaneados = targetMesPlaneado($varLine, $varYear);
 
-        //$d;
         $diaPPlaneados;
         $mesPPlaneados;
         $duracionDiaPPlaneados;
@@ -24,59 +23,26 @@
         $targetMesPlaneados;
         
 
-        for ($i=1; $i<32; $i++){
+        for ($i = 1; $i < 32; $i++){
             $diaPPlaneados[$i] = $i;
             $duracionDiaPPlaneados[$i] = 0;
             $targetDiaPlaneados[$i] = 0;
         }   
         
-        for($i = 0; $i<count($datPlaneadoDia);$i++){
+        for ($i = 1; $i < 13; $i++){
+            $duracionMesPPlaneados [$i] = 0;
+            $targetMesPlaneados [$i] = 0;
+        }
+        
+        for($i = 0; $i < count($datPlaneadoDia); $i++){
             $d = (int) $datPlaneadoDia[$i][0];
             $diaPPlaneados[$i] = $datPlaneadoDia[$i][0];
             $duracionDiaPPlaneados[$d]= $datPlaneadoDia[$i][1]; 
         }
                    
-        for($i = 0 ;$i<count($datPlaneadosMes);$i++){
+        for($i = 0 ;$i< count($datPlaneadosMes); $i++){
             $mesPPlaneados[$i] = $datPlaneadosMes[$i][0];
-            switch ($mesPPlaneados[$i]){
-                case 1:
-                    $mesCadenaPPlaneados[$i] = (string) "'Enero'";
-                    break;
-                case 2:
-                    $mesCadenaPPlaneados[$i] = (string) "'Febrero'";
-                    break;
-                case 3:
-                    $mesCadenaPPlaneados[$i] = (string) "'Marzo'";
-                    break;
-                case 4:
-                    $mesCadenaPPlaneados[$i] = (string) "'Abril'";
-                    break;
-                case 5:
-                    $mesCadenaPPlaneados[$i] = (string) "'Mayo'";
-                    break;
-                case 6:
-                    $mesCadenaPPlaneados[$i] = (string) "'Junio'";
-                    break;
-                case 7:
-                    $mesCadenaPPlaneados[$i] = (string) "'Julio'";
-                    break;
-                case 8:
-                    $mesCadenaPPlaneados[$i] = (string) "'Agosto'";
-                    break;
-                case 9:
-                    $mesCadenaPPlaneados[$i] = (string) "'Septiembre'";
-                    break;
-                case 10:
-                    $mesCadenaPPlaneados[$i] = (string) "'Octubre'";
-                    break;
-                case 11:
-                    $mesCadenaPPlaneados[$i] = (string) "'Noviembre'";
-                    break;
-                case 12:
-                    $mesCadenaPPlaneados[$i] = (string) "'Diciembre'";
-                    break;                
-            }
-            $duracionMesPPlaneados[$i]= $datPlaneadosMes[$i][1];
+            $duracionMesPPlaneados[$mesPPlaneados[$i]]= $datPlaneadosMes[$i][1];
         }
         
         for($i = 0; $i < count($datTargetDiaPlaneados); $i++){
@@ -85,11 +51,12 @@
         }
         
         for ($i = 0; $i < count($datTargetMesPlaneados); $i++){
-            $targetMesPlaneados[$i] = $datTargetMesPlaneados [$i][1];
+            $mt[$i] = $datTargetMesPlaneados [$i][0];
+            $targetMesPlaneados[$mt[$i]] = $datTargetMesPlaneados [$i][1];
         }
         
-    ?>
-    
+        
+    ?>    
 <BODY>
     <h3 align=center id="titulo">
         Paros Planeados
@@ -124,20 +91,13 @@
                     title: {
                         text: 'Mes'
                     },
-                    categories: (function() { //cambio de mes (Num) a mes (Cad)
-                            var data = [];
-                            <?php
-                                for($i = 0 ;$i<count($datPlaneadosMes);$i++){
-                            ?>
-                            data.push([<?php echo $mesCadenaPPlaneados[$i];?>]);
-                            <?php } ?>
-                            return data;
-                        })()
+                    categories:  ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
                 },
                 yAxis: [{
                     title: {
                         text: 'Duracion (Minutos)'
                     },
+                    tickInterval: 1000,
                 }],
                 series: [{ //BARRAS DURACION
                     color: '#1A06AF',
@@ -146,7 +106,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datPlaneadosMes);$i++){
+                                for($i = 1; $i < 13; $i++){
                             ?>
                             data.push([<?php echo $duracionMesPPlaneados[$i];?>]);
                             <?php } ?>
@@ -159,7 +119,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datPlaneadosMes);$i++){
+                                for($i = 1; $i < 13; $i++){
                             ?>
                             data.push([<?php echo $targetMesPlaneados[$i];?>]);
                             <?php } ?>
@@ -212,6 +172,7 @@
                     title: {
                         text: 'Duración (Minutos)'
                     },
+                    tickInterval: 50,
                 }],
                 series: [{ //LINEA META
                     color: '#2ECC71',
@@ -264,7 +225,7 @@
     </div>
     
     <div id="tabla">  
-        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;">
+        <table style="height: 44vh; width: 200vh; float: left;  margin: 0% 1%;">
             <thead>
                 <tr style="background: #F2F2F2">
                     <th><span class="text">D&iacute;a</span></th>

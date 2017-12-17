@@ -12,7 +12,25 @@
             $varMesStr = listarMeses();
 
             $dattop3 = t3Planeados($pLine,$pMonth);
-                      
+            $diasArrObj = listarDiasMes($pLine,$pMonth,$pYear);
+            
+            $diasArr;
+            $band = 0;
+            $titulo [0] = "Top 3: Calidad (Duración)";
+            
+            if (isset($_REQUEST["btnCalcular"])) {
+                $opcion = $_REQUEST["cmbOpcion"];
+                if ($opcion == "1") {
+                    $dattop3 = t3Calidad($pLine,$pMonth);
+                    $band = 1;
+                    $titulo [0] = "Top 3: Calidad (Duración)";
+                } else if ($opcion == "2"){
+                    $dattop3 = t3CalidadFrec($pLine,$pMonth);    
+                    $band = 2;
+                    $titulo [0] = "Top 3: Calidad (Frecuencia)";
+                }                 
+            }
+            
             $problemaPlaneado;
             $areaPlaneado;
             $durPlaneado;
@@ -21,6 +39,10 @@
                 $areaPlaneado[$i] = $dattop3[$i][0];
                 $durPlaneado[$i]= $dattop3[$i][1]; 
             }
+            
+            for ($i = 0; $i < count($diasArrObj); $i++) {
+                $diasArr[$i] = $diasArrObj[$i][0];
+            } 
             
         ?>
     </head>
@@ -34,14 +56,36 @@
         <?php echo "Mes: " . $varMesStr[$pMonth - 1] ?>
         </h3>
        
-        <form action="top3OrganizacionalesFrec.php" method="POST">
+        <FORM aling = "center" action="top3Planeados.php" method="POST" style=" height: 6vh; width: 120vh;  margin: -1% 40%;">            
+            <label>Día: </label>
+            <select id="diaI" name="cmbDiaI" >
+                <?php
+                for ($i = 0; $i < count($diasArrObj); $i++) {
+                    echo "<option>" . $diasArr[$i] . "</option>";
+                }
+                ?>
+            </select>      
+            <label style="left: 50px"> al </label>
+            <select id="diaF" name="cmbDiaF" >
+                <?php
+                for ($i = 0; $i < count($diasArrObj); $i++) {
+                    echo "<option>" . $diasArr[$i] . "</option>";
+                }
+                ?>
+            </select>
+            
+            <select name="cmbOpcion" id="Opciones">
+                <option>Seleccione</option>
+                <option value="1">Duración</option>
+                <option value="2">Frecuencia </option>
+            </select>
             <?php
                 echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$pLine.">";
                 echo "<input type="."\"hidden\" name="."\"pMonth\""."value=".$pMonth.">";
                 echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$pYear.">";
             ?>
-            <button id="plain" style="height: 4vh; width: 13vh;  float:right; margin: -1% 0%;">Frecuencia</button>
-        </form> 
+            <BUTTON name="btnCalcular">Calcular</BUTTON>
+        </FORM> 
         
         
         <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -54,7 +98,15 @@
                 type: 'bar'
             },
             title: {
-                text: 'Top 3: Planeados (Duración)'
+                text: (function() {
+                        var data = [];
+                        <?php
+                            for($i = 0 ;$i<1;$i++){
+                        ?>
+                        data.push([<?php echo "'$titulo[$i]'";?>]);
+                        <?php } ?>
+                        return data;
+                    })()
             },
             xAxis: {
                 gridLineWidth: 1,
@@ -125,7 +177,17 @@
                 <thead>     
                     <tr style="background: #F2F2F2">
                         <th><span class="textP">Area</span></th>
-                        <th><span class="textP">Duraci&oacute;n</span></th>
+                        <?php
+                            if($band == 2 ){
+                                echo "<th>";
+                                    echo 'Frecuencia';
+                                echo "</th>";
+                            } else {
+                                echo "<th>";
+                                    echo 'Duración';
+                                echo "</th>";
+                            }
+                        ?>
                     </tr>
                 </thead>
 
@@ -135,14 +197,13 @@
                         $pLine = $_REQUEST['pLine'];
                         $pMonth = $_REQUEST['pMonth'];
                         $pYear = $_REQUEST['pYear'];
-                        
-                        $datTTecnicas = t3Planeados($pLine,$pMonth);    
+                           
                         $descripcion;       
 
-                        for($i = 0; $i<count($datTTecnicas);$i++){
+                        for($i = 0; $i<count($dattop3);$i++){
                             echo "<tr>";
                             for ($j = 0; $j<2; $j++){
-                                $descripcion[$i][$j] = $datTTecnicas[$i][$j];
+                                $descripcion[$i][$j] = $dattop3[$i][$j];
                                 echo "<td>";
                                     echo $descripcion[$i][$j];
                                 echo "</td>";

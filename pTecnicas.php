@@ -29,65 +29,30 @@
             $targetDiaPTec[$i] = 0;
         }
         
+        for ($i = 1; $i<13; $i++){
+            $duracionMesPTec[$i] = 0;
+            $targetMesPTec[$i] = 0;
+        }
+        
         for ($i = 0; $i<count($datTargetDiaTecnicas); $i++){
             $dt = (int)$datTargetDiaTecnicas[$i][0];
             $targetDiaPTec[$dt] = $datTargetDiaTecnicas[$i][1];
         }
         
         for($i = 0 ;$i<count($datTecnicasDia);$i++){
-            $d = (int)$datTecnicasDia[$i][0];
             $diaPTec[$i] = $datTecnicasDia[$i][0];
-            $duracionDiaPTec[$d]= $datTecnicasDia[$i][1]; 
+            $duracionDiaPTec[$diaPTec[$i]]= $datTecnicasDia[$i][1]; 
         }
         
         for ($i = 0; $i<count($datTargetMesTecnicas); $i++){
-            $mt[$i] = (int)$datTargetMesTecnicas[$i][0];
-             switch ($mt[$i]){
-                case 1:
-                    $mesCadenaPTec[$i] = (string) "'Enero'";
-                    break;
-                case 2:
-                    $mesCadenaPTec[$i] = (string) "'Febrero'";
-                    break;
-                case 3:
-                    $mesCadenaPTec[$i] = (string) "'Marzo'";
-                    break;
-                case 4:
-                    $mesCadenaPTec[$i] = (string) "'Abril'";
-                    break;
-                case 5:
-                    $mesCadenaPTec[$i] = (string) "'Mayo'";
-                    break;
-                case 6:
-                    $mesCadenaPTec[$i] = (string) "'Junio'";
-                    break;
-                case 7:
-                    $mesCadenaPTec[$i] = (string) "'Julio'";
-                    break;
-                case 8:
-                    $mesCadenaPTec[$i] = (string) "'Agosto'";
-                    break;
-                case 9:
-                    $mesCadenaPTec[$i] = (string) "'Septiembre'";
-                    break;
-                case 10:
-                    $mesCadenaPTec[$i] = (string) "'Octubre'";
-                    break;
-                case 11:
-                    $mesCadenaPTec[$i] = (string) "'Noviembre'";
-                    break;
-                case 12:
-                    $mesCadenaPTec[$i] = (string) "'Diciembre'";
-                    break;                
-            }
-            $targetMesPTec[$i] = $datTargetMesTecnicas[$i][1];
+            $mt[$i] = (int)$datTargetMesTecnicas[$i][0];             
+            $targetMesPTec[$mt[$i]] = $datTargetMesTecnicas[$i][1];
         }
         
         for($i = 0 ;$i<count($datTecnicasMes);$i++){
             $mesPTecnicas[$i] = $datTecnicasMes[$i][0]; //imprime el valor del mes
-            $duracionMesPTec[$i]= $datTecnicasMes[$i][1]; 
-        }
-               
+            $duracionMesPTec[$mesPTecnicas[$i]]= $datTecnicasMes[$i][1]; 
+        }               
     ?>
     
 <BODY>
@@ -125,20 +90,13 @@
                         text: 'Mes'
                     },      
                     gridLineWidth: 1,
-                    categories: (function() { // Nombre del Mes
-                            var data = [];
-                            <?php
-                                for($i = 0 ;$i<count($datTargetMesTecnicas);$i++){
-                            ?>
-                            data.push([<?php echo $mesCadenaPTec[$i];?>]);
-                            <?php } ?>
-                            return data;
-                        })()
+                    categories:  ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
                 },
                 yAxis: [{
                     title: {
                         text: 'Duración (Minutos)'
                     },
+                    tickInterval: 1000,
                 }],
                 series: [{ //BARRAS PARA DURACION 
                     name: 'Indicadores',
@@ -147,7 +105,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datTecnicasMes);$i++){
+                                for($i = 1 ;$i < 13;$i++){
                             ?>
                             data.push([<?php echo $duracionMesPTec[$i];?>]);
                             <?php } ?>
@@ -160,7 +118,7 @@
                      data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0 ;$i<count($datTargetMesTecnicas);$i++){
+                                for($i = 1; $i < 13; $i++){
                             ?>
                             data.push([<?php echo $targetMesPTec[$i];?>]);
                             <?php } ?>
@@ -213,6 +171,7 @@
                     title: {
                         text: 'Duración (Minutos)'
                     },
+                    tickInterval: 50,
                 }],
                 series: [{ //BARRAS CHUNDAS
                     color: '#1A06AF',
@@ -263,7 +222,7 @@
     </div>
     
     <div  aling = "center">
-        <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;" >
+        <table style="height: 44vh; width: 200vh; float: left;  margin: 0% 1%;" >
             <thead>     
                 <tr style="background: #F2F2F2">
                     <th><span class="text">D&iacute;a</span></th>
