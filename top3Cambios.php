@@ -56,7 +56,7 @@
         <?php echo "Mes: " . $varMesStr[$pMonth - 1] ?>
         </h3>
         
-        <FORM aling = "center" action="top3Calidad.php" method="POST" style=" height: 6vh; width: 120vh;  margin: -1% 40%;">            
+        <FORM aling = "center" action="top3Cambios.php" method="POST" style=" height: 6vh; width: 120vh;  margin: -1% 40%;">            
             <label>Día: </label>
             <select id="diaI" name="cmbDiaI" >
                 <?php
