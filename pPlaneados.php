@@ -190,7 +190,6 @@
                     color: '#1A06AF',
                     name: 'Indicadores',
                     type: 'spline',
-                    zIndex: 1,
                     data: (function() {
                             var data = [];
                             <?php

@@ -16,7 +16,6 @@
         $datTargetDiaOrg = targetDiaOrganizacionales($varLine, $varMonth, $varYear);
 
         $dia;
-        $d;
         $mes;
         $duracionDia;
         $duracionMes;   
@@ -26,6 +25,7 @@
         for ($i = 1; $i < 32; $i++){
             $dia[$i] = 0;
             $duracionDia[$i] = 0;
+            $targetDiaOrg[$i] = 0;
         }
         
         for ($i = 1; $i < 13; $i++){
@@ -38,6 +38,11 @@
             $duracionDia[$dia[$i]]= $datOrgDia[$i][1]; 
         }
         
+        for ($i = 0; $i<count($datTargetDiaOrg); $i++){
+            $dt[$i] = $datTargetDiaOrg[$i][0];
+            $targetDiaOrg[$dt[$i]]= $datTargetDiaOrg[$i][1]; 
+        }
+        
         for ($i = 0; $i<count($datOrgMes); $i++){
             $mes[$i] = $datOrgMes[$i][0];           
             $duracionMes[$mes[$i]]= $datOrgMes[$i][1]; 
@@ -47,6 +52,7 @@
             $mt[$i] = $datTargetMesOrg[$i][0];
             $targetMesOrg[$mt[$i]] = $datTargetMesOrg[$i][1];
         }
+        
     ?>
     
 <BODY>
@@ -169,7 +175,6 @@
                     color: '#1A06AF',
                     name: 'Indicadores',
                     type: 'spline',
-                    zIndex: 1,
                     data: (function() {
                             var data = [];
                             <?php
@@ -185,7 +190,7 @@
                     data: (function() {
                             var data = [];
                             <?php
-                                for($i = 0; $i < count($datTargetDiaOrg); $i++){
+                                for($i = 1; $i < 32; $i++){
                             ?>
                             data.push([<?php echo $targetDiaOrg[$i];?>]);
                             <?php } ?>

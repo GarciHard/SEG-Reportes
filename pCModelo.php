@@ -44,7 +44,7 @@
         
         for ($i = 0; $i < count($datTargetDiaCMod); $i++){
             $d[$i] = $datTargetDiaCMod[$i][0];
-            $targetDiaCMod[d[$i]] = $datTargetDiaCMod[$i][1];
+            $targetDiaCMod[$d[$i]] = $datTargetDiaCMod[$i][1];
         }
         
         for ($i = 0; $i < count($datTargetMesCMod); $i++){
@@ -189,7 +189,6 @@
                     color: '#1A06AF',
                     name: 'Indicadores',
                     type: 'spline',
-                    zIndex: 1,
                     data: (function() {
                             var data = [];
                             <?php
