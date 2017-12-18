@@ -68,8 +68,8 @@
             
             $month = isset($_POST['cmbMes']) ? $_POST['cmbMes'] : '';
             
-            $year = isset($_POST['cmbAnio']) ? $_POST['cmbAnio'] : '';
-            
+            $year = isset($_POST['cmbAnio']) ? $_POST['cmbAnio'] : '';   
+                        
             ?>
         </table>
 

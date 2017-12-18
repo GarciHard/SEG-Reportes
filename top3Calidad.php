@@ -9,7 +9,10 @@
             $pLine = $_REQUEST['pLine'];            
             $pMonth = $_REQUEST['pMonth'];
             $pYear = $_REQUEST['pYear'];
-            $varMesStr = listarMeses();        
+            $varMesStr = listarMeses();     
+            
+            $varDiaI = 1;
+            $varDiaF = 31;
             
             $dattop3 = t3Calidad($pLine,$pMonth);
             $diasArrObj = listarDiasMes($pLine,$pMonth,$pYear);
@@ -18,14 +21,26 @@
             $band = 0;
             $titulo [0] = "Top 3: Calidad (Duración)";
             
+            $seleccionado = "";
+            
             if (isset($_REQUEST["btnCalcular"])) {
+                $pDiaI = isset($_POST['cmbDiaI']) ? $_POST['cmbDiaI'] : '';
+                $pDiaF = isset($_POST['cmbDiaF']) ? $_POST['cmbDiaF'] : '';                
+                
+                if ($pDiaI == 'All' && $pDiaF == 'All'){
+                    $pDiaI = 1;
+                    $pDiaF = 31;
+                } else if ($pDiaI == 'All' && $pDiaF != 'All' || $pDiaI != 'All' && $pDiaF == 'All' ) {
+                    echo '<script language="javascript">alert("Debes seleccionar bien los dias");</script>'; 
+                }
+                
                 $opcion = $_REQUEST["cmbOpcion"];
                 if ($opcion == "1") {
-                    $dattop3 = t3Calidad($pLine,$pMonth);
+                    $dattop3 = t3Calidad($pLine,$pMonth,$varDiaI,$varDiaF);
                     $band = 1;
                     $titulo [0] = "Top 3: Calidad (Duración)";
                 } else if ($opcion == "2"){
-                    $dattop3 = t3CalidadFrec($pLine,$pMonth);    
+                    $dattop3 = t3CalidadFrec($pLine,$pMonth,$varDiaI,$varDiaF);    
                     $band = 2;
                     $titulo [0] = "Top 3: Calidad (Frecuencia)";
                 }                 
@@ -61,23 +76,41 @@
         
         <FORM aling = "center" action="top3Calidad.php" method="POST" style=" height: 6vh; width: 120vh;  margin: -1% 40%;">            
             <label>Día: </label>
-            <select id="diaI" name="cmbDiaI" >
+            <select id="diaI" name="cmbDiaI">
                 <?php
+                echo "<option>" . All . "</option>";
                 for ($i = 0; $i < count($diasArrObj); $i++) {
-                    echo "<option>" . $diasArr[$i] . "</option>";
+                    if($diasArr[$i] == $pDiaI){
+                        echo "<option value='".$i."' selected>".$diasArr[$i]."</option>";
+                    }else{
+                        echo "<option>" . $diasArr[$i] . "</option>";
+                    }
                 }
                 ?>
-            </select>      
+            </select>  
+            
             <label style="left: 50px"> al </label>
             <select id="diaF" name="cmbDiaF" >
                 <?php
+                echo "<option>" . All . "</option>";
                 for ($i = 0; $i < count($diasArrObj); $i++) {
-                    echo "<option>" . $diasArr[$i] . "</option>";
+                    if($diasArr[$i] == $pDiaF){
+                        echo "<option value='".$i."' selected>".$diasArr[$i]."</option>";
+                    }else{
+                        echo "<option>" . $diasArr[$i] . "</option>";
+                    }
                 }
                 ?>
             </select>
             
             <select name="cmbOpcion" id="Opciones">
+                //<?php
+//                    if(){
+//                        
+//                    } else {
+//                        
+//                    }
+//                ?>
                 <option>Seleccione</option>
                 <option value="1">Duración</option>
                 <option value="2">Frecuencia </option>
@@ -213,5 +246,6 @@
                 </tbody> 
             </table>
         </div>
+    
     </body>
 </html>
