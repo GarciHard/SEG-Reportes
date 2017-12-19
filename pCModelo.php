@@ -145,7 +145,83 @@
             </script> 
         </div>
         
-        <div aling = "center" id="dia" class = "arribaDiaMes">
+        <div aling = "center" id="semanaCambio" class = "arribaDiaMes">
+            <script>
+                chartCPU = new Highcharts.chart('semanaCambio', {
+                title: {
+                    text: 'Minutos por Día'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Día'
+                    },
+                    gridLineWidth: 1,
+                    categories: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 1 ;$i<32;$i++){
+                            ?>
+                            data.push([<?php echo $i;?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                },
+                yAxis: [{
+                    title: {
+                        text: 'Duración (Minutos)'
+                    },
+                    tickInterval: 50,
+                }],
+                series: [{ //LINEA META
+                    color: '#2ECC71',
+                    name: 'Meta',
+                    data: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 1 ;$i<32;$i++){
+                            ?>
+                            data.push([<?php echo $targetDiaCMod[$i];?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                    
+                }, { //BARRAS 
+                    color: '#1A06AF',
+                    name: 'Indicadores',
+                    type: 'spline',
+                    data: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 1 ;$i<32;$i++){
+                            ?>
+                            data.push([<?php echo $duracionDia[$i];?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                }],
+                credits: {
+                        enabled: false
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
+            </script> 
+        </div>
+        
+        <div aling = "center" id="dia" style="height: 60vh; width: 200.5vh; float: left;  margin: -1% 0%;">
             <script>
                 chartCPU = new Highcharts.chart('dia', {
                 title: {
@@ -219,40 +295,40 @@
             });
 
             </script> 
-        </div>
+        </div>        
     </div>
     
     <div id="tabla">  
-        <table style="height: 44vh; width: 200vh; float: left;  margin: 0% 1%;">
+        <table style="height: 38vh; width: 196vh; float: left;  margin: 1% 1.5%;">
             <thead>
                 <tr style="background: #F2F2F2">
-                        <th><span class="text">D&iacute;a</span></th>
-                        <th><span class="text">Ar&eacute;a</span></th>
-                        <th><span class="text">Pobl&eacute;ma</span></th>
-                        <th><span class="text">Duraci&oacute;n (Minutos)</span></th>
-                    </tr>
-                </thead>
+                    <th><span class="text">D&iacute;a</span></th>
+                    <th><span class="text">Ar&eacute;a</span></th>
+                    <th><span class="text">Pobl&eacute;ma</span></th>
+                    <th><span class="text">Duraci&oacute;n (Minutos)</span></th>
+                </tr>
+            </thead>
 
-                <tbody>        
-                    <?php
-                        require_once 'ServerFunctions.php';
+            <tbody>        
+                <?php
+                    require_once 'ServerFunctions.php';
 
-                        $datCModTabla = pCambioModTabla($varLine, $varMonth);
-                        $diaT;       
+                    $datCModTabla = pCambioModTabla($varLine, $varMonth);
+                    $diaT;       
 
-                        for($i = 0; $i<count($datCModTabla);$i++){
-                            echo "<tr>";
-                            for ($j = 0; $j<4; $j++){
-                                $diaT[$i][$j] = $datCModTabla[$i][$j];
-                                echo "<td>";
-                                    echo $diaT[$i][$j];
-                                echo "</td>";
-                            }
-                            echo "</tr>";
+                    for($i = 0; $i<count($datCModTabla);$i++){
+                        echo "<tr>";
+                        for ($j = 0; $j<4; $j++){
+                            $diaT[$i][$j] = $datCModTabla[$i][$j];
+                            echo "<td>";
+                                echo $diaT[$i][$j];
+                            echo "</td>";
                         }
-                    ?>        
-                </tbody> 
-            </table>
+                        echo "</tr>";
+                    }
+                ?>        
+            </tbody> 
+        </table>
     </div>
     
 </BODY>

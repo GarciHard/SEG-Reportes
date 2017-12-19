@@ -147,7 +147,82 @@
             </script> 
         </div>
         
-        <div aling = "center" id="diaPPlaneados" class = "arribaDiaMes">
+        <div aling = "center" id="semanaPPlaneados" class="arribaDiaMes">
+            <script>
+                chartCPU = new Highcharts.chart('semanaPPlaneados', {
+                title: {
+                    text: 'Fallas por Día'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Día'
+                    },
+                    gridLineWidth: 1,
+                    categories: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 1 ;$i<32;$i++){
+                            ?>
+                            data.push([<?php echo $i;?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                },
+                yAxis: [{
+                    title: {
+                        text: 'Duración (Minutos)'
+                    },
+                    tickInterval: 50,
+                }],
+                series: [{ //LINEA META
+                    color: '#2ECC71',
+                    name: 'Meta',
+                     data: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 1; $i < 32; $i++){
+                            ?>
+                            data.push([<?php echo $targetDiaPlaneados[$i];?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                }, { //BARRAS CHUNDAS
+                    color: '#1A06AF',
+                    name: 'Indicadores',
+                    type: 'spline',
+                    data: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 1 ;$i<32;$i++){
+                            ?>
+                            data.push([<?php echo $duracionDiaPPlaneados[$i];?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                }],
+                credits: {
+                        enabled: false
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+            </script> 
+        </div>
+        
+        
+        <div aling = "center" id="diaPPlaneados" style="height: 60vh; width: 200.5vh; float: left;  margin: -1% 0%;">
             <script>
                 chartCPU = new Highcharts.chart('diaPPlaneados', {
                 title: {
@@ -220,11 +295,11 @@
             });
 
             </script> 
-        </div>
+        </div>  
     </div>
     
     <div id="tabla">  
-        <table style="height: 44vh; width: 200vh; float: left;  margin: 0% 1%;">
+        <table style="height: 38vh; width: 196vh; float: left;  margin: 1% 1.5%;">
             <thead>
                 <tr style="background: #F2F2F2">
                     <th><span class="text">D&iacute;a</span></th>

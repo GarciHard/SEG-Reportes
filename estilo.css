@@ -1,40 +1,3 @@
-/*table{
-    border-spacing: 0;
-    display: flex;Se ajuste dinamicamente al tamano del dispositivo*
-    max-height: 40vh; El alto que necesitemos*
-    overflow-y: auto; *El scroll verticalmente cuando sea necesario
-    overflow-x: hidden;Sin scroll horizontal
-    table-layout: fixed;*Forzamos a que las filas tenga el mismo ancho*
-    width: 97.5vw; El ancho que necesitemos
-    border:1px solid gray;
-}
-
-thead{
-    background: #D8D8D8;
-    position: fixed !important;el thead va ser siempre estatico*
-}
-
-th{
-    border-bottom: 1px solid #c4c0c9;
-    border-right: 1px solid #c4c0c9;
-}
-
-th,td{
-    font-weight: normal;
-    margin: 0;
-    max-width: 18.5vw; *Ancho por celda
-    min-width: 18.5vw;*Ancho por celda
-    word-wrap: break-word;Si el contenido supera el tamano, adiciona a una nueve linea*
-    font-size: 11px;
-    height: 3.5vh !important;El mismo alto para todas las celdas*
-    padding: 4px;
-    border-right: 1px solid #c4c0c9;
-    border: .1px solid black;
-}
-tr:nth-child(2n) {
-    
-}   */
-
 .table-container {
     height: 10em;
 }
@@ -66,6 +29,8 @@ table tbody tr {
 }
 /* decorations */
 .table-container {
+    border-collapse: separate;
+    border-collapse: collapse;
     border: 1px solid black;
     padding: 0.3em;
 }
@@ -103,7 +68,7 @@ table th {
 
 .arribaDiaMes{
     height: 40vh; 
-    width: 60%; 
+    width: 75%; 
     float: left ; 
     margin: 0% 1%
 }   

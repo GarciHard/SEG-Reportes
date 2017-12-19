@@ -13,6 +13,51 @@
     $month = "";
     $year = "";
     
+    $linea = isset($_POST['cmbLinea']) ? $_POST['cmbLinea'] : '';
+    $mes = isset($_POST['cmbMes']) ? $_POST['cmbMes'] : '';
+    
+    switch ($mes) {
+        case 1:
+            $mesCad = (string) "Enero";
+        break;
+        case 2:
+            $mesCad = (string) "Febrero";
+        break;
+        case 3:
+            $mesCad = (string) "Marzo";
+        break;
+        case 4:
+            $mesCad = (string) "Abril";
+        break;
+        case 5:
+            $mesCad = (string) "Mayo";
+        break;
+        case 6:
+            $mesCad = (string) "Junio";
+            break;
+        case 7:
+            $mesCad = (string) "Julio";
+            break;
+        case 8:
+            $mesCad = (string) "Agosto";
+            break;
+        case 9:
+            $mesCad = (string) "Septiembre";
+            break;
+        case 10:
+            $mesCad = (string) "Octubre";
+            break;
+        case 11:
+            $mesCad = (string) "Noviembre";
+            break;
+        case 12:
+            $mesCad = (string) "Diciembre";
+            break;
+    }
+    
+    $anio = isset($_POST['cmbAnio']) ? $_POST['cmbAnio'] : '';
+
+    
 ?>
 <html>
     <head>
@@ -38,7 +83,11 @@
                     <select id="lineaCombo" name="cmbLinea" >
                         <?php
                         for ($i = 0; $i < count($lineasArrObj); $i++) {
-                            echo "<option>" . $lineaArr[$i] . "</option>";
+                            if($linea == $lineaArr[$i]){
+                                echo "<option value='".$i."' selected>".$lineaArr[$i]."</option>";
+                            }else {
+                                echo "<option>" . $lineaArr[$i] . "</option>";
+                            }                            
                         }
                         ?>
                     </select>
@@ -46,7 +95,11 @@
                     <select id="mesCombo" name="cmbMes">
                         <?php
                         for ($i = 0; $i < count($mesesArrObj); $i++) {
-                            echo "<option value=".($i+1).">" . $mesesArrObj[$i] . "</option>";
+                            if($mesCad == $mesesArrObj[$i]){
+                                echo "<option value='".$i."' selected>".$mesesArrObj[$i]."</option>";
+                            } else {
+                                echo "<option value=".($i+1).">" . $mesesArrObj[$i] . "</option>";
+                            }
                         }
                         ?>
                     </select>
@@ -54,7 +107,11 @@
                     <select id="anioCombo" name="cmbAnio" >
                         <?php
                         for ($i = 0; $i < count($anioArrObj); $i++) {
-                            echo "<option>" . $anioArrObj[$i] . "</option>";
+                            if($anio == $anioArrObj[$i]){
+                                echo "<option value='".$i."' selected>".$anioArrObj[$i]."</option>";
+                            } else {
+                                echo "<option>" . $anioArrObj[$i] . "</option>";
+                            }
                         }
                         ?>
                     </select>
@@ -301,50 +358,6 @@ for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
 
                                 for ($i = 0; $i < count($datTargetProdMes); $i++) {
                                     $targetProdMes[$i] = $datTargetProdMes[$i][1];
-                                }
-
-                                for ($i = 0; $i < count($datProdMes); $i++) {
-                                    $mes[$i] = $datProdMes[$i][0];
-
-                                    switch ($mes[$i]) {
-                                        case 1:
-                                            $mesCadenaProd[$i] = (string) "'Enero'";
-                                            break;
-                                        case 2:
-                                            $mesCadenaProd[$i] = (string) "'Febrero'";
-                                            break;
-                                        case 3:
-                                            $mesCadenaProd[$i] = (string) "'Marzo'";
-                                            break;
-                                        case 4:
-                                            $mesCadenaProd[$i] = (string) "'Abril'";
-                                            break;
-                                        case 5:
-                                            $mesCadenaProd[$i] = (string) "'Mayo'";
-                                            break;
-                                        case 6:
-                                            $mesCadenaProd[$i] = (string) "'Junio'";
-                                            break;
-                                        case 7:
-                                            $mesCadenaProd[$i] = (string) "'Julio'";
-                                            break;
-                                        case 8:
-                                            $mesCadenaProd[$i] = (string) "'Agosto'";
-                                            break;
-                                        case 9:
-                                            $mesCadenaProd[$i] = (string) "'Septiembre'";
-                                            break;
-                                        case 10:
-                                            $mesCadenaProd[$i] = (string) "'Octubre'";
-                                            break;
-                                        case 11:
-                                            $mesCadenaProd[$i] = (string) "'Noviembre'";
-                                            break;
-                                        case 12:
-                                            $mesCadenaProd[$i] = (string) "'Diciembre'";
-                                            break;
-                                    }
-                                    $prodMes[$i] = $datProdMes[$i][1];
                                 }
 
                                 for ($i = 0; $i < 100; $i++) {
@@ -1615,9 +1628,9 @@ for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
                                     $targetMesCalidad[$i] = $datTargetMesCalidad[$i][1];
                                 }
 
-                            ?>
+                                ?>
                                 <form action="pCalidad.php" method="POST">
-                                    <div aling = "center" id="calidad" class = "perdidaCalidad">
+                                <div aling = "center" id="calidad" class = "perdidaCalidad">
                                     <script>
                                         chartCPU = new Highcharts.chart('calidad', {
                                         title: {
@@ -1699,6 +1712,157 @@ for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
                                 </form>
                             </td>
                         </tr>
+                        
+                        
+                        <tr>                            
+                            <td>
+                                <?php
+                                
+                                $varMesStr = listarMeses();
+                                $pDiaI = 1;
+                                $pDiaF = 31;
+                                $band = 0;
+
+                                $dattop3 = t3Calidad($line,$month,$pDiaI,$pDiaF);
+                                $dattop5 = t5TecnicasYOrganizacionales($line,$month,$pDiaI,$pDiaF);
+                                $dattop1 = t1pareto($line,$month,$pDiaI,$pDiaF);
+                                $diasArrObj = listarDiasMes($line,$month,$year);
+
+
+                                $operacionTecOrg;
+                                $opTecOrg;
+                                $problemaTecOrg;
+                                $durTecOrg;
+
+                                $cambio;
+                                $cam;
+                                $durCambio;
+
+                                $problemaCalidad;
+                                $operacionCalidad;
+                                $durCalidad;
+
+                                $titulo[0] = "Top 5: Tecnicos y Oranizacionales (Duración)";
+                                $titulo[1] = "Top 1: Cambio de Modelo (Duración)";
+                                $titulo[2] = "Top 3: Calidad (Duración)";
+
+                                for($i = 0 ;$i<count($dattop5);$i++){
+                                    $operacionTecOrg[$i] = $dattop5[$i][0];
+                                    $op[$i] = (string) $operacionTecOrg[$i]; //cambio de valor para imprimir operacionTecOrg
+                                    $problemaTecOrg[$i] = (string) $dattop5[$i][1];
+                                    $durTecOrg[$i]= $dattop5[$i][2]; 
+                                }
+
+                                for($i = 0 ;$i<count($dattop1);$i++){
+                                    $cambio[$i] = $dattop1[$i][0];
+                                    $durCambio[$i]= $dattop1[$i][2]; 
+                                }
+
+                                for($i = 0 ;$i<count($dattop3);$i++){
+                                    $operacionCalidad[$i] = $dattop3[$i][0];
+                                    $problemaCalidad[$i] = $dattop3[$i][1];
+                                    $durCalidad[$i]= $dattop3[$i][2]; 
+                                }
+
+                                for ($i = 0; $i < count($diasArrObj); $i++) {
+                                    $diasArr[$i] = $diasArrObj[$i][0];
+                                }
+
+                            ?>
+                                
+                                <form action="paretoTOP3.php" method="POST">
+                                    <div aling ="center" id ="paretoPerdidas" class="perdidaCalidad">
+                                        <script>
+                                            chartCPU = new  Highcharts.chart('ptto', {
+                                            chart: {
+                                                type: 'bar'
+                                            },
+                                            title: {
+                                               text: (function() {
+                                                        var data = [];
+                                                        <?php
+                                                            for($i = 0; $i < 1; $i++){
+                                                        ?>
+                                                        data.push([<?php echo "'$titulo[$i]'";?>]);
+                                                        <?php } ?>
+                                                        return data;
+                                                    })()
+                                            },
+                                            xAxis: {
+                                                gridLineWidth: 1,
+                                                categories: (function() {
+                                                        var data = [];
+                                                        <?php
+                                                            for($i = 0; $i < count($dattop5); $i++){
+                                                        ?>
+                                                        data.push([<?php echo "'$problemaTecOrg[$i]'";?>]);
+                                                        <?php } ?>
+                                                        return data;
+                                                    })()
+                                            },
+                                            yAxis: {
+                                                min: 0,
+                                                title: {
+                                                    text: 'Duracion (minutos)'
+                                                }
+                                            },
+                                            legend: {
+                                                reversed: true
+                                            }, 
+                                            tooltip: {
+                                                valueSuffix: ' min'
+                                            },
+                                            plotOptions: {
+                                                series: {
+                                                    stacking: 'normal'
+
+                                                }
+                                            },
+                                            series: [{
+                                                name: 'Incidencia',
+                                                color: '#1A06AF',
+                                                data: (function() {
+                                                        var data = [];
+                                                        <?php
+                                                            for($i = 0; $i < count($dattop5); $i++){
+                                                        ?>
+                                                        data.push([<?php echo $durTecOrg[$i];?>]);
+                                                        <?php } ?>
+                                                        return data;
+                                                    })()
+                                            }],
+                                            credits: {
+                                                enabled: false
+                                            },
+                                            responsive: {
+                                                rules: [{
+                                                    condition: {
+                                                        maxWidth: 500
+                                                    },
+                                                    chartOptions: {
+                                                        legend: {
+                                                            layout: 'horizontal',
+                                                            align: 'center',
+                                                            verticalAlign: 'bottom'
+                                                        }
+                                                    }
+                                                }]
+                                            }
+                                            });
+                                        </script>
+                                    </div>
+                                    
+                                    
+                                    <?php
+                                        echo "<input type="."\"hidden\" name="."\"varLine\""."value=".$line.">";
+                                        echo "<input type="."\"hidden\" name="."\"varMonth\""."value=".$month.">";
+                                        echo "<input type="."\"hidden\" name="."\"varYear\""."value=".$year.">";
+                                    ?>
+                                    <button id="plain">Pareto TOP 5</button>
+                               </form>
+                            </td>     
+                        </tr>
+                        
                     </tbody>
                 </table>
             </div>

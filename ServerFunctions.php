@@ -6,8 +6,8 @@ require_once 'ServerConfig.php';
  * @author GJA5TL
  */
 
-//$varDiaI = 1;
-//$varDiaF = 32;
+$varDiaI = 1;
+$varDiaF = 31;
 
 function listarLineas() {
     $connectionObj = new ServerConfig();
@@ -278,18 +278,18 @@ function targetMesCalidad($linea, $anio) {
 }
 
 /* PARETOS TOPS */
-function t5TecnicasYOrganizacionales($linea, $mes) {
-    $sql = "SELECT TOP 5 operacion,problema, SUM(duracion) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Tecnicas','Organizacionales') and mes = $mes AND problema <> '' GROUP BY operacion,problema order by tm desc";
+function t5TecnicasYOrganizacionales($linea, $mes, $varDiaI, $varDiaF) {
+    $sql = "SELECT TOP 5 operacion,problema, SUM(duracion) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Tecnicas','Organizacionales') and mes = $mes AND problema <> '' AND dia >= '$varDiaI' AND dia <= '$varDiaF'  GROUP BY operacion,problema order by tm desc";
     return getArraySQL($sql);
 }
 
-function t1pareto($linea, $mes) {
-    $sql = "SELECT TOP 1 problema,COUNT(problema) as con, MAX(DURACION) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Cambio de Modelo') and mes = $mes AND problema <> '' GROUP BY problema order by con DESC";
+function t1pareto($linea, $mes, $varDiaI, $varDiaF) {
+    $sql = "SELECT TOP 1 problema,COUNT(problema) as con, MAX(DURACION) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Cambio de Modelo') and mes = $mes AND problema <> '' AND dia >= '$varDiaI' AND dia <= '$varDiaF'  GROUP BY problema order by con DESC";
     return getArraySQL($sql);
 }
 
-function t3Calidad($linea, $mes) {
-    $sql = "SELECT TOP 3 operacion,problema, SUM(duracion) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Calidad') and mes = $mes AND problema <> '' GROUP BY operacion,problema order by tm desc";
+function t3Calidad($linea, $mes, $varDiaI, $varDiaF) {
+    $sql = "SELECT TOP 3 operacion,problema, SUM(duracion) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Calidad') and mes = '$mes' AND problema <> '' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY operacion,problema order by tm desc";
     return getArraySQL($sql);
 }
 
@@ -310,7 +310,9 @@ function t3CambioModelo($linea, $mes,$varDiaI, $varDiaF) {
 }
 
 function t3Planeados($linea, $mes,$varDiaI, $varDiaF) {
-    $sql = "SELECT TOP 3 area, SUM(duracion) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Paros Planeados') and mes = '$mes' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY problema, area order by tm desc";
+    $sql = "SELECT TOP 3 area, SUM(duracion) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Paros Planeados') and mes = '$mes' AND dia >= '$varDiaI' AND dia <= '$varDiaF' AND "
+        . "area <> 'Arranque de linea' OR area <> 'Juntas de trabajo planeado' OR area <> 'Junta Informativa' OR area <> 'Workshop planeado' OR area <> 'Produccion de prototipos/muestras planeado' OR area <> 'Mantenimiento planeado/TPM' OR area <> 'Mantenimiento planeado/TPM' OR area <> 'Comedor' OR area <> 'Descanso' "
+            . " GROUP BY problema, area order by tm desc";
     return getArraySQL($sql);
 }
 
@@ -343,11 +345,23 @@ function t3CambioModeloFrec($linea, $mes,$varDiaI, $varDiaF) {
 }
 
 function t3PlaneadosFrec($linea, $mes,$varDiaI, $varDiaF) {
-    $sql = "SELECT TOP 3 area, COUNT(area) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Paros Planeados') and mes = '$mes' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY problema, area order by tm desc";
+    $sql = "SELECT TOP 3 area, COUNT(area) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Paros Planeados') and mes = '$mes' AND dia >= '$varDiaI' AND dia <= '$varDiaF' AND "
+            . "area <> 'Arranque de linea' OR area <> 'Juntas de trabajo planeado' OR area <> 'Junta Informativa' OR area <> 'Workshop planeado' OR area <> 'Produccion de prototipos/muestras planeado' OR area <> 'Mantenimiento planeado/TPM' OR area <> 'Mantenimiento planeado/TPM' OR area <> 'Comedor' OR area <> 'Descanso' "
+            . " GROUP BY problema, area order by tm desc";    
     return getArraySQL($sql);
 }
 
 function t3CalidadFrec($linea, $mes, $varDiaI, $varDiaF) {
-    $sql = "SELECT TOP 3 operacion,problema, count(problema) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Calidad') and mes = '$mes' AND problema <> '' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY operacion,problema order by tm desc";
+    $sql = "SELECT TOP 3 operacion,problema, count(problema) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Calidad') AND mes = '$mes' AND problema <> '' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY operacion,problema order by tm desc";
+    return getArraySQL($sql);
+}
+
+function t5General($linea, $mes, $anio, $varDiaI, $varDiaF){
+    $sql = "SELECT Top 5 tema,operacion, problema, detalleMaterial, SUM(duracion) AS dur, (SELECT COUNT(problema) FROM  Bitacora WHERE problema = 'Cambio de Modelo')as Cambios FROM Bitacora WHERE TEMA <> 'Piezas Producidas' AND TEMA <> 'Cambio de Modelo' AND LINEA LIKE '$linea' AND mes = '$mes' AND anio = '$anio' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY tema,operacion,problema,area,detalleMaterial ORDER BY dur DESC;";
+    return getArraySQL($sql);
+}
+
+function t5GeneralFrec($linea, $mes, $anio,$varDiaI, $varDiaF){
+    $sql = "SELECT Top 5 tema,operacion, problema, detalleMaterial, count(duracion) AS dur, (SELECT COUNT(problema) FROM  Bitacora WHERE problema = 'Cambio de Modelo')as Cambios FROM Bitacora WHERE TEMA <> 'Piezas Producidas' AND TEMA <> 'Cambio de Modelo' AND LINEA LIKE '$linea' AND mes = '$mes' AND anio = '$anio' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY tema,operacion,problema,area,detalleMaterial ORDER BY dur DESC;";
     return getArraySQL($sql);
 }

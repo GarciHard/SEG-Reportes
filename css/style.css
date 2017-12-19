@@ -10,17 +10,14 @@ td {
    height: 350px; 
    padding: 5px;
 }
-/*button {
-    width: 590px;
-    height: 350px;
-}*/
+
 #plain {
     width: 590px;
 }
 #container {
-	min-width: 320px;
-	max-width: 600px;
-	margin: 0 auto;
+    min-width: 320px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 /*Encabezado para las hojas de reporte*/
@@ -34,14 +31,14 @@ td {
     position:relative;
 }
 #table-scroll-main-graph {
-    height:435px;
+    height:835px;
     overflow:auto;  
     margin-top:20px;
 }
 #table-wrapper table {
     width:100%;
-
 }
+
 #table-wrapper table * {
     background:white;
     color:black;
@@ -52,9 +49,23 @@ td {
     top:-10px;
     z-index:2;
     height:20px;
-    width:35%;
-    
+    width:35%;    
 }
+
+.contenedor{
+    height: 40vh; 
+    width: 49%; 
+    float: left ; 
+    margin: 0% 0%;
+}
+
+.contenedor2{
+    height: 50vh; 
+    width: 98%; 
+    float: left ; 
+    margin: 0% 0%
+}
+
 
 /*GRAFICAS DE PRODUCCIÓN MINIATURA*/
 .produccionGraph{
@@ -93,6 +104,12 @@ td {
     float: left; 
     margin: 0% 0%
 }
+.paretoTop {
+    height: 65vh; 
+    width: 95%; 
+    float: left; 
+    margin: 0% 0%
+}
 .oeeMensual {
     height: 75vh; 
     width: 100%; 
@@ -115,22 +132,34 @@ td {
     width: 100%;
 }
 #tablaOEE {
-    border-collapse: collapse;
+    border-collapse: collapse;    
+    border: 1px solid black;
     width: 100%;
+    margin: 3% 0%;
+    border: 1; 
+    cellpadding : 0; 
+    cellspacing : 0;
 }
 #thOEE {
     text-align: left;
     padding: 8px;
     background-color: #08088A;
     color: white;
+    border-collapse: collapse;    
+    border: 1px solid black;
+    
 }
 #thOEE1 {
     text-align: left;
     padding: 8px;
+    border-collapse: collapse;    
+    border: 1px solid black;
 }
 #thOEE2 {
     text-align: left;
     padding: 8px;
     background-color: #f2f2f2;
+    border-collapse: collapse;    
+    border: 1px solid black;
 }
 

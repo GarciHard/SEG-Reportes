@@ -17,14 +17,14 @@
 
         $dia;
         $mes;
-        $duracionDia;
+        $duracionDiaOrg;
         $duracionMes;   
         $targetMesOrg;
         $targetDiaOrg;
         
         for ($i = 1; $i < 32; $i++){
             $dia[$i] = 0;
-            $duracionDia[$i] = 0;
+            $duracionDiaOrg[$i] = 0;
             $targetDiaOrg[$i] = 0;
         }
         
@@ -35,7 +35,7 @@
         
         for ($i = 0; $i<count($datOrgDia); $i++){
             $dia[$i] = $datOrgDia[$i][0];
-            $duracionDia[$dia[$i]]= $datOrgDia[$i][1]; 
+            $duracionDiaOrg[$dia[$i]]= $datOrgDia[$i][1]; 
         }
         
         for ($i = 0; $i<count($datTargetDiaOrg); $i++){
@@ -144,7 +144,82 @@
             </script> 
         </div>
         
-        <div aling = "center" id="dia" class = "arribaDiaMes">
+        <div aling = "center" id="semana" class="arribaDiaMes">
+            <script>
+                chartCPU = new Highcharts.chart('semana', {
+                title: {
+                    text: 'Minutos con Falla por Día'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Día'
+                    },
+                    gridLineWidth: 1,
+                    categories: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 1; $i < 32; $i++){
+                            ?>
+                            data.push([<?php echo $i;?>]);
+                            <?php } ?>
+                            return data;
+                        })()                        
+                },
+                yAxis: [{
+                    title: {
+                        text: 'Duración (Minutos)'
+                    },
+                    tickInterval: 50,
+                }],
+                series: [{ //BARRAS Duracion
+                    color: '#1A06AF',
+                    name: 'Indicadores',
+                    type: 'spline',
+                    data: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 1; $i < 32; $i++){
+                            ?>
+                            data.push([<?php echo $duracionDiaOrg[$i];?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                }, { //LINEA META
+                    color: '#2ECC71',
+                    name: 'Meta',
+                    data: (function() {
+                            var data = [];
+                            <?php
+                                for($i = 1; $i < 32; $i++){
+                            ?>
+                            data.push([<?php echo $targetDiaOrg[$i];?>]);
+                            <?php } ?>
+                            return data;
+                        })()
+                }],
+                credits: {
+                        enabled: false
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+            </script> 
+        </div>
+        
+        
+        <div aling = "center" id="dia" style="height: 60vh; width: 200.5vh; float: left;  margin: -1% 0%;">
             <script>
                 chartCPU = new Highcharts.chart('dia', {
                 title: {
@@ -180,7 +255,7 @@
                             <?php
                                 for($i = 1; $i < 32; $i++){
                             ?>
-                            data.push([<?php echo $duracionDia[$i];?>]);
+                            data.push([<?php echo $duracionDiaOrg[$i];?>]);
                             <?php } ?>
                             return data;
                         })()
@@ -215,13 +290,13 @@
                     }]
                 }
             });
-
             </script> 
         </div>
+        
     </div>
     
     <div id="tabla">  
-        <table style="height: 44vh; width: 200vh; float: left;  margin: 0% 1%;">
+        <table style="height: 38vh; width: 196vh; float: left;  margin: 1% 1.5%;">
             <thead>
             <tr style="background: #F2F2F2">
                 <th>Día</th>

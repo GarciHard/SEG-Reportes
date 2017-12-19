@@ -126,7 +126,6 @@
     <head>
         <!-- HOJA DE ESTILOS-->
         <link rel="stylesheet" href="css/style.css">
-
         <script src="https://code.highcharts.com/highcharts.js"></script>
     </head>
 
@@ -138,616 +137,662 @@
             <br>
             <?php echo "Mes: ".$varMesStr[$varMonth - 1]?>
         </h2>
+        
+        <form action="perdidasGeneral.php" method="POST">
+            <?php
+                echo "<input type="."\"hidden\" name="."\"pLine\""."value=".$varLine.">";
+                echo "<input type="."\"hidden\" name="."\"pMonth\""."value=".$varMonth.">";
+                echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$varYear.">";
+            ?>
+            <button id="plain" style="height: 4vh; width: 12vh; float:right; margin: -4.2% 0%; background-color: #D7DBDD; border-radius: 6px; border: 2px solid #C0392B;">Perdidas</button>
+        </form> 
+        
 
-        <div id="graficaMensualSemanal">
-            <table border="1"> <!-- Gráfica mensual/semanal -->
-                <tbody>
-                    <tr>
-                        <td> <!-- Gráfica mensual -->
-                            <div id="graficaOEEMensual" class="oeeMensual">
-                                <script>
-                                    Highcharts.chart('graficaOEEMensual', {
-                                        chart: {
-                                            type: 'column'
-                                        },
-                                        title: {
-                                            text: 'OEE con Factores de Pérdidas - Mensual'
-                                        },
-                                        xAxis: {
-                                            gridLineWidth: 1,
-                                            categories: ['J', 'F', 'M', 'A', 'M',
-                                                'J', 'J', 'A', 'S', 'O', 'N', 'D']
-                                        },
-                                        yAxis: {
-                                            min: 0,
-                                            title: {
-                                                text: 'Porcentaje'
+        <div id="graficaMensualSemanal">            
+            <div id="graficaOEEMensual" style="height: 40vh; width: 48%; float: left; margin: 0% 0%;">
+                <script>
+                    Highcharts.chart('graficaOEEMensual', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'OEE con Factores de Pérdidas - Mensual'
+                        },
+                        xAxis: {
+                            gridLineWidth: 1,
+                            categories: ['J', 'F', 'M', 'A', 'M',
+                                'J', 'J', 'A', 'S', 'O', 'N', 'D']
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Porcentaje'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+                            shared: true
+                        },
+                        plotOptions: {
+                            column: {
+                                stacking: 'percent'
+                            }
+                        },
+                        series: [{
+                                color: '#9E9E9E',
+                                name: 'Desempeño',
+                                data: [
+                                    <?php
+                                    for ($i = 0; $i < count($monthlyDesempeno); $i++) {
+                                        echo $monthlyDesempeno[$i] . ',';
+                                    }
+                                    ?>
+                                ]
+                            }, {
+                                color: '#3498db',
+                                name: 'Cambios',
+                                data: [
+                                    <?php
+                                    for ($i = 0; $i < count($monthlyCambios); $i++) {
+                                        echo $monthlyCambios[$i] . ',';
+                                    }
+                                    ?>
+                                ]
+                            }, {
+                                color: '#311B92',
+                                name: 'Tecnicas',
+                                data: [
+                                    <?php
+                                    for ($i = 0; $i < count($monthlyTecnica); $i++) {
+                                        echo $monthlyTecnica[$i] . ',';
+                                    }
+                                    ?>
+                                ]
+                            }, {
+                                color: '#F06292',
+                                name: 'Organizacionales',
+                                data: [
+                                    <?php
+                                    for ($i = 0; $i < count($monthlyOrganizacional); $i++) {
+                                        echo $monthlyOrganizacional[$i] . ',';
+                                    }
+                                    ?>
+                                ]
+                            }, {
+                                color: '#B71C1C',
+                                name: 'Calidad',
+                                data: [
+                                    <?php
+                                    for ($i = 0; $i < count($monthlyCalidad); $i++) {
+                                        echo $monthlyCalidad[$i] . ',';
+                                    }
+                                    ?>
+                                ]
+                            }, {
+                                color: '#2ecc71',
+                                name: 'OEE',
+                                data: [
+                                    <?php
+                                        for ($i = 0; $i < count($monthlyOEE); $i++) {
+                                            echo $monthlyOEE[$i].',';
+                                        }
+                                    ?>
+                                ]
+                            }, {
+                                color: '#2ECC71',
+                                type: 'spline',
+                                name: 'Target',
+                                data: [30, 20.67, 30, 60.33, 30.33, 20.67, 30, 60.33, 30.33, 50, 40, 80],
+                                marker: {
+                                    lineWidth: 1,
+                                    lineColor: '#2ECC71',
+                                    fillColor: '#2ECC71'
+                                }
+                            }],
+                            credits: {
+                                enabled: false
+                            },
+                            responsive: {
+                                rules: [{
+                                    condition: {
+                                        maxWidth: 500
+                                    },
+                                    chartOptions: {
+                                        legend: {
+                                            layout: 'horizontal',
+                                            align: 'center',
+                                            verticalAlign: 'bottom'
+                                        }
+                                    }
+                                }]
+                            }
+                        });
+                </script>
+            </div>
+            <!-- Gráfica semanal -->
+            <div id="graficaOEESemanal" style="height: 40vh; width:50%;  float: left ; margin: 0% 0%">
+                <script>
+                    Highcharts.chart('graficaOEESemanal', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'OEE con Factores de Pérdidas - Semanal'
+                        },
+                        xAxis: {
+                            gridLineWidth: 1,
+                            categories: [
+                                <?php
+                                for ($i = 7; $i <= 31; $i += 6) {
+                                    $time = $varYear . "-" . $varMonth . "-" . $i;
+                                    echo date("W", strtotime($time)) . ",";
+                                }
+                                ?>
+                            ]
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Porcentaje'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+                            shared: true
+                        },
+                        plotOptions: {
+                            column: {
+                                stacking: 'percent'
+                            }
+                        },
+                        series: [{
+                                color: '#9E9E9E',
+                                name: 'Desempeño',
+                                data: [
+                                    <?php
+                                        $notZero = 0;
+                                        $desempenoAux = 0;
+                                        for ($i = 0; $i < 8; $i++) {
+                                            if ($desempeno[$i] > 0) {
+                                                $desempenoAux += $desempeno[$i];
+                                                $notZero++;
                                             }
-                                        },
-                                        tooltip: {
-                                            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-                                            shared: true
-                                        },
-                                        plotOptions: {
-                                            column: {
-                                                stacking: 'percent'
+                                        }
+                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $desempenoAux = 0;
+                                        for ($i = 8; $i < 15; $i++) {
+                                            if ($desempeno[$i] > 0) {
+                                                $desempenoAux += $desempeno[$i];
+                                                $notZero++;
                                             }
-                                        },
-                                        series: [{
-                                                color: '#9E9E9E',
-                                                name: 'Desempeño',
-                                                data: [
-                                                    <?php
-                                                    for ($i = 0; $i < count($monthlyDesempeno); $i++) {
-                                                        echo $monthlyDesempeno[$i] . ',';
-                                                    }
-                                                    ?>
-                                                ]
-                                            }, {
-                                                color: '#3498db',
-                                                name: 'Cambios',
-                                                data: [
-                                                    <?php
-                                                    for ($i = 0; $i < count($monthlyCambios); $i++) {
-                                                        echo $monthlyCambios[$i] . ',';
-                                                    }
-                                                    ?>
-                                                ]
-                                            }, {
-                                                color: '#311B92',
-                                                name: 'Tecnicas',
-                                                data: [
-                                                    <?php
-                                                    for ($i = 0; $i < count($monthlyTecnica); $i++) {
-                                                        echo $monthlyTecnica[$i] . ',';
-                                                    }
-                                                    ?>
-                                                ]
-                                            }, {
-                                                color: '#F06292',
-                                                name: 'Organizacionales',
-                                                data: [
-                                                    <?php
-                                                    for ($i = 0; $i < count($monthlyOrganizacional); $i++) {
-                                                        echo $monthlyOrganizacional[$i] . ',';
-                                                    }
-                                                    ?>
-                                                ]
-                                            }, {
-                                                color: '#B71C1C',
-                                                name: 'Calidad',
-                                                data: [
-                                                    <?php
-                                                    for ($i = 0; $i < count($monthlyCalidad); $i++) {
-                                                        echo $monthlyCalidad[$i] . ',';
-                                                    }
-                                                    ?>
-                                                ]
-                                            }, {
-                                                color: '#2ecc71',
-                                                name: 'OEE',
-                                                data: [
-                                                    <?php
-                                                        for ($i = 0; $i < count($monthlyOEE); $i++) {
-                                                            echo $monthlyOEE[$i].',';
-                                                        }
-                                                    ?>
-                                                ]
-                                            }, {
-                                                color: '#2ECC71',
-                                                type: 'spline',
-                                                name: 'Target',
-                                                data: [30, 20.67, 30, 60.33, 30.33, 20.67, 30, 60.33, 30.33, 50, 40, 80],
-                                                marker: {
-                                                    lineWidth: 1,
-                                                    lineColor: '#2ECC71',
-                                                    fillColor: '#2ECC71'
+                                        }
+                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $desempenoAux = 0;
+                                        for ($i = 15; $i < 22; $i++) {
+                                            if ($desempeno[$i] > 0) {
+                                                $desempenoAux += $desempeno[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $desempenoAux = 0;
+                                        for ($i = 22; $i < 29; $i++) {
+                                            if ($desempeno[$i] > 0) {
+                                                $desempenoAux += $desempeno[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $desempenoAux = 0;
+                                        for ($i = 29; $i < count($organizacional); $i++) {
+                                            if ($desempeno[$i] > 0) {
+                                                $desempenoAux += $desempeno[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0);
+                                        ?>  
+                                ]
+                            }, {
+                                color: '#3498db',
+                                name: 'Cambios',
+                                data: [
+                                    <?php
+                                        $notZero = 0;
+                                        $cambiosAux = 0;
+                                        for ($i = 0; $i < 8; $i++) {
+                                            if ($cambios[$i] > 0) {
+                                                $cambiosAux += $cambios[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $cambiosAux = 0;
+                                        for ($i = 8; $i < 15; $i++) {
+                                            if ($cambios[$i] > 0) {
+                                                $cambiosAux += $cambios[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $cambiosAux = 0;
+                                        for ($i = 15; $i < 22; $i++) {
+                                            if ($cambios[$i] > 0) {
+                                                $cambiosAux += $cambios[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $cambiosAux = 0;
+                                        for ($i = 22; $i < 29; $i++) {
+                                            if ($cambios[$i] > 0) {
+                                                $cambiosAux += $cambios[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $cambiosAux = 0;
+                                        for ($i = 29; $i < count($organizacional); $i++) {
+                                            if ($cambios[$i] > 0) {
+                                                $cambiosAux += $cambios[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0);
+                                        ?>
+                                ]
+                            }, {
+                                color: '#311B92',
+                                name: 'Tecnicas',
+                                data: [
+                                    <?php
+                                        $notZero = 0;
+                                        $tecnicaAux = 0;
+                                        for ($i = 0; $i < 8; $i++) {
+                                            if ($tecnica[$i] > 0) {
+                                                $tecnicaAux += $tecnica[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $tecnicaAux = 0;
+                                        for ($i = 8; $i < 15; $i++) {
+                                            if ($tecnica[$i] > 0) {
+                                                $tecnicaAux += $tecnica[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $tecnicaAux = 0;
+                                        for ($i = 15; $i < 22; $i++) {
+                                            if ($tecnica[$i] > 0) {
+                                                $tecnicaAux += $tecnica[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $tecnicaAux = 0;
+                                        for ($i = 22; $i < 29; $i++) {
+                                            if ($tecnica[$i] > 0) {
+                                                $tecnicaAux += $tecnica[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $tecnicaAux = 0;
+                                        for ($i = 29; $i < count($organizacional); $i++) {
+                                            if ($tecnica[$i] > 0) {
+                                                $tecnicaAux += $tecnica[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0);
+                                        ?>
+                                ]
+                            }, {
+                                color: '#F06292',
+                                name: 'Organizacionales',
+                                data: [
+                                    <?php
+                                        $notZero = 0;
+                                        $organizacionalAux = 0;
+                                        for ($i = 0; $i < 8; $i++) {
+                                            if ($organizacional[$i] > 0) {
+                                                $organizacionalAux += $organizacional[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $organizacionalAux = 0;
+                                        for ($i = 8; $i < 15; $i++) {
+                                            if ($organizacional[$i] > 0) {
+                                                $organizacionalAux += $organizacional[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $organizacionalAux = 0;
+                                        for ($i = 15; $i < 22; $i++) {
+                                            if ($organizacional[$i] > 0) {
+                                                $organizacionalAux += $organizacional[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $organizacionalAux = 0;
+                                        for ($i = 22; $i < 29; $i++) {
+                                            if ($organizacional[$i] > 0) {
+                                                $organizacionalAux += $organizacional[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $organizacionalAux = 0;
+                                        for ($i = 29; $i < count($organizacional); $i++) {
+                                            if ($organizacional[$i] > 0) {
+                                                $organizacionalAux += $organizacional[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0);
+                                        ?>
+                                ]
+                            }, {
+                                color: '#B71C1C',
+                                name: 'Calidad',
+                                data: [
+                                    <?php
+                                        $notZero = 0;
+                                        $calidadAux = 0;
+                                        for ($i = 0; $i < 8; $i++) {
+                                            if ($calidad[$i] > 0) {
+                                                $calidadAux += $calidad[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $calidadAux = 0;
+                                        for ($i = 8; $i < 15; $i++) {
+                                            if ($calidad[$i] > 0) {
+                                                $calidadAux += $calidad[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $calidadAux = 0;
+                                        for ($i = 15; $i < 22; $i++) {
+                                            if ($calidad[$i] > 0) {
+                                                $calidadAux += $calidad[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $calidadAux = 0;
+                                        for ($i = 22; $i < 29; $i++) {
+                                            if ($calidad[$i] > 0) {
+                                                $calidadAux += $calidad[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $calidadAux = 0;
+                                        for ($i = 29; $i < count($calidad); $i++) {
+                                            if ($calidad[$i] > 0) {
+                                                $calidadAux += $calidad[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0);
+                                        ?>
+                                ]
+                            }, {
+                                color: '#2ecc71',
+                                name: 'OEE',
+                                data: [
+                                    <?php
+                                        $notZero = 0;
+                                        $oeeAux = 0;
+                                        for ($i = 0; $i < 8; $i++) {
+                                            if ($oee[$i] > 0) {
+                                                $oeeAux += $oee[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $oeeAux = 0;
+                                        for ($i = 8; $i < 15; $i++) {
+                                            if ($oee[$i] > 0) {
+                                                $oeeAux += $oee[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $oeeAux = 0;
+                                        for ($i = 15; $i < 22; $i++) {
+                                            if ($oee[$i] > 0) {
+                                                $oeeAux += $oee[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $oeeAux = 0;
+                                        for ($i = 22; $i < 29; $i++) {
+                                            if ($oee[$i] > 0) {
+                                                $oeeAux += $oee[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0) . ",";
+                                        $notZero = 0;
+                                        $oeeAux = 0;
+                                        for ($i = 29; $i < count($oee); $i++) {
+                                            if ($oee[$i] > 0) {
+                                                $oeeAux += $oee[$i];
+                                                $notZero++;
+                                            }
+                                        }
+                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0);
+                                        ?>
+                                ]
+                            },{
+                                        color: '#2ECC71',
+                                        type: 'spline',
+                                        name: 'Target',
+                                        data: [
+                                            <?php
+                                            $target = 65;
+                                            for ($i = 1; $i < 6; $i++) {
+                                                echo $target . ',';
+                                            }
+                                            ?>
+                                        ],
+                                        marker: {
+                                            lineWidth: 1,
+                                            lineColor: '#2ECC71',
+                                            fillColor: '#2ECC71'
+                                        }
+                            }], credits: {
+                                    enabled: false
+                            },
+                            responsive: {
+                                rules: [{
+                                    condition: {
+                                        maxWidth: 500
+                                    },
+                                    chartOptions: {
+                                        legend: {
+                                            layout: 'horizontal',
+                                            align: 'center',
+                                            verticalAlign: 'bottom'
+                                        }
+                                    }
+                                }]
+                            }
+                        });
+                </script>
+            </div>    
+            
+            <!-- Gráfica diaria -->
+            <div id="graficaOEEDiaria" style="height: 60vh; width: 200.5vh; float: left;  margin: -1% 0%;">                                
+                <script>                                       
+                    Highcharts.chart('graficaOEEDiaria', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'OEE con Factores de Pérdidas - Diaria'
+                        },
+                        xAxis: {
+                            gridLineWidth: 1,
+                            categories: [
+                                <?php
+                                    for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $varMonth, $varYear); $i++) {
+                                        echo ($i + 1).',';
+                                    }
+                                ?>
+                            ]
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Porcentaje'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+                            shared: true
+                        },
+                                plotOptions: {
+                                    column: {
+                                        stacking: 'percent'
+                                    }
+                                },
+                                series: [{
+                                        color: 'yellow',
+                                        name: 'Desempeño',
+                                        data: [
+                                            <?php
+                                                for ($i = 0; $i < count($desempeno); $i++) {
+                                                    echo $desempeno[$i].',';
                                                 }
-                                            }]
-                                    });
-                                </script>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> <!-- Gráfica semanal -->
-                            <div id="graficaOEESemanal" class="oeeSemanal">
-                                <script>
-                                    Highcharts.chart('graficaOEESemanal', {
-                                        chart: {
-                                            type: 'column'
-                                        },
-                                        title: {
-                                            text: 'OEE con Factores de Pérdidas - Semanal'
-                                        },
-                                        xAxis: {
-                                            gridLineWidth: 1,
-                                            categories: [
-                                                <?php
-                                                for ($i = 7; $i <= 31; $i += 6) {
-                                                    $time = $varYear . "-" . $varMonth . "-" . $i;
-                                                    echo date("W", strtotime($time)) . ",";
+                                            ?>
+                                        ]
+                                    }, {
+                                        color: '#3498db',
+                                        name: 'Cambios',
+                                        data: [
+                                            <?php
+                                                for ($i = 0; $i < count($cambios); $i++) {
+                                                    echo $cambios[$i].',';
                                                 }
-                                                ?>
-                                            ]
-                                        },
-                                        yAxis: {
-                                            min: 0,
-                                            title: {
-                                                text: 'Porcentaje'
+                                            ?>
+                                        ]
+                                    }, {
+                                        color: '#311B92',
+                                        name: 'Tecnicas',
+                                        data: [
+                                            <?php
+                                                for ($i = 0; $i < count($tecnica); $i++) {
+                                                    echo $tecnica[$i].',';
+                                                }
+                                            ?>
+                                        ]
+                                    }, {
+                                        color: '#F06292',
+                                        name: 'Organizacionales',
+                                        data: [
+                                            <?php
+                                                for ($i = 0; $i < count($organizacional); $i++) {
+                                                    echo $organizacional[$i].',';
+                                                }
+                                            ?>
+                                        ]
+                                    }, {
+                                        color: '#B71C1C',
+                                        name: 'Calidad',
+                                        data: [
+                                            <?php
+                                                for ($i = 0; $i < count($calidad); $i++) {
+                                                    echo $calidad[$i].',';
+                                                }
+                                            ?>
+                                        ]
+                                    }, {
+                                        color: '#2ecc71',
+                                        name: 'OEE',
+                                        data: [
+                                            <?php
+                                                for ($i = 0; $i < count($oee); $i++) {
+                                                    echo $oee[$i].',';
+                                                }
+                                            ?>
+                                        ]
+                                    }, {
+                                        color: '#2ECC71',
+                                        type: 'spline',
+                                        name: 'Target',
+                                        data: [
+                                            <?php
+                                                $target = 75;
+                                                for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $varMonth, $varYear); $i++) {
+                                                    echo $target.',';
+                                                }
+                                            ?>
+                                        ],
+                                        marker: {
+                                            lineWidth: 1,
+                                            lineColor: '#2ECC71',
+                                            fillColor: '#2ECC71'
+                                        }
+                                    }], credits: {
+                                            enabled: false
+                                    },
+                                    responsive: {
+                                        rules: [{
+                                            condition: {
+                                                maxWidth: 500
+                                            },
+                                            chartOptions: {
+                                                legend: {
+                                                    layout: 'horizontal',
+                                                    align: 'center',
+                                                    verticalAlign: 'bottom'
+                                                }
                                             }
-                                        },
-                                        tooltip: {
-                                            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-                                            shared: true
-                                        },
-                                        plotOptions: {
-                                            column: {
-                                                stacking: 'percent'
-                                            }
-                                        },
-                                        series: [{
-                                                color: '#9E9E9E',
-                                                name: 'Desempeño',
-                                                data: [
-                                                    <?php
-                                                        $notZero = 0;
-                                                        $desempenoAux = 0;
-                                                        for ($i = 0; $i < 8; $i++) {
-                                                            if ($desempeno[$i] > 0) {
-                                                                $desempenoAux += $desempeno[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $desempenoAux = 0;
-                                                        for ($i = 8; $i < 15; $i++) {
-                                                            if ($desempeno[$i] > 0) {
-                                                                $desempenoAux += $desempeno[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $desempenoAux = 0;
-                                                        for ($i = 15; $i < 22; $i++) {
-                                                            if ($desempeno[$i] > 0) {
-                                                                $desempenoAux += $desempeno[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $desempenoAux = 0;
-                                                        for ($i = 22; $i < 29; $i++) {
-                                                            if ($desempeno[$i] > 0) {
-                                                                $desempenoAux += $desempeno[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $desempenoAux = 0;
-                                                        for ($i = 29; $i < count($organizacional); $i++) {
-                                                            if ($desempeno[$i] > 0) {
-                                                                $desempenoAux += $desempeno[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0);
-                                                        ?>  
-                                                ]
-                                            }, {
-                                                color: '#3498db',
-                                                name: 'Cambios',
-                                                data: [
-                                                    <?php
-                                                        $notZero = 0;
-                                                        $cambiosAux = 0;
-                                                        for ($i = 0; $i < 8; $i++) {
-                                                            if ($cambios[$i] > 0) {
-                                                                $cambiosAux += $cambios[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $cambiosAux = 0;
-                                                        for ($i = 8; $i < 15; $i++) {
-                                                            if ($cambios[$i] > 0) {
-                                                                $cambiosAux += $cambios[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $cambiosAux = 0;
-                                                        for ($i = 15; $i < 22; $i++) {
-                                                            if ($cambios[$i] > 0) {
-                                                                $cambiosAux += $cambios[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $cambiosAux = 0;
-                                                        for ($i = 22; $i < 29; $i++) {
-                                                            if ($cambios[$i] > 0) {
-                                                                $cambiosAux += $cambios[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $cambiosAux = 0;
-                                                        for ($i = 29; $i < count($organizacional); $i++) {
-                                                            if ($cambios[$i] > 0) {
-                                                                $cambiosAux += $cambios[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0);
-                                                        ?>
-                                                ]
-                                            }, {
-                                                color: '#311B92',
-                                                name: 'Tecnicas',
-                                                data: [
-                                                    <?php
-                                                        $notZero = 0;
-                                                        $tecnicaAux = 0;
-                                                        for ($i = 0; $i < 8; $i++) {
-                                                            if ($tecnica[$i] > 0) {
-                                                                $tecnicaAux += $tecnica[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $tecnicaAux = 0;
-                                                        for ($i = 8; $i < 15; $i++) {
-                                                            if ($tecnica[$i] > 0) {
-                                                                $tecnicaAux += $tecnica[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $tecnicaAux = 0;
-                                                        for ($i = 15; $i < 22; $i++) {
-                                                            if ($tecnica[$i] > 0) {
-                                                                $tecnicaAux += $tecnica[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $tecnicaAux = 0;
-                                                        for ($i = 22; $i < 29; $i++) {
-                                                            if ($tecnica[$i] > 0) {
-                                                                $tecnicaAux += $tecnica[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $tecnicaAux = 0;
-                                                        for ($i = 29; $i < count($organizacional); $i++) {
-                                                            if ($tecnica[$i] > 0) {
-                                                                $tecnicaAux += $tecnica[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0);
-                                                        ?>
-                                                ]
-                                            }, {
-                                                color: '#F06292',
-                                                name: 'Organizacionales',
-                                                data: [
-                                                    <?php
-                                                        $notZero = 0;
-                                                        $organizacionalAux = 0;
-                                                        for ($i = 0; $i < 8; $i++) {
-                                                            if ($organizacional[$i] > 0) {
-                                                                $organizacionalAux += $organizacional[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $organizacionalAux = 0;
-                                                        for ($i = 8; $i < 15; $i++) {
-                                                            if ($organizacional[$i] > 0) {
-                                                                $organizacionalAux += $organizacional[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $organizacionalAux = 0;
-                                                        for ($i = 15; $i < 22; $i++) {
-                                                            if ($organizacional[$i] > 0) {
-                                                                $organizacionalAux += $organizacional[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $organizacionalAux = 0;
-                                                        for ($i = 22; $i < 29; $i++) {
-                                                            if ($organizacional[$i] > 0) {
-                                                                $organizacionalAux += $organizacional[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $organizacionalAux = 0;
-                                                        for ($i = 29; $i < count($organizacional); $i++) {
-                                                            if ($organizacional[$i] > 0) {
-                                                                $organizacionalAux += $organizacional[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0);
-                                                        ?>
-                                                ]
-                                            }, {
-                                                color: '#B71C1C',
-                                                name: 'Calidad',
-                                                data: [
-                                                    <?php
-                                                        $notZero = 0;
-                                                        $calidadAux = 0;
-                                                        for ($i = 0; $i < 8; $i++) {
-                                                            if ($calidad[$i] > 0) {
-                                                                $calidadAux += $calidad[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $calidadAux = 0;
-                                                        for ($i = 8; $i < 15; $i++) {
-                                                            if ($calidad[$i] > 0) {
-                                                                $calidadAux += $calidad[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $calidadAux = 0;
-                                                        for ($i = 15; $i < 22; $i++) {
-                                                            if ($calidad[$i] > 0) {
-                                                                $calidadAux += $calidad[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $calidadAux = 0;
-                                                        for ($i = 22; $i < 29; $i++) {
-                                                            if ($calidad[$i] > 0) {
-                                                                $calidadAux += $calidad[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $calidadAux = 0;
-                                                        for ($i = 29; $i < count($calidad); $i++) {
-                                                            if ($calidad[$i] > 0) {
-                                                                $calidadAux += $calidad[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0);
-                                                        ?>
-                                                ]
-                                            }, {
-                                                color: '#2ecc71',
-                                                name: 'OEE',
-                                                data: [
-                                                    <?php
-                                                        $notZero = 0;
-                                                        $oeeAux = 0;
-                                                        for ($i = 0; $i < 8; $i++) {
-                                                            if ($oee[$i] > 0) {
-                                                                $oeeAux += $oee[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $oeeAux = 0;
-                                                        for ($i = 8; $i < 15; $i++) {
-                                                            if ($oee[$i] > 0) {
-                                                                $oeeAux += $oee[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $oeeAux = 0;
-                                                        for ($i = 15; $i < 22; $i++) {
-                                                            if ($oee[$i] > 0) {
-                                                                $oeeAux += $oee[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $oeeAux = 0;
-                                                        for ($i = 22; $i < 29; $i++) {
-                                                            if ($oee[$i] > 0) {
-                                                                $oeeAux += $oee[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0) . ",";
-                                                        $notZero = 0;
-                                                        $oeeAux = 0;
-                                                        for ($i = 29; $i < count($oee); $i++) {
-                                                            if ($oee[$i] > 0) {
-                                                                $oeeAux += $oee[$i];
-                                                                $notZero++;
-                                                            }
-                                                        }
-                                                        echo (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0);
-                                                        ?>
-                                                ]
-                                            },{
-                                                        color: '#2ECC71',
-                                                        type: 'spline',
-                                                        name: 'Target',
-                                                        data: [
-                                                            <?php
-                                                            $target = 65;
-                                                            for ($i = 1; $i < 6; $i++) {
-                                                                echo $target . ',';
-                                                            }
-                                                            ?>
-                                                        ],
-                                                        marker: {
-                                                            lineWidth: 1,
-                                                            lineColor: '#2ECC71',
-                                                            fillColor: '#2ECC71'
-                                                        }
-                                            }]
-                                    });
-                                </script>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> <!-- Gráfica diaria -->
-                            <div id="graficaOEEDiaria" class="oeeDiario">                                
-                                <script>                                       
-                                    Highcharts.chart('graficaOEEDiaria', {
-                                        chart: {
-                                            type: 'column'
-                                        },
-                                        title: {
-                                            text: 'OEE con Factores de Pérdidas - Diaria'
-                                        },
-                                        xAxis: {
-                                            gridLineWidth: 1,
-                                            categories: [
-                                                <?php
-                                                    for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $varMonth, $varYear); $i++) {
-                                                        echo ($i + 1).',';
-                                                    }
-                                                ?>
-                                            ]
-                                        },
-                                        yAxis: {
-                                            min: 0,
-                                            title: {
-                                                text: 'Porcentaje'
-                                            }
-                                        },
-                                        tooltip: {
-                                            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-                                            shared: true
-                                        },
-                                                plotOptions: {
-                                                    column: {
-                                                        stacking: 'percent'
-                                                    }
-                                                },
-                                                series: [{
-                                                        color: 'yellow',
-                                                        name: 'Desempeño',
-                                                        data: [
-                                                            <?php
-                                                                for ($i = 0; $i < count($desempeno); $i++) {
-                                                                    echo $desempeno[$i].',';
-                                                                }
-                                                            ?>
-                                                        ]
-                                                    }, {
-                                                        color: '#3498db',
-                                                        name: 'Cambios',
-                                                        data: [
-                                                            <?php
-                                                                for ($i = 0; $i < count($cambios); $i++) {
-                                                                    echo $cambios[$i].',';
-                                                                }
-                                                            ?>
-                                                        ]
-                                                    }, {
-                                                        color: '#311B92',
-                                                        name: 'Tecnicas',
-                                                        data: [
-                                                            <?php
-                                                                for ($i = 0; $i < count($tecnica); $i++) {
-                                                                    echo $tecnica[$i].',';
-                                                                }
-                                                            ?>
-                                                        ]
-                                                    }, {
-                                                        color: '#F06292',
-                                                        name: 'Organizacionales',
-                                                        data: [
-                                                            <?php
-                                                                for ($i = 0; $i < count($organizacional); $i++) {
-                                                                    echo $organizacional[$i].',';
-                                                                }
-                                                            ?>
-                                                        ]
-                                                    }, {
-                                                        color: '#B71C1C',
-                                                        name: 'Calidad',
-                                                        data: [
-                                                            <?php
-                                                                for ($i = 0; $i < count($calidad); $i++) {
-                                                                    echo $calidad[$i].',';
-                                                                }
-                                                            ?>
-                                                        ]
-                                                    }, {
-                                                        color: '#2ecc71',
-                                                        name: 'OEE',
-                                                        data: [
-                                                            <?php
-                                                                for ($i = 0; $i < count($oee); $i++) {
-                                                                    echo $oee[$i].',';
-                                                                }
-                                                            ?>
-                                                        ]
-                                                    }, {
-                                                        color: '#2ECC71',
-                                                        type: 'spline',
-                                                        name: 'Target',
-                                                        data: [
-                                                            <?php
-                                                                $target = 75;
-                                                                for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $varMonth, $varYear); $i++) {
-                                                                    echo $target.',';
-                                                                }
-                                                            ?>
-                                                        ],
-                                                        marker: {
-                                                            lineWidth: 1,
-                                                            lineColor: '#2ECC71',
-                                                            fillColor: '#2ECC71'
-                                                        }
-                                                    }]
-                                            });
-                                </script>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                        }]
+                                    }
+                                });
+                </script>
+            </div>                        
         </div>
         
-        <table  id="tablaOEE">
+        <table  id="tablaOEE" border="1">
             <caption>Diaria</caption>
             <tbody>
-                <tr id="trOEE"> <!-- Primer fila -->
+                <tr id="trOEE"> 
                     <th id="thOEE">DIARIO</th>
                     <?php
                     for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $varMonth, $varYear); $i++) {
@@ -755,7 +800,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- OEE % fila -->
+                <tr> 
                     <th id="thOEE2">OEE (%)</th>
                     <?php
                     for ($i = 0; $i < count($oee); $i++) {
@@ -763,7 +808,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Calidad % fila -->
+                <tr> 
                     <th id="thOEE1">P&eacute;rdidas de Calidad (%)</th>
                     <?php
                     for ($i = 0; $i < count($calidad); $i++) {
@@ -771,7 +816,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Organizacional % fila -->
+                <tr> 
                     <th id="thOEE2">P&eacute;rdidas Organizacionales (%)</th>
                     <?php
                     for ($i = 0; $i < count($organizacional); $i++) {
@@ -779,7 +824,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Tecnicas % fila -->
+                <tr>  
                     <th id="thOEE1">P&eacute;rdidas T&eacute;cnicas (%)</th>
                     <?php
                     for ($i = 0; $i < count($tecnica); $i++) {
@@ -787,7 +832,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Cambios % fila -->
+                <tr> 
                     <th id="thOEE2">P&eacute;rdidas de Cambio de Modelo (%)</th>
                     <?php
                     for ($i = 0; $i < count($cambios); $i++) {
@@ -795,7 +840,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Desempeño % fila -->
+                <tr> 
                     <th id="thOEE1">P&eacute;rdidas por desempe&ntilde;o (%)</th>
                     <?php
                     for ($i = 0; $i < count($desempeno); $i++) {
@@ -809,7 +854,7 @@
         <table  id="tablaOEE">
             <caption>Mensual</caption>
             <tbody>
-                <tr id="trOEE"> <!-- Primer fila -->
+                <tr id="trOEE"> 
                     <th id="thOEE">MENSUAL</th>
                     <?php
                     for ($i = 1; $i < 13; $i++) {
@@ -817,7 +862,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- OEE % fila -->
+                <tr>
                     <th id="thOEE2">OEE (%)</th>
                     <?php
                     for ($i = 0; $i < count($monthlyOEE); $i++) {
@@ -825,7 +870,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Calidad % fila -->
+                <tr>
                     <th id="thOEE1">P&eacute;rdidas de Calidad (%)</th>
                     <?php
                     for ($i = 0; $i < count($monthlyCalidad); $i++) {
@@ -833,7 +878,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Organizacional % fila -->
+                <tr> 
                     <th id="thOEE2">P&eacute;rdidas Organizacionales (%)</th>
                     <?php
                     for ($i = 0; $i < count($monthlyOrganizacional); $i++) {
@@ -841,7 +886,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Tecnicas % fila -->
+                <tr> 
                     <th id="thOEE1">P&eacute;rdidas T&eacute;cnicas (%)</th>
                     <?php
                     for ($i = 0; $i < count($monthlyTecnica); $i++) {
@@ -849,7 +894,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Cambios % fila -->
+                <tr>
                     <th id="thOEE2">P&eacute;rdidas de Cambio de Modelo (%)</th>
                     <?php
                     for ($i = 0; $i < count($monthlyCambios); $i++) {
@@ -857,7 +902,7 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- Desempeño % fila -->
+                <tr> 
                     <th id="thOEE1">P&eacute;rdidas por desempe&ntilde;o (%)</th>
                     <?php
                     for ($i = 0; $i < count($monthlyDesempeno); $i++) {
@@ -871,7 +916,7 @@
         <table  id="tablaOEE">
             <caption>Semanal</caption>
             <tbody>
-                <tr id="trOEE"> <!-- Primer fila -->
+                <tr id="trOEE"> 
                     <th id="thOEE">SEMANAL</th>
                     <?php
                     for ($i = 7; $i <= 31; $i+= 6) {
@@ -880,7 +925,8 @@
                     }
                     ?>
                 </tr>
-                <tr> <!-- OEE % fila -->
+                
+                <tr> 
                     <th id="thOEE2">OEE (%)</th>
                     <?php
                     $notZero = 0;
@@ -930,7 +976,8 @@
                     echo "<th id=" . "thOEE2" . ">" . (($notZero != 0) ? round($oeeAux/$notZero, 2) : 0) . "</th>";
                     ?>
                 </tr>
-                <tr> <!-- Calidad % fila -->
+                
+                <tr>
                     <th id="thOEE1">P&eacute;rdidas de Calidad (%)</th>
                     <?php
                     $notZero = 0;
@@ -980,7 +1027,8 @@
                     echo "<th id=" . "thOEE1" . ">" . (($notZero != 0) ? round($calidadAux/$notZero, 2) : 0) . "</th>";
                     ?>
                 </tr>
-                <tr> <!-- Organizacional % fila -->
+                
+                <tr>
                     <th id="thOEE2">P&eacute;rdidas Organizacionales (%)</th>
                     <?php
                     $notZero = 0;
@@ -1030,7 +1078,8 @@
                     echo "<th id=" . "thOEE2" . ">" . (($notZero != 0) ? round($organizacionalAux/$notZero, 2) : 0) . "</th>";
                     ?>
                 </tr>
-                <tr> <!-- Tecnicas % fila -->
+                
+                <tr>
                     <th id="thOEE1">P&eacute;rdidas T&eacute;cnicas (%)</th>
                     <?php
                     $notZero = 0;
@@ -1080,7 +1129,8 @@
                     echo "<th id=" . "thOEE1" . ">" . (($notZero != 0) ? round($tecnicaAux/$notZero, 2) : 0) . "</th>";
                     ?>
                 </tr>
-                <tr> <!-- Cambios % fila -->
+                
+                <tr> 
                     <th id="thOEE2">P&eacute;rdidas de Cambio de Modelo (%)</th>
                     <?php
                     $notZero = 0;
@@ -1130,7 +1180,8 @@
                     echo "<th id=" . "thOEE2" . ">" . (($notZero != 0) ? round($cambiosAux/$notZero, 2) : 0) . "</th>";
                     ?>
                 </tr>
-                <tr> <!-- Desempeño % fila -->
+                
+                <tr>
                     <th id="thOEE1">P&eacute;rdidas por desempe&ntilde;o (%)</th>
                     <?php
                     $notZero = 0;
@@ -1180,9 +1231,9 @@
                     echo "<th id=" . "thOEE1" . ">" . (($notZero != 0) ? round($desempenoAux/$notZero, 2) : 0) . "</th>";
                     ?>                      
                 </tr>
+                
             </tbody>
         </table>
-
     </body>
 </html>
 

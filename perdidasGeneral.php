@@ -1,12 +1,12 @@
 <HTML>
     <head>
         <LINK REL=StyleSheet HREF="estilo.css" TYPE="text/css" MEDIA=screen>
+        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        
             <?php
             require_once 'ServerFunctions.php';
-            $pLine = $_REQUEST['pLine'];
+            $pLine = $_REQUEST['pLine'];            
             $pMonth = $_REQUEST['pMonth'];
             $pYear = $_REQUEST['pYear'];
             
@@ -15,16 +15,19 @@
             
             $varMesStr = listarMeses();
             
-            $dattop3 = t3CambioModelo($pLine,$pMonth,$pDiaI,$pDiaF);
-            $diasArrObj = listarDiasMes($pLine,$pMonth,$pYear);
+            
+            $band = 0;
+
+            $dattop3 = t5General($pLine, $pMonth, $pYear,$pDiaI,$pDiaF);
+            $diasArrObj = listarDiasMes($pLine,$pMonth,$pYear,$pDiaI,$pDiaF);
             
             $diasArr;
-            $band = 0;
-            $titulo [0] = "Top 3: Cambio de Modelo (Duración)";
             
-            if (isset($_REQUEST["btnCalcular"])) {
+            $titulo [0] = "Top 5: Fallas Generales (Duración)";
+            
+            if (isset($_REQUEST["btnCalcular"])) {                
                 $pDiaI = isset($_POST['cmbDiaI']) ? $_POST['cmbDiaI'] : '';
-                $pDiaF = isset($_POST['cmbDiaF']) ? $_POST['cmbDiaF'] : '';     
+                $pDiaF = isset($_POST['cmbDiaF']) ? $_POST['cmbDiaF'] : ''; 
                 
                 if ($pDiaI == 'All' && $pDiaF == 'All'){
                     $pDiaI = 1;
@@ -35,41 +38,50 @@
                 
                 $opcion = $_REQUEST["cmbOpcion"];
                 if ($opcion == "1") {
-                    $dattop3 = t3CambioModelo($pLine,$pMonth,$pDiaI,$pDiaF);
+                    $dattop3 = t5General($pLine, $pMonth, $pYear,$pDiaI,$pDiaF);
                     $band = 1;
-                    $titulo [0] = "Top 3: Cambio de Modelo (Duración)";
+                    $titulo [0] = "Top 5: Fallas Generales (Duración)";
                 } else if ($opcion == "2"){
-                    $dattop3 = t3CambioModeloFrec($pLine,$pMonth,$pDiaI,$pDiaF);    
+                    $dattop3 = t5GeneralFrec($pLine,$pMonth, $pYear,$pDiaI,$pDiaF);    
                     $band = 2;
-                    $titulo [0] = "Top 3: Cambio de Modelo (Frecuencia)";
+                    $titulo [0] = "Top 5: Fallas Generales (Frecuencia)";
                 }                 
             }
-                      
-            $problemaCambio;
-            $durCambio;
-            
+            $tema;
+            $problema;
+            $operacion;
+            $opTec;
+            $detalleMaterial;
+            $duracion;
+
             for($i = 0 ;$i<count($dattop3);$i++){
-                $problemaCambio[$i] = $dattop3[$i][0];                
-                $durCambio[$i]= $dattop3[$i][1]; 
+                $tema[$i] = $dattop3[$i][0];
+                $operacion[$i] = (string) $dattop3[$i][1];
+                $problema [$i] = $dattop3[$i][2];
+                $detalleMaterial[$i] = $dattop3[$i][3];
+                $duracion[$i] = $dattop3[$i][4]; 
+                
             }
             
             for ($i = 0; $i < count($diasArrObj); $i++) {
                 $diasArr[$i] = $diasArrObj[$i][0];
-            }
+            } 
+            
             
         ?>
     </head>
     
     <body>
         <h3 align=center id="titulo">
-        TOP 3: Paros por Cambio de Modelo
+        TOP 3: Paros Generales
         <br>
         <?php echo "Linea: " . $pLine ?>
         <br>
         <?php echo "Mes: " . $varMesStr[$pMonth - 1] ?>
         </h3>
         
-        <FORM aling = "center" action="top3Cambios.php" method="POST" style=" height: 6vh; width: 120vh;  margin: -1% 40%;">            
+        
+        <FORM aling = "center" action="perdidasGeneral.php" method="POST" style=" height: 6vh; width: 120vh;  margin: -1% 40%;">            
             <label>Día: </label>
             <select id="diaI" name="cmbDiaI" >
                 <?php
@@ -108,18 +120,18 @@
                 echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$pYear.">";
             ?>
             <BUTTON name="btnCalcular">Calcular</BUTTON>
-        </FORM>     
+        </FORM>   
         
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-        <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%;"> 
-                 <script>
+        <div aling = "center" id="ptc" style="height: 60vh; width: 140vh; float: left;  margin: 0% 10%; border: #08088A"> 
+            <script>
                 chartCPU = new  Highcharts.chart('ptc', {
                 chart: {
                     type: 'bar'
                 },
-                title: {
+                title: {                    
                     text: (function() {
                                 var data = [];
                                 <?php
@@ -131,20 +143,16 @@
                             })()
                 },
                 xAxis: {
-                    gridLineWidth: 1,
-                    
+                    gridLineWidth: 1,                    
                     categories: (function() {
                                 var data = [];
                                 <?php
                                     for($i = 0 ;$i<count($dattop3);$i++){
                                 ?>
-                                data.push([<?php echo "'$problemaCambio[$i]'";?>]);
+                                data.push([<?php echo "'$problema[$i]'";?>]);
                                 <?php } ?>
                                 return data;
-                            })(),
-                    title: {
-                        text: 'Problema'
-                    }
+                            })()
                 },
                 yAxis: {
                     min: 0,
@@ -161,14 +169,14 @@
                     }
                 },
                 series: [{
-                    name: 'Duración',
+                    name: 'Incidencia',
                     color: '#08088A',
                     data: (function() {
                             var data = [];
                             <?php
                                 for($i = 0 ;$i<count($dattop3);$i++){
                             ?>
-                            data.push([<?php echo $durCambio[$i];?>]);
+                            data.push([<?php echo $duracion[$i];?>]);
                             <?php } ?>
                             return data;
                         })()
@@ -194,11 +202,14 @@
             </script>
         </div>
         
-        <div id = "tabla" style="height: 22vh; width: 100vh; float: left;  margin: 0% 23%;">            
-            <table>
+        <div  aling = "center">
+            <table  aling = "center" style="height: 22vh; width: 130vh; float: left;  margin: 0% 17%;" >
                 <thead>     
                     <tr style="background: #F2F2F2">
-                        <th>Problema</span></th>
+                        <th><span class="textP">Tema</span></th>                       
+                        <th><span class="textP">Operaci&oacute;n</span></th>
+                        <th><span class="textP">Problema</span></th>
+                        <th><span class="textP">Detalle Material</span></th>
                         <?php
                             if($band == 2 ){
                                 echo "<th>";
@@ -209,14 +220,14 @@
                                     echo 'Duración';
                                 echo "</th>";
                             }
-                        ?>                      
+                        ?>
                     </tr>
                 </thead>
 
                 <tbody>        
                     <?php
-                        require_once 'ServerFunctions.php';
-                        $pLine = $_REQUEST['pLine'];
+                       require_once 'ServerFunctions.php';
+                        $pLine = $_REQUEST['pLine'];            
                         $pMonth = $_REQUEST['pMonth'];
                         $pYear = $_REQUEST['pYear'];
                         
@@ -224,7 +235,7 @@
 
                         for($i = 0; $i<count($dattop3);$i++){
                             echo "<tr>";
-                            for ($j = 0; $j<2; $j++){
+                            for ($j = 0; $j<5; $j++){
                                 $descripcion[$i][$j] = $dattop3[$i][$j];
                                 echo "<td>";
                                     echo $descripcion[$i][$j];
@@ -233,9 +244,8 @@
                             echo "</tr>";
                         }
                     ?>        
-                    </tbody> 
-                </table>
-            </div>
+                </tbody> 
+            </table>
         </div>
     </body>
 </html>

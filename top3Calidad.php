@@ -11,10 +11,10 @@
             $pYear = $_REQUEST['pYear'];
             $varMesStr = listarMeses();     
             
-            $varDiaI = 1;
-            $varDiaF = 31;
+            $pDiaI = 1;
+            $pDiaF = 31;
             
-            $dattop3 = t3Calidad($pLine,$pMonth);
+            $dattop3 = t3Calidad($pLine,$pMonth,$pDiaI,$pDiaF);
             $diasArrObj = listarDiasMes($pLine,$pMonth,$pYear);
             
             $diasArr;
@@ -36,11 +36,11 @@
                 
                 $opcion = $_REQUEST["cmbOpcion"];
                 if ($opcion == "1") {
-                    $dattop3 = t3Calidad($pLine,$pMonth,$varDiaI,$varDiaF);
+                    $dattop3 = t3Calidad($pLine,$pMonth,$pDiaI,$pDiaF);
                     $band = 1;
                     $titulo [0] = "Top 3: Calidad (Duración)";
                 } else if ($opcion == "2"){
-                    $dattop3 = t3CalidadFrec($pLine,$pMonth,$varDiaI,$varDiaF);    
+                    $dattop3 = t3CalidadFrec($pLine,$pMonth,$pDiaI,$pDiaF);    
                     $band = 2;
                     $titulo [0] = "Top 3: Calidad (Frecuencia)";
                 }                 
@@ -104,13 +104,6 @@
             </select>
             
             <select name="cmbOpcion" id="Opciones">
-                //<?php
-//                    if(){
-//                        
-//                    } else {
-//                        
-//                    }
-//                ?>
                 <option>Seleccione</option>
                 <option value="1">Duración</option>
                 <option value="2">Frecuencia </option>
