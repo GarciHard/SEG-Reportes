@@ -13,7 +13,7 @@
             $varMesStr = listarMeses();
             
             $datProdMes = pzasProdMes($varLine, $varYear);
-            $datProdAnio = pzasProdAnual($varLine, $varMonth); 
+            $datProdAnio = pzasProdAnual($varLine, $varMonth, $varYear); 
             $datProdNoP = pzasProdNoParte($varLine, $varMonth, $varYear);
             $datProdNoPDia = pzasProdNoParteDia($varLine, $varMonth, $varYear);
             $datTargetProdAnio = targetProdAnio($varLine, $varYear);

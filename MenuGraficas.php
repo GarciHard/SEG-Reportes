@@ -362,7 +362,7 @@ for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
                             <td> <!-- Gráfica de producción miniatura -->
                                 <?php
                                 $datProdMes = pzasProdMes($line, $year);
-                                $datProdAnio = pzasProdAnual($line, $month);
+                                $datProdAnio = pzasProdAnual($line, $month, $year);
                                 $datProdNoP = pzasProdNoParte($line, $month, $year);
                                 $datProdNoPDia = pzasProdNoParteDia($line, $month, $year);
                                 $datTargetProdAnio = targetProdAnio($line, $year);

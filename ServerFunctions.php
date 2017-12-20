@@ -76,7 +76,7 @@ function listarDiasMes($linea,$mes, $anio){
 
 /* PIEZAS PRODUCIDAS */
 function pzasProdAnual($linea, $mes, $anio) {
-    $sql = "SELECT anio, SUM(cantPzas) FROM bitacora WHERE linea LIKE '$linea' AND mes = '$mes' AND anio <= '$anio'-3 GROUP BY anio";
+    $sql = "SELECT anio, SUM(cantPzas) FROM bitacora WHERE linea LIKE '$linea' AND mes = '$mes' AND anio <= '$anio' GROUP BY anio";
     return getArraySQL($sql);
 }
 

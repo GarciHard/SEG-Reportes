@@ -145,6 +145,17 @@
                 echo "<input type="."\"hidden\" name="."\"pYear\""."value=".$varYear.">";
             ?>
             <button id="plain" style="height: 4vh; width: 12vh; float:right; margin: -4.2% 0%; background-color: #D7DBDD; border-radius: 6px; border: 2px solid #C0392B;">Perdidas</button>
+            <!--<button id="plain" style="height: 4vh; width: 12vh; float:left; margin: -4.2% 0%; background-color: #D7DBDD; border-radius: 6px; border: 2px solid #C0392B;">Losses</button>-->
+        </form> 
+        
+        <form action="losses.php" method="POST">
+            <?php
+                echo "<input type="."\"hidden\" name="."\"varLine\""."value=".$varLine.">";
+                echo "<input type="."\"hidden\" name="."\"varMonth\""."value=".$varMonth.">";
+                echo "<input type="."\"hidden\" name="."\"varYear\""."value=".$varYear.">";
+            ?>
+            <!--<button id="plain" style="height: 4vh; width: 12vh; float:right; margin: -4.2% 0%; background-color: #D7DBDD; border-radius: 6px; border: 2px solid #C0392B;">Perdidas</button>-->
+            <button id="plain" style="height: 4vh; width: 12vh; float:left; margin: -4.2% 0%; background-color: #D7DBDD; border-radius: 6px; border: 2px solid #C0392B;">Losses</button>
         </form> 
         
 
