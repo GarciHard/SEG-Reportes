@@ -75,8 +75,8 @@ function listarDiasMes($linea,$mes, $anio){
 }
 
 /* PIEZAS PRODUCIDAS */
-function pzasProdAnual($linea, $mes) {
-    $sql = "SELECT anio, SUM(cantPzas) FROM bitacora WHERE linea LIKE '$linea' AND mes = $mes GROUP BY anio";
+function pzasProdAnual($linea, $mes, $anio) {
+    $sql = "SELECT anio, SUM(cantPzas) FROM bitacora WHERE linea LIKE '$linea' AND mes = '$mes' AND anio <= '$anio'-3 GROUP BY anio";
     return getArraySQL($sql);
 }
 
@@ -96,7 +96,7 @@ function pzasProdNoParte($linea, $mes, $anio) {
 }
 
 function pzasProdNoParteDia($linea, $mes, $anio) {
-    $sql = "SELECT dia, noParte, SUM(cantPzas) AS suma,ROW_NUMBER() OVER(PARTITION BY noParte ORDER BY dia ASC) as cont FROM Bitacora WHERE linea LIKE '$linea' AND Mes = $mes and Anio = $anio AND tema = 'Piezas Producidas' GROUP BY noParte, dia ORDER BY noParte ASC";
+    $sql = "SELECT dia, noParte, SUM(cantPzas) AS suma,ROW_NUMBER() OVER(PARTITION BY noParte ORDER BY dia ASC) as cont FROM Bitacora WHERE linea LIKE '$linea' AND Mes = '$mes' and Anio = '$anio' AND tema = 'Piezas Producidas' GROUP BY noParte, dia ORDER BY noParte ASC";
     return getArraySQL($sql);
 }
 
@@ -283,8 +283,18 @@ function t5TecnicasYOrganizacionales($linea, $mes, $varDiaI, $varDiaF) {
     return getArraySQL($sql);
 }
 
+function t5TecnicasYOrganizacionalesFrec($linea, $mes, $varDiaI, $varDiaF) {
+    $sql = "SELECT TOP 5 operacion,problema, COUNT(problema) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Tecnicas','Organizacionales') and mes = $mes AND problema <> '' AND dia >= '$varDiaI' AND dia <= '$varDiaF'  GROUP BY operacion,problema order by tm desc";
+    return getArraySQL($sql);
+}
+
 function t1pareto($linea, $mes, $varDiaI, $varDiaF) {
     $sql = "SELECT TOP 1 problema,COUNT(problema) as con, MAX(DURACION) as tm FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Cambio de Modelo') and mes = $mes AND problema <> '' AND dia >= '$varDiaI' AND dia <= '$varDiaF'  GROUP BY problema order by con DESC";
+    return getArraySQL($sql);
+}
+
+function t1paretoFrec($linea, $mes, $varDiaI, $varDiaF) {
+    $sql = "SELECT TOP 1 problema,COUNT(problema) FROM Bitacora WHERE LINEA LIKE '$linea' AND tema IN('Cambio de Modelo') and mes = $mes AND problema <> '' AND dia >= '$varDiaI' AND dia <= '$varDiaF'  GROUP BY problema order by con DESC";
     return getArraySQL($sql);
 }
 

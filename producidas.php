@@ -11,13 +11,14 @@
             $varMonth = $_REQUEST['varMonth'];
             $varYear = $_REQUEST['varYear'];
             $varMesStr = listarMeses();
-
+            
             $datProdMes = pzasProdMes($varLine, $varYear);
             $datProdAnio = pzasProdAnual($varLine, $varMonth); 
             $datProdNoP = pzasProdNoParte($varLine, $varMonth, $varYear);
             $datProdNoPDia = pzasProdNoParteDia($varLine, $varMonth, $varYear);
             $datTargetProdAnio = targetProdAnio($varLine, $varYear);
             $datTargetProdMes = targetProdMes($varLine, $varYear);
+            $datProducidasTabla = pzasProdTabla($varLine,$varMonth,$varYear);           
                     
             $dia;
             $numPartDia;
@@ -105,7 +106,7 @@
             }            
             
             for ($i = 0; $i<count($datProdNoPDia); $i++){
-                $numPart[$i] = (int) $datProdNoPDia[$i][1]; // Numuero de Parte
+                $numPart[$i] = $datProdNoPDia[$i][1]; // Numuero de Parte
             }
             
             for($i = 0; $i<count($datProdNoPDia);$i++){
@@ -163,18 +164,17 @@
                 }else if($numPart[$i] == $noParte[24]){
                     $numPartCant[$d][25] = $datProdNoPDia[$i][2];
                 }
-            }
-            
+            }  
         ?>
     </head>
     
 <BODY>
-    <h3 align=center id="titulo">
-        Piezas Producidas
-        <br>
+    <h3 ALIGN=center id="titulo"> Piezas Producidas
+    <br>
         <?php echo "Linea: " . $varLine ?>
         <br>
         <?php echo "Mes: " . $varMesStr[$varMonth - 1] ?>
+    
     </h3>
     
     <!--------------GRAFICA----dia-------------->
@@ -380,8 +380,7 @@
                 legend: {
                     layout: 'vertical',
                     align: 'right',
-                    verticalAlign: 'middle'
-                    
+                    verticalAlign: 'middle'                    
                 },
                 tooltip: {
                     valueSuffix: ' Pzs'
@@ -413,7 +412,7 @@
                     color: '#FF0000',
                     name: 'No.Parte '+(function() {
                             var dat = [];
-                            dat.push([<?php echo 'No. Parte: '+$noParte[1];?>]);
+                            dat.push([<?php echo $noParte[1];?>]);
                             return dat;
                         })(),
                     data: (function() {
@@ -828,20 +827,17 @@
     <div id="tabla">  
         <table style="height: 48vh; width: 200vh; float: left;  margin: 0% 1%;">
             <thead>
-            <tr style="background: #F2F2F2">
-                <th>Día</th>
+                <tr style="background: #F2F2F2">
+                    <th>Día</th>
                     <th>Cliente</th>
                     <th>No. Parte</th>
                     <th>Cantidad Pzas Producidas</th>
                 </tr>   
             </thead>
-                
-            <tbody>        
-                <?php
-                    require_once("ServerFunctions.php");
 
-                    $datProducidasTabla = pzasProdTabla($varLine, $varMonth, $varYear);
-                    $diaT;
+            <tbody>        
+                <?php                       
+                    $diaT;       
 
                     for($i = 0; $i<count($datProducidasTabla);$i++){
                         echo "<tr>";

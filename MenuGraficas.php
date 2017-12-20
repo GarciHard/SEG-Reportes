@@ -9,14 +9,17 @@
     $mesesArrObj = listarMeses();
     $anioArrObj = listarAnio();
     
-    $line = "";
-    $month = "";
-    $year = "";
-    
-    $linea = isset($_POST['cmbLinea']) ? $_POST['cmbLinea'] : '';
-    $mes = isset($_POST['cmbMes']) ? $_POST['cmbMes'] : '';
-    
-    switch ($mes) {
+//    $line = "";
+//    $month = "";
+//    $year = "";
+      
+    $line = isset($_POST['cmbLinea']) ? $_POST['cmbLinea'] : '';
+                
+    $month = isset($_POST['cmbMes']) ? $_POST['cmbMes'] : '';
+
+    $year = isset($_POST['cmbAnio']) ? $_POST['cmbAnio'] : '';   
+            
+    switch ($month) {
         case 1:
             $mesCad = (string) "Enero";
         break;
@@ -54,10 +57,25 @@
             $mesCad = (string) "Diciembre";
             break;
     }
+        
+    for ($i = 0; $i <= 100; $i++){
+        $var = "$i";
+        if ($line == $var){
+            for ($i = 0; $i < $var; $i++) {
+                $line = $lineasArrObj[$i][0];
+            }
+        }
+    }
     
-    $anio = isset($_POST['cmbAnio']) ? $_POST['cmbAnio'] : '';
-
-    
+    for ($i = 0; $i <= 100; $i++){
+        $ani = "$i";
+        if ($year == $ani){
+            for ($i = 0; $i <= $ani; $i++) {
+                $year = $anioArrObj[$i];
+            }
+        }
+    }
+      
 ?>
 <html>
     <head>
@@ -75,19 +93,18 @@
         <h1 align=center id="titulos">
             SEG Automotive Systems
         </h1>
-        <table>
-            
+        <table>            
             <form action="MenuGraficas.php" method="POST">
                 <caption>
                     <label>Linea: </label>
                     <select id="lineaCombo" name="cmbLinea" >
                         <?php
                         for ($i = 0; $i < count($lineasArrObj); $i++) {
-                            if($linea == $lineaArr[$i]){
-                                echo "<option value='".$i."' selected>".$lineaArr[$i]."</option>";
-                            }else {
-                                echo "<option>" . $lineaArr[$i] . "</option>";
-                            }                            
+                            if($line == $lineaArr[$i]){
+                                echo "<option value='".($i+1)."' selected>" . $lineaArr[$i] . "</option>";
+                            } else {
+                                echo "<option>" . $lineaArr[$i] . "</option>";     
+                            }
                         }
                         ?>
                     </select>
@@ -96,7 +113,7 @@
                         <?php
                         for ($i = 0; $i < count($mesesArrObj); $i++) {
                             if($mesCad == $mesesArrObj[$i]){
-                                echo "<option value='".$i."' selected>".$mesesArrObj[$i]."</option>";
+                                echo "<option value='".($i+1)."' selected>".$mesesArrObj[$i]."</option>";
                             } else {
                                 echo "<option value=".($i+1).">" . $mesesArrObj[$i] . "</option>";
                             }
@@ -107,7 +124,7 @@
                     <select id="anioCombo" name="cmbAnio" >
                         <?php
                         for ($i = 0; $i < count($anioArrObj); $i++) {
-                            if($anio == $anioArrObj[$i]){
+                            if($year == $anioArrObj[$i]){
                                 echo "<option value='".$i."' selected>".$anioArrObj[$i]."</option>";
                             } else {
                                 echo "<option>" . $anioArrObj[$i] . "</option>";
@@ -126,7 +143,23 @@
             $month = isset($_POST['cmbMes']) ? $_POST['cmbMes'] : '';
             
             $year = isset($_POST['cmbAnio']) ? $_POST['cmbAnio'] : '';   
-                        
+            
+            for ($i = 0; $i <= 100; $i++){
+                $var = "$i";
+                if ($line == $var){
+                    for ($i = 0; $i < $var; $i++) {
+                        $line = $lineasArrObj[$i][0];
+                    }
+                }
+            }
+            for ($i = 0; $i <= 100; $i++){
+                $ani = "$i";
+                if ($year == $ani){
+                    for ($i = 0; $i <= $ani; $i++) {
+                        $year = $anioArrObj[$i];
+                    }
+                }
+            }                       
             ?>
         </table>
 
@@ -1713,145 +1746,333 @@ for ($i = 0; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
                             </td>
                         </tr>
                         
-                        
+<!--                        PARETO DE PERDIDAS                                          -->
                         <tr>                            
                             <td>
                                 <?php
                                 
-                                $varMesStr = listarMeses();
-                                $pDiaI = 1;
-                                $pDiaF = 31;
-                                $band = 0;
+                                    $pDiaI = 1;
+                                    $pDiaF = 31;
+                                    $band = 0;
 
-                                $dattop3 = t3Calidad($line,$month,$pDiaI,$pDiaF);
-                                $dattop5 = t5TecnicasYOrganizacionales($line,$month,$pDiaI,$pDiaF);
-                                $dattop1 = t1pareto($line,$month,$pDiaI,$pDiaF);
-                                $diasArrObj = listarDiasMes($line,$month,$year);
+                                    $dattop3 = t3Calidad($line,$month,$pDiaI,$pDiaF);
+                                    $dattop5 = t5TecnicasYOrganizacionales($line,$month,$pDiaI,$pDiaF);
+                                    $dattop1 = t1pareto($line,$month,$pDiaI,$pDiaF);
+                                    $diasArrObj = listarDiasMes($line,$month,$year);
 
 
-                                $operacionTecOrg;
-                                $opTecOrg;
-                                $problemaTecOrg;
-                                $durTecOrg;
+                                    $operacionTecOrg;
+                                    $opTecOrg;
+                                    $problemaTecOrg;
+                                    $durTecOrg;
 
-                                $cambio;
-                                $cam;
-                                $durCambio;
+                                    $cambio;
+                                    $cam;
+                                    $durCambio;
 
-                                $problemaCalidad;
-                                $operacionCalidad;
-                                $durCalidad;
+                                    $problemaCalidad;
+                                    $operacionCalidad;
+                                    $durCalidad;
 
-                                $titulo[0] = "Top 5: Tecnicos y Oranizacionales (Duración)";
-                                $titulo[1] = "Top 1: Cambio de Modelo (Duración)";
-                                $titulo[2] = "Top 3: Calidad (Duración)";
+                                    $titulo[0] = "Top 5: Tecnicos y Oranizacionales (Duración)";
+                                    $titulo[1] = "Top 1: Cambio de Modelo (Duración)";
+                                    $titulo[2] = "Top 3: Calidad (Duración)";
 
-                                for($i = 0 ;$i<count($dattop5);$i++){
-                                    $operacionTecOrg[$i] = $dattop5[$i][0];
-                                    $op[$i] = (string) $operacionTecOrg[$i]; //cambio de valor para imprimir operacionTecOrg
-                                    $problemaTecOrg[$i] = (string) $dattop5[$i][1];
-                                    $durTecOrg[$i]= $dattop5[$i][2]; 
-                                }
+                                    if (isset($_REQUEST["btnCalcular"])) {
+                                        $pDiaI = isset($_POST['cmbDiaI']) ? $_POST['cmbDiaI'] : '';
+                                        $pDiaF = isset($_POST['cmbDiaF']) ? $_POST['cmbDiaF'] : '';     
 
-                                for($i = 0 ;$i<count($dattop1);$i++){
-                                    $cambio[$i] = $dattop1[$i][0];
-                                    $durCambio[$i]= $dattop1[$i][2]; 
-                                }
+                                        if ($pDiaI == 'All' && $pDiaF == 'All'){
+                                            $pDiaI = 1;
+                                            $pDiaF = 31;
+                                        } else if ($pDiaI == 'All' && $pDiaF != 'All' || $pDiaI != 'All' && $pDiaF == 'All' ) {
+                                            echo '<script language="javascript">alert("Debes seleccionar bien los dias");</script>'; 
+                                        }
 
-                                for($i = 0 ;$i<count($dattop3);$i++){
-                                    $operacionCalidad[$i] = $dattop3[$i][0];
-                                    $problemaCalidad[$i] = $dattop3[$i][1];
-                                    $durCalidad[$i]= $dattop3[$i][2]; 
-                                }
+                                        $opcion = $_REQUEST["cmbOpcion"];
+                                        if ($opcion == "1") {
+                                            $dattop3 = t3Calidad($line,$month,$pDiaI,$pDiaF);
+                                            $dattop5 = t5TecnicasYOrganizacionales($line,$month,$pDiaI,$pDiaF);
+                                            $dattop1 = t1pareto($line,$month,$pDiaI,$pDiaF);
+                                            $band = 1;
+                                            $titulo[0] = "Top 5: Tecnicos y Oranizacionales (Duración)";
+                                            $titulo[1] = "Top 1: Cambio de Modelo (Duración)";
+                                            $titulo[2] = "Top 3: Calidad (Frecuencia)";
+                                        } else if ($opcion == "2"){
+                                            $dattop3 = t3CalidadFrec($line,$month,$pDiaI,$pDiaF);
+                                            $dattop5 = t5TecnicasYOrganizacionales($line,$month,$pDiaI,$pDiaF);
+                                            $dattop1 = t1pareto($line,$month,$pDiaI,$pDiaF);  
+                                            $band = 2;
+                                            $titulo[0] = "Top 5: Tecnicos y Oranizacionales (Frecuencia)";
+                                            $titulo[1] = "Top 1: Cambio de Modelo (Frecuencia)";
+                                            $titulo[2] = "Top 3: Calidad(Frecuencia)";
+                                        }                 
+                                    }            
 
-                                for ($i = 0; $i < count($diasArrObj); $i++) {
-                                    $diasArr[$i] = $diasArrObj[$i][0];
-                                }
+                                    for($i = 0 ;$i<count($dattop5);$i++){
+                                        $operacionTecOrg[$i] = $dattop5[$i][0];
+                                        $op[$i] = (string) $operacionTecOrg[$i]; //cambio de valor para imprimir operacionTecOrg
+                                        $problemaTecOrg[$i] = (string) $dattop5[$i][1];
+                                        $durTecOrg[$i]= $dattop5[$i][2]; 
+                                    }
 
-                            ?>
+                                    for($i = 0 ;$i<count($dattop1);$i++){
+                                        $cambio[$i] = $dattop1[$i][0];
+                                        $durCambio[$i]= $dattop1[$i][2]; 
+                                    }
+
+                                    for($i = 0 ;$i<count($dattop3);$i++){
+                                        $operacionCalidad[$i] = $dattop3[$i][0];
+                                        $problemaCalidad[$i] = $dattop3[$i][1];
+                                        $durCalidad[$i]= $dattop3[$i][2]; 
+                                    }
+
+                                    for ($i = 0; $i < count($diasArrObj); $i++) {
+                                        $diasArr[$i] = $diasArrObj[$i][0];
+                                    }
+                                ?>
                                 
                                 <form action="paretoTOP3.php" method="POST">
-                                    <div aling ="center" id ="paretoPerdidas" class="perdidaCalidad">
+                                    <div aling ="center" id ="ptto" style="height: 70vh; width: 45vh; float: left;  margin: 0% 1%;" >
                                         <script>
                                             chartCPU = new  Highcharts.chart('ptto', {
-                                            chart: {
-                                                type: 'bar'
-                                            },
-                                            title: {
-                                               text: (function() {
-                                                        var data = [];
-                                                        <?php
-                                                            for($i = 0; $i < 1; $i++){
-                                                        ?>
-                                                        data.push([<?php echo "'$titulo[$i]'";?>]);
-                                                        <?php } ?>
-                                                        return data;
-                                                    })()
-                                            },
-                                            xAxis: {
-                                                gridLineWidth: 1,
-                                                categories: (function() {
-                                                        var data = [];
-                                                        <?php
-                                                            for($i = 0; $i < count($dattop5); $i++){
-                                                        ?>
-                                                        data.push([<?php echo "'$problemaTecOrg[$i]'";?>]);
-                                                        <?php } ?>
-                                                        return data;
-                                                    })()
-                                            },
-                                            yAxis: {
-                                                min: 0,
-                                                title: {
-                                                    text: 'Duracion (minutos)'
-                                                }
-                                            },
-                                            legend: {
-                                                reversed: true
-                                            }, 
-                                            tooltip: {
-                                                valueSuffix: ' min'
-                                            },
-                                            plotOptions: {
-                                                series: {
-                                                    stacking: 'normal'
-
-                                                }
-                                            },
-                                            series: [{
-                                                name: 'Incidencia',
-                                                color: '#1A06AF',
-                                                data: (function() {
-                                                        var data = [];
-                                                        <?php
-                                                            for($i = 0; $i < count($dattop5); $i++){
-                                                        ?>
-                                                        data.push([<?php echo $durTecOrg[$i];?>]);
-                                                        <?php } ?>
-                                                        return data;
-                                                    })()
-                                            }],
-                                            credits: {
-                                                enabled: false
-                                            },
-                                            responsive: {
-                                                rules: [{
-                                                    condition: {
-                                                        maxWidth: 500
+                                                    chart: {
+                                                        type: 'bar'
                                                     },
-                                                    chartOptions: {
-                                                        legend: {
-                                                            layout: 'horizontal',
-                                                            align: 'center',
-                                                            verticalAlign: 'bottom'
+                                                    title: {
+                                                       text: (function() {
+                                                                var data = [];
+                                                                <?php
+                                                                    for($i = 0; $i < 1; $i++){
+                                                                ?>
+                                                                data.push([<?php echo "'$titulo[$i]'";?>]);
+                                                                <?php } ?>
+                                                                return data;
+                                                            })()
+                                                    },
+                                                    xAxis: {
+                                                        gridLineWidth: 1,
+                                                        categories: (function() {
+                                                                var data = [];
+                                                                <?php
+                                                                    for($i = 0; $i < count($dattop5); $i++){
+                                                                ?>
+                                                                data.push([<?php echo "'$problemaTecOrg[$i]'";?>]);
+                                                                <?php } ?>
+                                                                return data;
+                                                            })()
+                                                    },
+                                                    yAxis: {
+                                                        min: 0,
+                                                        title: {
+                                                            text: 'Duracion (minutos)'
                                                         }
+                                                    },
+                                                    legend: {
+                                                        reversed: true
+                                                    }, 
+                                                    tooltip: {
+                                                        valueSuffix: ' min'
+                                                    },
+                                                    plotOptions: {
+                                                        series: {
+                                                            stacking: 'normal'
+
+                                                        }
+                                                    },
+                                                    series: [{
+                                                        name: 'Incidencia',
+                                                        color: '#1A06AF',
+                                                        data: (function() {
+                                                                var data = [];
+                                                                <?php
+                                                                    for($i = 0; $i < count($dattop5); $i++){
+                                                                ?>
+                                                                data.push([<?php echo $durTecOrg[$i];?>]);
+                                                                <?php } ?>
+                                                                return data;
+                                                            })()
+                                                    }],
+                                                    credits: {
+                                                        enabled: false
+                                                    },
+                                                    responsive: {
+                                                        rules: [{
+                                                            condition: {
+                                                                maxWidth: 500
+                                                            },
+                                                            chartOptions: {
+                                                                legend: {
+                                                                    layout: 'horizontal',
+                                                                    align: 'center',
+                                                                    verticalAlign: 'bottom'
+                                                                }
+                                                            }
+                                                        }]
                                                     }
-                                                }]
-                                            }
-                                            });
-                                        </script>
+                                                    });
+                                        </script>  
                                     </div>
                                     
+                                    <div aling ="center" id ="ptcm" style="height: 35vh; width: 45vh; float: left;  margin: 0% 1%;">
+                                        <script>
+                                            chartCPU = new  Highcharts.chart('ptcm', {
+                                                chart: {
+                                                    type: 'bar'
+                                                },
+                                                title: {
+                                                   text: (function() {
+                                                            var data = [];
+                                                            <?php
+                                                                for($i = 1 ; $i < 2; $i++){
+                                                            ?>
+                                                            data.push([<?php echo "'$titulo[$i]'";?>]);
+                                                            <?php } ?>
+                                                            return data;
+                                                        })()
+                                                },
+                                                xAxis: {
+                                                    gridLineWidth: 1,
+                                                    categories: (function() {
+                                                        var data = [];
+                                                        <?php
+                                                            for($i = 0 ;$i<count($dattop1);$i++){
+                                                        ?>
+                                                        data.push([<?php echo "'$cambio[$i]'";?>]);
+                                                        <?php } ?>
+                                                        return data;
+                                                    })()
+                                                },
+                                                yAxis: {
+                                                    min: 0,
+                                                    title: {
+                                                        text: 'Duracion (minutos)'
+                                                    }
+                                                },
+                                                legend: {
+                                                    reversed: true
+                                                },
+                                                plotOptions: {
+                                                    series: {
+                                                        stacking: 'normal'
+                                                    }
+                                                },
+                                                tooltip: {
+                                                    valueSuffix: ' min'
+                                                },
+                                                series: [{
+                                                    name: 'Incidencia',
+                                                    color: '#1A06AF',
+                                                    data: (function() {
+                                                            var data = [];
+                                                            <?php
+                                                                for($i = 0 ;$i<count($dattop1);$i++){
+                                                            ?>
+                                                            data.push([<?php echo $durCambio[$i];?>]);
+                                                            <?php } ?>
+                                                            return data;
+                                                        })()
+                                                    }],
+                                                    credits: {
+                                                        enabled: false
+                                                    },
+                                                    responsive: {
+                                                        rules: [{
+                                                            condition: {
+                                                                maxWidth: 500
+                                                            },
+                                                            chartOptions: {
+                                                                legend: {
+                                                                    layout: 'horizontal',
+                                                                    align: 'center',
+                                                                    verticalAlign: 'bottom'
+                                                                }
+                                                            }
+                                                        }]
+                                                    }
+                                                });
+                                        </script>  
+                                    </div>
+                                    
+                                    <div aling ="center" id ="ptc" style="height: 40vh; width: 45vh; float: left;  margin: 0% 1%;">
+                                        <script>
+                                            chartCPU = new  Highcharts.chart('ptc', {
+                                                        chart: {
+                                                            type: 'bar'
+                                                        },
+                                                        title: {
+                                                            text: (function() {
+                                                                        var data = [];
+                                                                        <?php
+                                                                            for($i = 2 ; $i < 3; $i++){
+                                                                        ?>
+                                                                        data.push([<?php echo "'$titulo[$i]'";?>]);
+                                                                        <?php } ?>
+                                                                        return data;
+                                                                    })()
+                                                        },
+                                                        xAxis: {
+                                                            gridLineWidth: 1,
+                                                            categories: (function() {
+                                                                        var data = [];
+                                                                        <?php
+                                                                            for($i = 0 ;$i<count($dattop3);$i++){
+                                                                        ?>
+                                                                        data.push([<?php echo "'$operacionCalidad[$i], $problemaCalidad[$i]'";?>]);
+                                                                        <?php } ?>
+                                                                        return data;
+                                                                    })()
+                                                        },
+                                                        yAxis: {
+                                                            min: 0,
+                                                            title: {
+                                                                text: 'Duracion (minutos)'
+                                                            }
+                                                        },
+                                                        legend: {
+                                                            reversed: true
+                                                        },
+                                                        plotOptions: {
+                                                            series: {
+                                                                stacking: 'normal'
+                                                            }
+                                                        },
+                                                        tooltip: {
+                                                            valueSuffix: ' min'
+                                                        },
+                                                        series: [{
+                                                            name: 'Incidencia',
+                                                            color: '#1A06AF',
+                                                            data: (function() {
+                                                                    var data = [];
+                                                                    <?php
+                                                                        for($i = 0 ;$i<count($dattop3);$i++){
+                                                                    ?>
+                                                                    data.push([<?php echo $durCalidad[$i];?>]);
+                                                                    <?php } ?>
+                                                                    return data;
+                                                                })()
+                                                            }],
+                                                            credits: {
+                                                                enabled: false
+                                                            },
+                                                            responsive: {
+                                                                rules: [{
+                                                                    condition: {
+                                                                        maxWidth: 500
+                                                                    },
+                                                                    chartOptions: {
+                                                                        legend: {
+                                                                            layout: 'horizontal',
+                                                                            align: 'center',
+                                                                            verticalAlign: 'bottom'
+                                                                        }
+                                                                    }
+                                                                }]
+                                                            }
+                                                        });
+                                        </script>  
+                                    </div>
                                     
                                     <?php
                                         echo "<input type="."\"hidden\" name="."\"varLine\""."value=".$line.">";

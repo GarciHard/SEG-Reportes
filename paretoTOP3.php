@@ -59,10 +59,10 @@
                     $band = 1;
                     $titulo[0] = "Top 5: Tecnicos y Oranizacionales (Duración)";
                     $titulo[1] = "Top 1: Cambio de Modelo (Duración)";
-                    $titulo[2] = "Top 3: Calidad (Frecuencia)";
+                    $titulo[2] = "Top 3: Calidad (Duracion)";
                 } else if ($opcion == "2"){
-                    $dattop3 = t3Calidad($varLine,$varMonth,$pDiaI,$pDiaF);
-                    $dattop5 = t5TecnicasYOrganizacionales($varLine,$varMonth,$pDiaI,$pDiaF);
+                    $dattop3 = t3CalidadFrec($varLine,$varMonth,$pDiaI,$pDiaF);
+                    $dattop5 = t5TecnicasYOrganizacionalesFrec($varLine,$varMonth,$pDiaI,$pDiaF);
                     $dattop1 = t1pareto($varLine,$varMonth,$pDiaI,$pDiaF);   
                     $band = 2;
                     $titulo[0] = "Top 5: Tecnicos y Oranizacionales (Frecuencia)";
