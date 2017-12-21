@@ -42,7 +42,7 @@
     if (count($dailyOEE) > 0) {
         for ($i = 0; $i < count($dailyOEE); $i++) {
             $calidad[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][2];
-            $calidad[$dailyOEE[$i][0] - 1] = str_replace('%', '', $dailyOEE[$i][0] - 1);
+            $calidad[$dailyOEE[$i][0] - 1] = str_replace('%', '', $calidad[$dailyOEE[$i][0] - 1]);
         }
     }
     for ($i = 0; $i < 12; $i++) { /*Quality Monthly Percent*/
@@ -59,7 +59,7 @@
     if (count($dailyOEE) > 0) {
         for ($i = 0; $i < count($dailyOEE); $i++) {
             $organizacional[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][3];
-            $organizacional[$dailyOEE[$i][0] - 1] = str_replace('%', '', $dailyOEE[$i][0] - 1);
+            $organizacional[$dailyOEE[$i][0] - 1] = str_replace('%', '', $organizacional[$dailyOEE[$i][0] - 1]);
         }
     }
     for ($i = 0; $i < 12; $i++) { /*Organizational Monthly Percent*/
