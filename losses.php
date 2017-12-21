@@ -3,14 +3,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--------CONSULTAS------------->
-    <?php
-    
+    <?php    
         require_once 'ServerFunctions.php';
         $varLine = $_REQUEST['varLine'];
         $varMonth = $_REQUEST['varMonth'];
         $varYear = $_REQUEST['varYear'];
-        $varMesStr = listarMeses();
-                      
+        $varMesStr = listarMeses();  
+        $diasArrObj = listarDiasMes($varLine, $varMonth,$varYear);
+        
+        $pDiaI = 1;
+        $pDiaF = 31;
+        
+        $datTop3DayOrg = lossesDayOrg($varLine, $varMonth,$varYear,$pDiaI,$pDiaF);
+        $datTop3DayOrgTotal = lossesDayOrgTotal($varLine,$varMonth,$varYear,$pDiaI,$pDiaF);
+        $datTop3DayTec = lossesDayTec($varLine, $varMonth,$varYear,$pDiaI,$pDiaF);
+        $datTop3DayTecTotal = lossesDayTecTotal($varLine,$varMonth,$varYear,$pDiaI,$pDiaF);
+        $datTop3MesOrg = lossesMesOrg($varLine,$varMonth,$varYear);
+        $datTop3MesOrgTotal = lossesMesOrgTotal($varLine,$varMonth,$varYear);
+        $datTop3MesTec = lossesMesTec($varLine,$varMonth,$varYear);
+        $datTop3MesTecTotal = lossesMesTecTotal($varLine,$varMonth,$varYear);
+        
+        if (isset($_REQUEST["btnCalcular"])) {
+            $pDiaI = isset($_POST['cmbDiaI']) ? $_POST['cmbDiaI'] : '';
+            $pDiaF = isset($_POST['cmbDiaF']) ? $_POST['cmbDiaF'] : '';                
+
+            if ($pDiaI == 'All' && $pDiaF == 'All'){
+                $pDiaI = 1;
+                $pDiaF = 31;
+            } else if ($pDiaI == 'All' && $pDiaF != 'All' || $pDiaI != 'All' && $pDiaF == 'All' ) {
+                echo '<script language="javascript">alert("Debes seleccionar bien los dias");</script>'; 
+                $pDiaI = 0;
+                $pDiaF = 0;
+            }
+            $datTop3DayOrg = lossesDayOrg($varLine, $varMonth,$varYear,$pDiaI,$pDiaF);
+            $datTop3DayOrgTotal = lossesDayOrgTotal($varLine,$varMonth,$varYear,$pDiaI,$pDiaF);
+            $datTop3DayTec = lossesDayTec($varLine, $varMonth,$varYear,$pDiaI,$pDiaF);
+            $datTop3DayTecTotal = lossesDayTecTotal($varLine,$varMonth,$varYear,$pDiaI,$pDiaF);
+                            
+        }
+        
+        $problemaDayOrg;
+        $detalleMatDayOrg;
+        $durDayOrg;
+        $totalDayOrg;
+        $porcentajeDayOrg;
+        
+        $operacionDayTec;
+        $problemaDayTec;        
+        $durDayTec;
+        $totalDayTec;
+        $porcentajeDayTec;
+        
+        $problemaMesOrg;
+        $detalleMatMesOrg;
+        $durMesOrg;
+        $totalMesOrg;
+        $porcentajeMesOrg;
+        
+        $operacionMesTec;
+        $problemaMesTec;        
+        $durMesTec;
+        $totalMesTec;
+        $porcentajeMesTec;
+        
+        for ($i = 0; $i < 3; $i++){
+            $durDayOrg[$i] = 0;
+            $durDayTec[$i] = 0;
+            $durMesOrg[$i] = 0;
+            $durMesTec[$i] = 0;
+            $porcentajeDayOrg[$i] = 0;  
+            $porcentajeDayTec[$i] = 0;
+            $porcentajeMesOrg[$i] = 0;  
+            $porcentajeMesTec[$i] = 0;
+            //echo $operacionMesTec[$i],' ',$problemaMesTec[$i],' ', $durMesTec[$i], ' : ',$porcentajeMesTec[$i],'<br>';
+        }
+        for ($i = 0; $i < count($datTop3DayOrg); $i++){
+            $problemaDayOrg[$i] = $datTop3DayOrg[$i][0];
+            $detalleMatDayOrg[$i] = (string) $datTop3DayOrg[$i][1];
+            $durDayOrg[$i] = $datTop3DayOrg[$i][2];
+        }
+        
+        for ($i = 0; $i < count($datTop3DayOrgTotal); $i++){
+            $totalDayOrg[$i] = $datTop3DayOrgTotal[$i][0];
+        }
+        
+        for ($i = 0; $i < count($datTop3DayTec); $i++){
+            $operacionDayTec[$i] = $datTop3DayTec[$i][0];
+            $problemaDayTec[$i] = $datTop3DayTec[$i][1];
+            $durDayTec[$i] = $datTop3DayTec[$i][2];
+        }
+        
+        for ($i = 0; $i < count($datTop3DayTecTotal); $i++){
+            $totalDayTec[$i] = $datTop3DayTecTotal[$i][0];
+        }
+        
+        // Mes
+        for ($i = 0; $i < count($datTop3MesOrg); $i++){
+            $problemaMesOrg[$i] = $datTop3MesOrg[$i][0];
+            $detalleMatMesOrg[$i] = (string) $datTop3MesOrg[$i][1];
+            $durMesOrg[$i] = $datTop3MesOrg[$i][2];
+        }
+        
+        for ($i = 0; $i < count($datTop3MesOrgTotal); $i++){
+            $totalMesOrg[$i] = $datTop3MesOrgTotal[$i][0];
+        }
+        
+        for ($i = 0; $i < count($datTop3MesTec); $i++){
+            $operacionMesTec[$i] = $datTop3MesTec[$i][0];
+            $problemaMesTec[$i] = $datTop3MesTec[$i][1];
+            $durMesTec[$i] = $datTop3MesTec[$i][2];
+        }
+        
+        for ($i = 0; $i < count($datTop3MesTecTotal); $i++){
+            $totalMesTec[$i] = $datTop3MesTecTotal[$i][0];
+        }
+        
+        for ($i = 0; $i < 3; $i++){            
+            if ($durDayOrg[$i] != 0 ){
+                $porcentajeDayOrg[$i] = (float) round(($durDayOrg[$i]*100)/$totalDayOrg[0],3); 
+            } else {
+                $porcentajeDayOrg[$i] = (float) round(0,3);
+            }
+            if($durDayTec[$i] != 0){
+                $porcentajeDayTec[$i] = (float) round(($durDayTec[$i]*100)/$totalDayTec[0],3);
+            }
+            else {
+                $porcentajeDayTec[$i] = (float) round(0,3);
+            }
+            if($durMesOrg[$i] != 0){
+                $porcentajeMesOrg[$i] = (float) round(($durMesOrg[$i]*100)/$totalMesOrg[0],3); 
+            }
+            if($durMesTec[$i] != 0){
+                $porcentajeMesTec[$i] = (float) round(($durMesTec[$i]*100)/$totalMesTec[0],3);
+            }
+        }
+        
+        for ($i = 0; $i < count($diasArrObj); $i++) {
+            $diasArr[$i] = $diasArrObj[$i][0];
+        } 
+        
     ?>
     
     <BODY>
@@ -51,11 +182,6 @@
                 ?>
             </select>
 
-            <select name="cmbOpcion" id="Opciones">
-                <option>Seleccione</option>
-                <option value="1">Duración</option>
-                <option value="2">Frecuencia </option>
-            </select>
             <?php
                 echo "<input type="."\"hidden\" name="."\"varLine\""."value=".$varLine.">";
                 echo "<input type="."\"hidden\" name="."\"varMonth\""."value=".$varMonth.">";
@@ -64,16 +190,18 @@
             <BUTTON name="btnCalcular">Calcular</BUTTON>
         </FORM>
 
-
-
         <!--------------GRAFICA----diaPTec-------------->
         <script src="https://code.jquery.com/jquery.js"></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/pareto.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+        
+        <h3 style=" margin: 0% 47%" >Día</h3>
+        <hr style="border: 2px inset #eee; height: -2px; width: 80%;"></hr>
+        
+        
         <div id = "graficasSuperiores">      
-            <div aling = "center" id="orgDay" style="height: 40vh; width: 30%; float: left; margin: 0% 1%">
+            <div aling = "center" id="orgDay" style="height: 40vh; width: 32%; float: left; margin: 0% .5%">
                 <script>
                     chartCPU = new Highcharts.chart('orgDay', {
                         chart: {
@@ -83,12 +211,26 @@
                             text: 'Perdidas Organizacionales'
                         },
                         xAxis: {
-                            type: 'category'
+                            gridLineWidth: 1,
+                            type: 'category',
+                            categories: (function() {
+                                var data = [];
+                                <?php
+                                    for($i = 0; $i < count($datTop3DayOrg); $i++){
+                                ?>
+                                data.push([<?php echo "'$problemaDayOrg[$i] $detalleMatDayOrg[$i]'";?>]);
+                                <?php } ?>
+                                return data;
+                            })()
                         },
                         yAxis: {
+                            tickInterval: 5,
                             title: {
-                                text: 'Total percent market share'
-                            }
+                                text: ''
+                            },
+                            labels: {
+                              format: '{value} %'  
+                            },                            
                         },
                         legend: {
                             enabled: false
@@ -107,39 +249,40 @@
                             pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
                         },
                         series: [{
-                            name: 'Brands',
-                            colorByPoint: true,
-                            data: [{
-                                name: 'Microsoft Internet Explorer',
-                                y: 56.33,
-                                drilldown: 'Microsoft Internet Explorer'
-                            }, {
-                                name: 'Chrome',
-                                y: 24.03,
-                                drilldown: 'Chrome'
-                            }, {
-                                name: 'Firefox',
-                                y: 10.38,
-                                drilldown: 'Firefox'
-                            }, {
-                                name: 'Safari',
-                                y: 4.77,
-                                drilldown: 'Safari'
-                            }, {
-                                name: 'Opera',
-                                y: 0.91,
-                                drilldown: 'Opera'
-                            }, {
-                                name: 'Proprietary or Undetectable',
-                                y: 0.2,
-                                drilldown: null
+                        name: 'Incidencia',
+                        color: '#F06292',
+                        data: (function() {
+                                var data = [];
+                                <?php
+                                    for ($i = 0; $i < count($datTop3DayOrg); $i++){
+                                ?>
+                                data.push([<?php echo $porcentajeDayOrg[$i];?>]);
+                                <?php } ?>
+                                return data;
+                            })()
+                        }],
+                        credits: {
+                            enabled: false
+                        },
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
                             }]
-                        }]
+                        }
                     });
                 </script> 
             </div>
 
-            <div aling = "center" id="tecDay" style="height: 40vh; width: 30%; float: left; margin: 0% 1%">
+            <div aling = "center" id="tecDay" style="height: 40vh; width: 32%; float: left; margin: 0% .5%">
                 <script>
                     chartCPU = new Highcharts.chart('tecDay', {
                         chart: {
@@ -149,12 +292,26 @@
                             text: 'Perdidas Tecnicas'
                         },
                         xAxis: {
-                            type: 'category'
+                            gridLineWidth: 1,
+                            type: 'category',
+                            categories: (function() {
+                                var data = [];
+                                <?php
+                                    for($i = 0; $i < count($datTop3DayTec); $i++){
+                                ?>
+                                data.push([<?php echo "'$operacionDayTec[$i] $problemaDayTec[$i]'";?>]);
+                                <?php } ?>
+                                return data;
+                            })()
                         },
                         yAxis: {
+                            tickInterval: 5,
                             title: {
-                                text: 'Total percent market share'
-                            }
+                                text: ''
+                            },
+                            labels: {
+                              format: '{value} %'  
+                            },                            
                         },
                         legend: {
                             enabled: false
@@ -173,39 +330,40 @@
                             pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
                         },
                         series: [{
-                            name: 'Brands',
-                            color: '#08088A',
-                            data: [{
-                                name: 'Microsoft Internet Explorer',
-                                y: 56.33,
-                                drilldown: 'Microsoft Internet Explorer'
-                            }, {
-                                name: 'Chrome',
-                                y: 24.03,
-                                drilldown: 'Chrome'
-                            }, {
-                                name: 'Firefox',
-                                y: 10.38,
-                                drilldown: 'Firefox'
-                            }, {
-                                name: 'Safari',
-                                y: 4.77,
-                                drilldown: 'Safari'
-                            }, {
-                                name: 'Opera',
-                                y: 0.91,
-                                drilldown: 'Opera'
-                            }, {
-                                name: 'Proprietary or Undetectable',
-                                y: 0.2,
-                                drilldown: null
+                        name: 'Incidencia',
+                        color: '#08088A',                        
+                        data: (function() {
+                                var data = [];
+                                <?php
+                                    for ($i = 0; $i < count($datTop3DayTec); $i++){
+                                ?>
+                                data.push([<?php echo $porcentajeDayTec[$i];?>]);
+                                <?php } ?>
+                                return data;
+                            })()
+                        }],
+                        credits: {
+                            enabled: false
+                        },
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
                             }]
-                        }]
+                        }
                     });
                 </script> 
             </div>
 
-            <div aling = "center" id="caliDay" style="height: 40vh; width: 30%; float: left; margin: 0% 1%">
+            <div aling = "center" id="caliDay" style="height: 40vh; width: 32%; float: left; margin: 0% .5%">
                 <script>
                     chartCPU = new Highcharts.chart('caliDay', {
                         chart: {
@@ -215,12 +373,26 @@
                             text: 'Perdidas de Calidad'
                         },
                         xAxis: {
-                            type: 'category'
+                            gridLineWidth: 1,
+                            type: 'category',
+                            categories: (function() {
+                                var data = [];
+                                <?php
+                                    for($i = 0; $i < count($datTop3DayTec); $i++){
+                                ?>
+                                data.push([<?php echo "'$operacionDayTec[$i] $problemaDayTec[$i]'";?>]);
+                                <?php } ?>
+                                return data;
+                            })()
                         },
                         yAxis: {
+                            tickInterval: 5,
                             title: {
-                                text: 'Total percent market share'
-                            }
+                                text: ''
+                            },
+                            labels: {
+                              format: '{value} %'  
+                            },
                         },
                         legend: {
                             enabled: false
@@ -240,72 +412,285 @@
                         },
                         series: [{
                             name: 'Brands',
-                            colorByPoint: true,
-                            data: [{
-                                name: 'Microsoft Internet Explorer',
-                                y: 56.33,
-                                drilldown: 'Microsoft Internet Explorer'
-                            }, {
-                                name: 'Chrome',
-                                y: 24.03,
-                                drilldown: 'Chrome'
-                            }, {
-                                name: 'Firefox',
-                                y: 10.38,
-                                drilldown: 'Firefox'
-                            }, {
-                                name: 'Safari',
-                                y: 4.77,
-                                drilldown: 'Safari'
-                            }, {
-                                name: 'Opera',
-                                y: 0.91,
-                                drilldown: 'Opera'
-                            }, {
-                                name: 'Proprietary or Undetectable',
-                                y: 0.2,
-                                drilldown: null
+                            color: '#B71C1C',
+                            data: (function() {
+                                var data = [];
+                                <?php
+                                    for ($i = 0; $i < count($datTop3DayTec); $i++){
+                                ?>
+                                data.push([<?php echo $porcentajeDayTec[$i];?>]);
+                                <?php } ?>
+                                return data;
+                            })()
+                        }],
+                        credits: {
+                            enabled: false
+                        },
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
                             }]
-                        }]
+                        }
                     });
                 </script> 
             </div>
         </div>
+        
+        <h3 style=" margin: 0% 47%" >Mensuales</h3>
+        <hr style="border: 2px inset #eee; height: -2px; width: 80%;"></hr>
 
-        <div  aling = "center">
-            <table style="height: 38vh; width: 195vh; float: left;  margin: 1% 1.5%;" >
-                <thead>     
-                    <tr style="background: #F2F2F2">
-                        <th><span class="text">D&iacute;a</span></th>
-                        <th><span class="text">&Aacute;rea</span></th>
-                        <th><span class="text">Operaci&oacute;n</span></th>
-                        <th><span class="text">Problema</span></th>
-                        <th><span class="text">Duraci&oacute;n (Minutos)</span></th>
-                    </tr>
-                </thead>
-
-                <tbody>        
-                    <?php
-                        require_once("ServerFunctions.php");
-
-                        $datTecnicasTabla = pTecnicasTabla($varLine, $varMonth);
-                        $diaPTecT;       
-
-                        for($i = 0; $i<count($datTecnicasTabla);$i++){
-                            echo "<tr>";
-                            for ($j = 0; $j<5; $j++){
-                                $diaPTecT[$i][$j] = $datTecnicasTabla[$i][$j];
-                                echo "<td>";
-                                    echo $diaPTecT[$i][$j];
-                                echo "</td>";
+        <div id = "graficasInferiores">      
+            <div aling = "center" id="orgMes" style="height: 40vh; width: 32%; float: left; margin: 0% .5%">
+                <script>
+                    chartCPU = new Highcharts.chart('orgMes', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Perdidas Organizacionales'
+                        },
+                        xAxis: {
+                            gridLineWidth: 1,
+                            type: 'category',
+                            categories: (function() {
+                                var data = [];
+                                <?php
+                                    for($i = 0; $i < count($datTop3MesOrg); $i++){
+                                ?>
+                                data.push([<?php echo "'$problemaMesOrg[$i] $detalleMatMesOrg[$i]'";?>]);
+                                <?php } ?>
+                                return data;
+                            })()
+                        },
+                        yAxis: {
+                            tickInterval: 5,
+                            title: {
+                                text: ''
+                            },
+                            labels: {
+                              format: '{value} %'  
+                            },                            
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.y:.1f}%'
+                                }
                             }
-                            echo "</tr>";
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                        },
+                        series: [{
+                        name: 'Incidencia',
+                        color: '#F06292',
+                        data: (function() {
+                                var data = [];
+                                <?php
+                                    for ($i = 0; $i < count($datTop3MesOrg); $i++){
+                                ?>
+                                    data.push([<?php echo $porcentajeMesOrg[$i];?>]);
+                                <?php } ?>
+                                return data;
+                            })()
+                        }],
+                        credits: {
+                            enabled: false
+                        },
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
                         }
-                    ?>        
-                </tbody> 
-            </table>
-        </div>  
+                    });
+                </script> 
+            </div>
 
+            <div aling = "center" id="tecMes" style="height: 40vh; width: 32%; float: left; margin: 0% .5%">
+                <script>
+                    chartCPU = new Highcharts.chart('tecMes', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Perdidas Tecnicas'
+                        },
+                        xAxis: {
+                            gridLineWidth: 1,
+                            type: 'category',
+                            categories: (function() {
+                                var data = [];
+                                <?php
+                                    for($i = 0; $i < count($datTop3MesTec); $i++){
+                                ?>
+                                data.push([<?php echo "'$operacionMesTec[$i] $problemaMesTec[$i]'";?>]);
+                                <?php } ?>
+                                return data;
+                            })()
+                        },
+                        yAxis: {
+                            tickInterval: 5,
+                            title: {
+                                text: ''
+                            },
+                            labels: {
+                              format: '{value} %'  
+                            },                            
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.y:.1f}%'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                        },
+                        series: [{
+                        name: 'Incidencia',
+                        color: '#08088A',                        
+                        data: (function() {
+                                var data = [];
+                                <?php
+                                    for ($i = 0; $i < count($datTop3MesTec); $i++){
+                                ?>
+                                data.push([<?php echo $porcentajeMesTec[$i];?>]);
+                                <?php } ?>
+                                return data;
+                            })()
+                        }],
+                        credits: {
+                            enabled: false
+                        },
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
+                        }
+                    });
+                </script> 
+            </div>
+
+            <div aling = "center" id="caliMes" style="height: 40vh; width: 32%; float: left; margin: 0% .5%">
+                <script>
+                    chartCPU = new Highcharts.chart('caliMes', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Perdidas de Calidad'
+                        },
+                        xAxis: {
+                            gridLineWidth: 1,
+                            type: 'category',
+                            categories: (function() {
+                                var data = [];
+                                <?php
+                                    for($i = 0; $i < count($datTop3MesTec); $i++){
+                                ?>
+                                data.push([<?php echo "'$operacionMesTec[$i] $problemaMesTec[$i]'";?>]);
+                                <?php } ?>
+                                return data;
+                            })()
+                        },
+                        yAxis: {
+                            tickInterval: 5,
+                            title: {
+                                text: ''
+                            },
+                            labels: {
+                              format: '{value} %'  
+                            },                            
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.y:.1f}%'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                        },
+                        series: [{
+                            name: 'Brands',
+                            color: '#B71C1C',
+                            data: (function() {
+                                var data = [];
+                                <?php
+                                    for ($i = 0; $i < count($datTop3MesTec); $i++){
+                                ?>
+                                data.push([<?php echo $porcentajeMesTec[$i];?>]);
+                                <?php } ?>
+                                return data;
+                            })()
+                        }],
+                        credits: {
+                            enabled: false
+                        },
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
+                        }
+                    });
+                </script> 
+            </div>
+        </div>
     </BODY>
-
 </html>

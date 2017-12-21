@@ -375,3 +375,44 @@ function t5GeneralFrec($linea, $mes, $anio,$varDiaI, $varDiaF){
     $sql = "SELECT Top 5 tema,operacion, problema, detalleMaterial, count(duracion) AS dur, (SELECT COUNT(problema) FROM  Bitacora WHERE problema = 'Cambio de Modelo')as Cambios FROM Bitacora WHERE TEMA <> 'Piezas Producidas' AND TEMA <> 'Cambio de Modelo' AND LINEA LIKE '$linea' AND mes = '$mes' AND anio = '$anio' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY tema,operacion,problema,area,detalleMaterial ORDER BY dur DESC;";
     return getArraySQL($sql);
 }
+
+function lossesDayOrg($linea, $mes, $anio,$varDiaI, $varDiaF){
+    $sql = "SELECT TOP 3 problema,detalleMaterial, sum(duracion) AS tmp FROM Bitacora WHERE tema in ('Organizacionales') AND linea LIKE '$linea' AND mes = '$mes' AND anio = '$anio' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY problema, detalleMaterial ORDER BY tmp DESC";
+    return getArraySQL($sql);
+}
+
+function lossesDayOrgTotal($linea, $mes, $anio,$varDiaI, $varDiaF){
+    $sql = "SELECT SUM(duracion) AS tmp FROM bitacora WHERE tema <> 'Piezas Producidas' AND linea LIKE '$linea' AND mes = '$mes' AND anio = '$anio' AND dia >= '$varDiaI' AND dia <= '$varDiaF'";
+    return getArraySQL($sql);
+}
+
+function lossesDayTec($linea, $mes, $anio,$varDiaI, $varDiaF){
+    $sql = "SELECT TOP 3 operacion,problema, sum(duracion) AS tmp FROM Bitacora WHERE tema in ('Tecnicas') AND linea LIKE '$linea' AND mes = '$mes' AND anio = '$anio' AND dia >= '$varDiaI' AND dia <= '$varDiaF' GROUP BY operacion, problema ORDER BY tmp DESC";
+    return getArraySQL($sql);
+}
+
+function lossesDayTecTotal($linea, $mes, $anio, $varDiaI, $varDiaF){
+    $sql = "SELECT SUM(duracion) AS tmp FROM bitacora WHERE tema <> 'Piezas Producidas' AND linea LIKE '$linea' AND mes = '$mes' AND anio = '$anio' AND dia >= '$varDiaI' AND dia <= '$varDiaF'";
+    //$sql = "SELECT SUM(duracion) AS tmp FROM bitacora WHERE tema in('Tecnicas') AND linea = 'L003' AND mes = 10 AND anio = 2017";
+    return getArraySQL($sql);
+}
+
+function lossesMesOrg($linea, $mes, $anio){
+    $sql = "SELECT TOP 3 problema,detalleMaterial, sum(duracion) AS tmp FROM Bitacora WHERE tema in ('Organizacionales') AND linea LIKE '$linea' AND mes = '$mes' AND anio = '$anio' GROUP BY problema, detalleMaterial ORDER BY tmp DESC";
+    return getArraySQL($sql);
+}
+
+function lossesMesOrgTotal($linea, $mes, $anio){
+    $sql = "SELECT SUM(duracion) AS tmp FROM bitacora WHERE tema <> 'Piezas Producidas' AND linea LIKE '$linea' AND mes = '$mes' AND anio = '$anio' ";
+    return getArraySQL($sql);
+}
+
+function lossesMesTec($linea, $mes, $anio){
+    $sql = "SELECT TOP 3 operacion,problema, sum(duracion) AS tmp FROM Bitacora WHERE tema in ('Tecnicas') AND linea LIKE '$linea' AND mes = '$mes' AND anio = '$anio' GROUP BY operacion, problema ORDER BY tmp DESC";
+    return getArraySQL($sql);
+}
+
+function lossesMesTecTotal($linea, $mes, $anio){
+    $sql = "SELECT SUM(duracion) AS tmp FROM bitacora WHERE tema <> 'Piezas Producidas' AND linea LIKE '$linea' AND mes = '$mes' AND anio = '$anio'";
+    return getArraySQL($sql);
+}
