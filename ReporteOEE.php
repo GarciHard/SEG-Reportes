@@ -24,8 +24,8 @@
     }
     if (count($dailyOEE) > 0) {
         for ($i = 0; $i < count($dailyOEE); $i++) {
-            $oee[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][1];
-            $oee[$i] = str_replace('%', '', $oee[$i]);
+            $oee[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][1];           
+            $oee[$dailyOEE[$i][0] - 1] = str_replace('%', '', $oee[$dailyOEE[$i][0] - 1]);
         }
     }
     for ($i = 0; $i < 12; $i++) { /*OEE Monthly Percent*/
@@ -42,7 +42,7 @@
     if (count($dailyOEE) > 0) {
         for ($i = 0; $i < count($dailyOEE); $i++) {
             $calidad[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][2];
-            $calidad[$i] = str_replace('%', '', $calidad[$i]);
+            $calidad[$dailyOEE[$i][0] - 1] = str_replace('%', '', $dailyOEE[$i][0] - 1);
         }
     }
     for ($i = 0; $i < 12; $i++) { /*Quality Monthly Percent*/
@@ -59,7 +59,7 @@
     if (count($dailyOEE) > 0) {
         for ($i = 0; $i < count($dailyOEE); $i++) {
             $organizacional[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][3];
-            $organizacional[$i] = str_replace('%', '', $organizacional[$i]);
+            $organizacional[$dailyOEE[$i][0] - 1] = str_replace('%', '', $dailyOEE[$i][0] - 1);
         }
     }
     for ($i = 0; $i < 12; $i++) { /*Organizational Monthly Percent*/
@@ -76,7 +76,7 @@
     if (count($dailyOEE) > 0) {
         for ($i = 0; $i < count($dailyOEE); $i++) {
             $tecnica[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][4];
-            $tecnica[$i] = str_replace('%', '', $tecnica[$i]);
+            $tecnica[$dailyOEE[$i][0] - 1] = str_replace('%', '', $tecnica[$dailyOEE[$i][0] - 1]);
         }
     }
     for ($i = 0; $i < 12; $i++) { /*Technical Monthly Percent*/
@@ -93,7 +93,7 @@
     if (count($dailyOEE) > 0) {
         for ($i = 0; $i < count($dailyOEE); $i++) {
             $cambios[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][5];
-            $cambios[$i] = str_replace('%', '', $cambios[$i]);
+            $cambios[$dailyOEE[$i][0] - 1] = str_replace('%', '', $cambios[$dailyOEE[$i][0] - 1]);
         }
     }
     for ($i = 0; $i < 12; $i++) { /*Changeover Monthly Percent*/
@@ -110,7 +110,7 @@
     if (count($dailyOEE) > 0) {
         for ($i = 0; $i < count($dailyOEE); $i++) {
             $desempeno[$dailyOEE[$i][0] - 1] = $dailyOEE[$i][6];
-            $desempeno[$i] = str_replace('%', '', $desempeno[$i]);
+            $desempeno[$dailyOEE[$i][0] - 1] = str_replace('%', '', $desempeno[$dailyOEE[$i][0] - 1]);
         }
     }
     for ($i = 0; $i < 12; $i++) { /*Performance Monthly Percent*/
